@@ -16,7 +16,7 @@ def request(date):
 	url = 'https://api.fitbit.com/1/user/-/body/log/weight/date/{}.json'.format(date)
 	return requests.get(url=url, params=params, headers=headers).json()
 
-def parseForValues(json):
+def parseJson(json):
 	date=json['weight'][0]['date']
 	kg=float(json['weight'][0]['weight'])
 	fat=kg*float(json['weight'][0]['fat']/100)
@@ -43,12 +43,16 @@ def main():
 	start_date='2020-04-08'
 	end_date=datetime.today().strftime(date_fmt)
 
-	data={"start": parseForValues(request(start_date)), "end": parseForValues(request(end_date))}
+	data={"start": parseJson(request(start_date)), "end": parseJson(request(end_date))}
 
 	print(data)
-	print(getDiff(data))
+	diff_data=getDiff(data)
+	print(diff_data)
 
+	lean=int((diff_data["lean"]/diff_data["kg"])*100+0.5)
+	fat=int((diff_data["fat"]/diff_data["kg"])*100+0.5)
 
+	print("Lean/Fat: {}/{}".format(lean, fat))
 
 main()
 exit()
