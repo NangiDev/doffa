@@ -1,5 +1,6 @@
 # Ignore token file
 token.txt
+*.bak
 
 # Ignore vim swap
 *.swp

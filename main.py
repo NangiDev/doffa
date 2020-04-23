@@ -38,11 +38,17 @@ class Window(Frame):
                 f.write(user_input)
 
 def main():
+    def exit(event):
+        root.destroy()
+
     root = Tk()
     root.geometry("400x300")
-    #root.eval('tk::PlaceWindow %s center' % root.winfo_pathname(root.winfo_id()))
+
     root.eval('tk::PlaceWindow %s center' % root.winfo_toplevel())
-    app = Window(root)
+
+    Window(root)
+
+    root.bind("<Escape>", exit)
     root.mainloop()
 
 main()
