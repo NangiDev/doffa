@@ -2,6 +2,7 @@
 from io import BytesIO
 import pycurl
 import requests
+import json
 from datetime import datetime
 
 def request(date):
@@ -18,9 +19,9 @@ def request(date):
 
 def parseJson(json):
 	date=json['weight'][0]['date']
-	kg=float(json['weight'][0]['weight'])
-	fat=kg*float(json['weight'][0]['fat']/100)
-	lean=kg-fat
+	kg=round(float(json['weight'][0]['weight']),1)
+	fat=round(kg*float(json['weight'][0]['fat']/100),1)
+	lean=round(kg-fat,1)
 	
 	return {"date":date, "kg":kg, "fat":fat, "lean":lean}
 
@@ -32,9 +33,9 @@ def getDiff(data):
 	end_date=datetime.strptime(end["date"], date_fmt)
 
 	days=(end_date - start_date).days
-	diff_kg=abs(start["kg"]-end["kg"])
-	diff_fat=abs(start["fat"]-end["fat"])
-	diff_lean=abs(start["lean"]-end["lean"])
+	diff_kg=round(abs(start["kg"]-end["kg"]),1)
+	diff_fat=round(abs(start["fat"]-end["fat"]),1)
+	diff_lean=round(abs(start["lean"]-end["lean"]),1)
 
 	return {"days":days, "kg":diff_kg,  "fat":diff_fat, "lean":diff_lean}
 
@@ -45,14 +46,14 @@ def main():
 
 	data={"start": parseJson(request(start_date)), "end": parseJson(request(end_date))}
 
-	print(data)
+	print("\n\nJson data:\n{}".format(json.dumps(data, indent=2)))
 	diff_data=getDiff(data)
-	print(diff_data)
+	print("\n\nDifference data:\n{}".format(json.dumps(diff_data, indent=2)))
 
 	lean=int((diff_data["lean"]/diff_data["kg"])*100+0.5)
 	fat=int((diff_data["fat"]/diff_data["kg"])*100+0.5)
 
-	print("Lean/Fat: {}/{}".format(lean, fat))
+	print("\n\nLean/Fat: {}/{}\n\n".format(lean, fat))
 
 main()
 exit()
