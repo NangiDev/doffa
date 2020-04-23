@@ -15,40 +15,38 @@ def request(date):
 	return requests.get(url=url, params=params, headers=headers).json()
 
 def parseForValues(json):
-	return {"date":json['weight'][0]['date'], "fat":float(json['weight'][0]['fat']), "kg":float(json['weight'][0]['weight'])}
+	date=json['weight'][0]['date']
+	kg=float(json['weight'][0]['weight'])
+	fat=kg*float(json['weight'][0]['fat']/100)
+	lean=kg-fat
+	
+	return {"date":date, "kg":kg, "fat":fat, "lean":lean}
 
-def totalWeightDiff(data):
-	return abs(data["start"]["kg"]-data["end"]["kg"])
+def getDiff(data):
+	start=data["start"]
+	end=data["end"]
 
+	start_date=datetime.strptime(start["date"], date_fmt)
+	end_date=datetime.strptime(end["date"], date_fmt)
+
+	days=(end_date - start_date).days
+	diff_kg=abs(start["kg"]-end["kg"])
+	diff_fat=abs(start["fat"]-end["fat"])
+	diff_lean=abs(start["lean"]-end["lean"])
+
+	return {"days":days, "kg":diff_kg,  "fat":diff_fat, "lean":diff_lean}
+
+date_fmt='%Y-%m-%d'
 def main():
 	start_date='2020-04-08'
-	end_date=datetime.today().strftime('%Y-%m-%d')
+	end_date=datetime.today().strftime(date_fmt)
 
 	data={"start": parseForValues(request(start_date)), "end": parseForValues(request(end_date))}
 
-	print("\n")
-
 	print(data)
+	print(getDiff(data))
 
-	print("\n")
 
-	print(totalWeightDiff(data))
-
-	return
-
-	json = request(start_date)
-	print('\n\n%s\n' % json) 
-	start_data = parseForValues(json)
-	print('Date: %s' % start_data["date"])
-	print('Fat: %f' % float(start_data["fat"]))
-	print('Weight: %f' % start_data["kg"])
-
-	json = request(end_date)
-	print('\n\n%s\n' % json) 
-	end_data = parseForValues(json)
-	print('Date: %s' % end_data["date"])
-	print('Fat: %f' % end_data["fat"])
-	print('Weight: %f' % end_data["kg"])
 
 main()
 exit()
