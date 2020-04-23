@@ -1,3 +1,9 @@
+# Ignore token file
+token.txt
+
+# Ignore vim swap
+*.swp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

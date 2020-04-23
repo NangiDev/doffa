@@ -5,7 +5,9 @@ import requests
 from datetime import datetime
 
 def request(date):
-	token=''
+	token_file=open("token.txt", "r")
+	token=token_file.read().splitlines()[0]
+
 	params = dict()
 	headers = dict(
 		accept='application/json',
