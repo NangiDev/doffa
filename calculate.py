@@ -32,9 +32,9 @@ def parseJson(json):
         raise SystemExit(json['errors'][0]['message'])
 
     date=json['weight'][0]['date']
-    kg=round(float(json['weight'][0]['weight']),1)
-    fat=round(kg*float(json['weight'][0]['fat']/100),1)
-    lean=round(kg-fat,1)
+    kg=float(json['weight'][0]['weight'])
+    fat=kg*float(json['weight'][0]['fat']/100)
+    lean=kg-fat
     
     return {"date":date, "kg":kg, "fat":fat, "lean":lean}
 
@@ -46,9 +46,9 @@ def getDiff(data):
     end_date=datetime.strptime(end["date"], date_fmt)
 
     days=(end_date - start_date).days
-    diff_kg=round(abs(start["kg"]-end["kg"]),1)
-    diff_fat=round(abs(start["fat"]-end["fat"]),1)
-    diff_lean=round(abs(start["lean"]-end["lean"]),1)
+    diff_kg=end["kg"]-start["kg"]
+    diff_fat=end["fat"]-start["fat"]
+    diff_lean=end["lean"]-start["lean"]
 
     return {"days":days, "kg":diff_kg,  "fat":diff_fat, "lean":diff_lean}
 
