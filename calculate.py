@@ -3,12 +3,16 @@ from io import BytesIO
 import pycurl
 import requests
 import json
+import os
 from datetime import datetime
 
 file_name="token.txt"
 date_fmt='%Y-%m-%d'
 
 def request(date):
+    if not os.path.exists(file_name):
+        with open(file_name, "w"): pass
+
     with open(file_name, "r") as f:
         lines=f.read().splitlines()
         token = lines[0] if (len(lines)>0) else ""

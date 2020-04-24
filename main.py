@@ -136,8 +136,6 @@ def main():
 
     root = Tk()
 
-    #root.eval('tk::PlaceWindow %s center' % root.winfo_toplevel())
-
     Window(root)
 
     root.bind("<Escape>", exit)
