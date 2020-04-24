@@ -2,7 +2,7 @@
 from tkinter import *
 from tkinter import simpledialog
 from tkcalendar import Calendar
-
+from datetime import datetime, timedelta
 import json
 import calculate as calc
 
@@ -14,21 +14,46 @@ class Window(Frame):
         self.master = master
         self.init_window()
 
-    def init_cal(self, date, row=0, col=0):
-        cal = Calendar(self, year=2018, month=2, day=5)
-        cal.grid(row=row,column=col)
+    def init_gui(self, start_date, end_date):
+        cal1 = Calendar(self, year=start_date.year, month=start_date.month, day=start_date.day)
+        cal1.grid(row=0,column=0)
 
-    def init_button(self, row=0, col=0):
-        button = Button(self, text="C\nA\nL\nC")
-        button.grid(row=row,column=col)
+        text1 = Text(self, state=DISABLED)
+        text1.grid(row=0,column=2)
 
-    def init_text(self, row=0, col=0):
-        text = Text(self, state='disabled')
-        text.grid(row=row,column=col)
+        cal2 = Calendar(self, year=end_date.year, month=end_date.month, day=end_date.day)
+        cal2.grid(row=1,column=0)
 
+        text2 = Text(self, state=DISABLED)
+        text2.grid(row=1,column=2)
+
+        def update_start():
+            date=cal1.selection_get()
+            data=calc.parseJson(calc.request(date.strftime(calc.date_fmt)))
+            pretty=json.dumps(data, indent=2)
+            text1.config(state=NORMAL)
+            text1.delete('1.0', END)
+            text1.insert(INSERT, pretty)
+            text1.config(state=DISABLED)
+        def update_end():
+            date=cal2.selection_get()
+            data=calc.parseJson(calc.request(date.strftime(calc.date_fmt)))
+            pretty=json.dumps(data, indent=2)
+            text2.config(state=NORMAL)
+            text2.delete('1.0', END)
+            text2.insert(INSERT, pretty)
+            text2.config(state=DISABLED)
+
+        btn_text="F\nE\nT\nC\nH"
+        button1 = Button(self, text=btn_text, command=update_start)
+        button1.grid(row=0,column=1)
+        button2 = Button(self, text=btn_text, command=update_end)
+        button2.grid(row=1,column=1)
 
     #Creation of init_window
     def init_window(self):
+        end_date=datetime.today()
+        start_date=end_date - timedelta(weeks=1)
 
         self.master.title("DOFFA 1.0")
         self.pack(fill=BOTH, expand=1)
@@ -38,15 +63,7 @@ class Window(Frame):
         
         menu.add_command(label="Token", command=self.typeToken)
 
-        self.init_cal("", 0,0)
-        self.init_button( 0,1)
-        self.init_text(0,2)
-
-        self.init_cal("", 1,0)
-        self.init_button( 1,1)
-        self.init_text(1,2)
-
-        #end_text.insert(INSERT, json.dumps(calc.parseJson(calc.request("2020-04-08")), indent=2))
+        self.init_gui(start_date, end_date)
 
     def typeToken(self):
         title="API token"
