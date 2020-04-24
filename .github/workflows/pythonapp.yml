@@ -2,9 +2,9 @@ name: Linux
 
 on:
   push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+    tags:
+      - "*"
+
 jobs:
   build:
     runs-on: ubuntu-latest
