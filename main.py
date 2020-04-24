@@ -15,10 +15,14 @@ class Window(Frame):
         self.init_window()
 
     def init_gui(self, start_date, end_date):
+        frame_width=250
+        frame_height=150
+
+
         cal1 = Calendar(self, year=start_date.year, month=start_date.month, day=start_date.day)
         cal1.grid(row=0,column=0)
 
-        textFrame1 = Frame(self, width=400, height=20)
+        textFrame1 = Frame(self, width=frame_width, height=frame_height)
         textFrame1.grid(row=0, column=2, sticky=W+E+S+N)
         textFrame1.columnconfigure(0, weight=10)
         textFrame1.grid_propagate(False)
@@ -28,7 +32,7 @@ class Window(Frame):
         cal2 = Calendar(self, year=end_date.year, month=end_date.month, day=end_date.day)
         cal2.grid(row=1,column=0)
 
-        textFrame2 = Frame(self, width=400, height=20)
+        textFrame2 = Frame(self, width=frame_width, height=frame_height)
         textFrame2.grid(row=1, column=2, sticky=W+E+S+N)
         textFrame2.columnconfigure(0, weight=10)
         textFrame2.grid_propagate(False)
@@ -61,11 +65,19 @@ class Window(Frame):
         button2 = Button(self, text=btn_text, command=update_end)
         button2.grid(row=1,column=1)
 
-        textDiff=Text(self, state=DISABLED)
-        textDiff.grid(row=3,column=2, sticky=W+E+S+N)
+        textDiffFrame = Frame(self, width=frame_width, height=frame_height)
+        textDiffFrame.grid(row=3, column=2, sticky=W+E+S+N)
+        textDiffFrame.columnconfigure(0, weight=10)
+        textDiffFrame.grid_propagate(False)
+        textDiff=Text(textDiffFrame, state=DISABLED)
+        textDiff.grid(row=0,column=0, sticky=W+E+S+N)
 
-        textRatio=Text(self, state=DISABLED)
-        textRatio.grid(row=3, column=0,sticky=W+E+S+N)
+        textRatioFrame = Frame(self, width=frame_width, height=frame_height)
+        textRatioFrame.grid(row=3, column=0, sticky=W+E+S+N)
+        textRatioFrame.columnconfigure(0, weight=10)
+        textRatioFrame.grid_propagate(False)
+        textRatio=Text(textRatioFrame, state=DISABLED)
+        textRatio.grid(row=0, column=0,sticky=W+E+S+N)
 
         def calculate():
             data={"start": update_start(), "end": update_end()}
