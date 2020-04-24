@@ -18,14 +18,22 @@ class Window(Frame):
         cal1 = Calendar(self, year=start_date.year, month=start_date.month, day=start_date.day)
         cal1.grid(row=0,column=0)
 
-        text1 = Text(self, state=DISABLED)
-        text1.grid(row=0,column=2)
+        textFrame1 = Frame(self, width=400, height=20)
+        textFrame1.grid(row=0, column=2, sticky=W+E+S+N)
+        textFrame1.columnconfigure(0, weight=10)
+        textFrame1.grid_propagate(False)
+        text1 = Text(textFrame1, state=DISABLED)
+        text1.grid(row=0,column=0, sticky=W+E+S+N)
 
         cal2 = Calendar(self, year=end_date.year, month=end_date.month, day=end_date.day)
         cal2.grid(row=1,column=0)
 
-        text2 = Text(self, state=DISABLED)
-        text2.grid(row=1,column=2)
+        textFrame2 = Frame(self, width=400, height=20)
+        textFrame2.grid(row=1, column=2, sticky=W+E+S+N)
+        textFrame2.columnconfigure(0, weight=10)
+        textFrame2.grid_propagate(False)
+        text2 = Text(textFrame2, state=DISABLED)
+        text2.grid(row=1,column=0, sticky=W+E+S+N)
 
         def update_start():
             date=cal1.selection_get()
