@@ -23,9 +23,14 @@ def request(date):
             authorization='Bearer {}'.format(token)
     )
     url = 'https://api.fitbit.com/1/user/-/body/log/weight/date/{}.json'.format(date)
-    return requests.get(url=url, params=params, headers=headers).json()
+    response=requests.get(url=url, params=params, headers=headers).json()
+    return response
 
 def parseJson(json):
+
+    if 'errors' in json:
+        raise SystemExit(json['errors'][0]['message'])
+
     date=json['weight'][0]['date']
     kg=round(float(json['weight'][0]['weight']),1)
     fat=round(kg*float(json['weight'][0]['fat']/100),1)
