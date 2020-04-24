@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import simpledialog
 from tkcalendar import Calendar
 from datetime import datetime, timedelta
+import os
 import json
 import calculate as calc
 
@@ -116,6 +117,9 @@ class Window(Frame):
     def typeToken(self):
         title="API token"
         prompt="Enter your API token"
+
+        if not os.path.exists(calc.file_name):
+            with open(calc.file_name,"w"): pass
 
         with open(calc.file_name, "r") as f:
             lines = f.read().splitlines()
