@@ -26,8 +26,21 @@ jobs:
         pip install -r requirements.txt
     - name: PyInstaller build
       run: ./build.sh
-    - name: Action Release
-      uses: yakuhzi/action-release@v1.2.0
+  release:
+    
+    runs-on: ubuntu-latest
+    needs: [build]
+    
+    steps:
+    - uses: actions/checkout@master
+    - name: Create release
+      uses: Roang-zero1/github-create-release-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create GitHub release
+      uses: Roang-zero1/github-upload-release-artifacts-action@master
       with:
-        # File to upload to the release
-        file: ./dist/main
+        args:
+        - dist/main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
