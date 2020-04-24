@@ -26,3 +26,8 @@ jobs:
         pip install -r requirements.txt
     - name: PyInstaller build
       run: ./build.sh
+    - name: Action Release
+      uses: yakuhzi/action-release@v1.2.0
+      with:
+        # File to upload to the release
+        file: ./dist/main
