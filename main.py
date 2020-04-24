@@ -43,6 +43,8 @@ class Window(Frame):
             text1.delete('1.0', END)
             text1.insert(INSERT, pretty)
             text1.config(state=DISABLED)
+            return data
+
         def update_end():
             date=cal2.selection_get()
             data=calc.parseJson(calc.request(date.strftime(calc.date_fmt)))
@@ -51,12 +53,34 @@ class Window(Frame):
             text2.delete('1.0', END)
             text2.insert(INSERT, pretty)
             text2.config(state=DISABLED)
+            return data
 
         btn_text="F\nE\nT\nC\nH"
         button1 = Button(self, text=btn_text, command=update_start)
         button1.grid(row=0,column=1)
         button2 = Button(self, text=btn_text, command=update_end)
         button2.grid(row=1,column=1)
+
+        text=Text(self, state=DISABLED)
+        text.grid(row=3,column=0, columnspan=3, sticky=W+E+S+N)
+
+        def calculate():
+            data={"start": update_start(), "end": update_end()}
+            data=calc.getDiff(data)
+            pretty=json.dumps(data, indent=2)
+            text.config(state=NORMAL)
+            text.delete('1.0', END)
+            text.insert(INSERT, pretty)
+            text.config(state=DISABLED)
+            return data
+
+        text=Text(self)
+        text.grid(row=3,column=0, columnspan=3, sticky=W+E+S+N)
+
+
+
+        button=Button(self, text="CALCULATE", command=calculate)
+        button.grid(row=2,column=0, columnspan=3)
 
     #Creation of init_window
     def init_window(self):
