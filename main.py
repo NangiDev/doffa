@@ -61,23 +61,27 @@ class Window(Frame):
         button2 = Button(self, text=btn_text, command=update_end)
         button2.grid(row=1,column=1)
 
-        text=Text(self, state=DISABLED)
-        text.grid(row=3,column=0, columnspan=3, sticky=W+E+S+N)
+        textDiff=Text(self, state=DISABLED)
+        textDiff.grid(row=3,column=2, sticky=W+E+S+N)
+
+        textRatio=Text(self, state=DISABLED)
+        textRatio.grid(row=3, column=0,sticky=W+E+S+N)
 
         def calculate():
             data={"start": update_start(), "end": update_end()}
-            data=calc.getDiff(data)
-            pretty=json.dumps(data, indent=2)
-            text.config(state=NORMAL)
-            text.delete('1.0', END)
-            text.insert(INSERT, pretty)
-            text.config(state=DISABLED)
+            diff_data=calc.getDiff(data)
+            pretty=json.dumps(diff_data, indent=2)
+            textDiff.config(state=NORMAL)
+            textDiff.delete('1.0', END)
+            textDiff.insert(INSERT, pretty)
+            textDiff.config(state=DISABLED)
+            textRatio.config(state=NORMAL)
+            textRatio.delete('1.0', END)
+            lean=int((diff_data["lean"]/diff_data["kg"])*100+0.5)
+            fat=int((diff_data["fat"]/diff_data["kg"])*100+0.5)
+            textRatio.insert(INSERT, "Lean/Fat: {}/{}".format(lean, fat))
+            textRatio.config(state=DISABLED)
             return data
-
-        text=Text(self)
-        text.grid(row=3,column=0, columnspan=3, sticky=W+E+S+N)
-
-
 
         button=Button(self, text="CALCULATE", command=calculate)
         button.grid(row=2,column=0, columnspan=3)
