@@ -11,12 +11,12 @@
 	<h4>Doffa or Deffa, never Diffa</h4>
 	<p id="message"></p>
 	<p id="auth">
-		<a
+		<!-- <a
 			href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Findex.html&scope=weight&expires_in=604800">Localhost
 			Sign
 			in on Fitbit
-		</a>
-		</br>
+		</a> -->
+		<!-- </br> -->
 		<a
 			href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=https%3A%2F%2Fnangidev.github.io%2FFat-Lean-Ratio%2F&scope=weight&expires_in=604800">Sign
 			in on Fitbit
@@ -25,28 +25,68 @@
 	<p id="date1">
 		<input type="date" id="startDate" value="2020-04-13"></input>
 		<button id="btnFetch1" onclick="fetchData('startDate', 'startArea')">Fetch</button>
-		<textarea readonly placeholder="Select start date" id="startArea"
-			style="width:250px;height: 200px;resize:none"></textarea>
+		<textarea readonly placeholder="Select start date" id="startArea" style="width:300px;height: 200px"></textarea>
 	</p>
 	<p id="date2">
 		<input type="date" id="endDate" value="2020-05-08"></input>
 		<button id="btnFetch2" onclick="fetchData('endDate', 'endArea')">Fetch</button>
-		<textarea readonly placeholder="Select end date" id="endArea"
-			style="width:250px;height: 200px;resize:none"></textarea>
+		<textarea readonly placeholder="Select end date" id="endArea" style="width:300px;height: 200px"></textarea>
 	</p>
 	<p id="json">
 		<button onclick="calculate()">Calc</button>
 		</br>
-		<textarea readonly placeholder="" id="ratioArea" style="width:250px;height: 200px;resize:none"></textarea>
-		<textarea readonly placeholder="" id="diffArea" style="width:250px;height: 200px;resize:none"></textarea>
+		<textarea readonly placeholder="" id="ratioArea" style="width:300px;height: 200px"></textarea>
+		<textarea readonly placeholder="" id="diffArea" style="width:300px;height: 200px"></textarea>
 	</p>
 </body>
 <script>
 	function calculate() {
 		var input1 = document.getElementById("startArea").innerHTML
 		var input2 = document.getElementById("endArea").innerHTML
-		var ratioArea = document.getElementById("ratioArea").innerHTML = input1;
-		var diffArea = document.getElementById("diffArea").innerHTML = input2;
+		var ratioArea = document.getElementById("ratioArea")
+		var diffArea = document.getElementById("diffArea")
+		if (input1 === '' || input2 == '') {
+			diffArea.innerHTML = "Make sure you have fetched start and end data"
+		} else {
+			var diffJson = diff(input1, input2);
+			diffArea.innerHTML = diffJson
+			ratioArea.innerHTML = ratio(diffJson)
+		}
+	}
+
+	function dateDiff(string1, string2) {
+		const date1 = new Date(string1);
+		const date2 = new Date(string2);
+		const diffTime = Math.abs(date2 - date1);
+		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+		return diffDays
+	}
+
+	function diff(d1, d2) {
+		d1 = JSON.parse(d1)
+		d2 = JSON.parse(d2)
+
+		var days = dateDiff(d1.date, d2.date)
+		var kg = d2.kg - d1.kg
+		var fat = d2.fat - d1.fat
+		var lean = d2.lean - d1.lean
+		var bmi = d2.bmi - d1.bmi
+
+		var text = '{' +
+			'"days": "' + days + '",' +
+			'"kg":"' + kg + '",' +
+			'"fat":"' + fat + '",' +
+			'"lean":"' + lean + '",' +
+			'"bmi":"' + bmi + '"' +
+			'}';
+		return JSON.stringify(JSON.parse(text), "", 4)
+	}
+
+	function ratio(diffData) {
+		diffData = JSON.parse(diffData)
+		lean = Math.round((diffData.lean / diffData.kg) * 100 + 0.5)
+		fat = Math.round((diffData.fat / diffData.kg) * 100 + 0.5)
+		return "" + lean + "/" + fat
 	}
 
 	function fetchData(inputId, areaId) {
@@ -55,16 +95,33 @@
 		callRest(input.value, area)
 	}
 
+	function mapObject(data) {
+		var date = data.date
+		var kg = data.weight
+		var fat = kg * (data.fat / 100)
+		var lean = kg - fat
+		var bmi = data.bmi
+
+		var text = '{' +
+			'"date": "' + date + '",' +
+			'"kg":"' + kg + '",' +
+			'"fat":"' + fat + '",' +
+			'"lean":"' + lean + '",' +
+			'"bmi":"' + bmi + '"' +
+			'}';
+		return JSON.stringify(JSON.parse(text), "", 4)
+	}
+
 	function callRest(date, area) {
 		// Setup request towards Fitbit REST api
 		var request = new XMLHttpRequest()
-		request.open('GET', 'https://api.fitbit.com/1/user/-/body/log/fat/date/' + date + '.json', true)
+		request.open('GET', 'https://api.fitbit.com/1/user/-/body/log/weight/date/' + date + '.json', true)
 		request.setRequestHeader("Authorization", "Bearer " + paramMap.access_token);
 		request.setRequestHeader("accept", "application/json");
 		request.onload = function () {
 			var data = JSON.parse(this.response)
 			if (request.status >= 200 && request.status < 400) {
-				area.innerHTML = JSON.stringify(data, "", 4)
+				area.innerHTML = mapObject(data.weight[0])
 			} else {
 				console.log('Request Fitbit api returned error')
 			}
