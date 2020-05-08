@@ -3,30 +3,99 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Doffa or deffa</title>
+	<title>Doffa or Deffa, never Diffa</title>
 </head>
 
 <body>
 	<h2>Welcome to Doffa</h2>
-	<p id="auth1"></p>
-	<a
-		href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Findex.html&scope=weight&expires_in=604800">Sign
-		in on Fitbit</a>
+	<h4>Doffa or Deffa, never Diffa</h4>
+	<p id="message"></p>
+	<p id="auth">
+		<a
+			href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Findex.html&scope=weight&expires_in=604800">Localhost
+			Sign
+			in on Fitbit
+		</a>
+		</br>
+		<a
+			href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=https%3A%2F%2Fnangidev.github.io%2FFat-Lean-Ratio%2F&scope=weight&expires_in=604800">Sign
+			in on Fitbit
+		</a>
+	</p>
+	<p id="date1">
+		<input type="date" id="startDate" value="2020-04-13"></input>
+		<button id="btnFetch1" onclick="fetchData('startDate', 'startArea')">Fetch</button>
+		<textarea readonly placeholder="Select start date" id="startArea"
+			style="width:250px;height: 200px;resize:none"></textarea>
+	</p>
+	<p id="date2">
+		<input type="date" id="endDate" value="2020-05-08"></input>
+		<button id="btnFetch2" onclick="fetchData('endDate', 'endArea')">Fetch</button>
+		<textarea readonly placeholder="Select end date" id="endArea"
+			style="width:250px;height: 200px;resize:none"></textarea>
+	</p>
+	<p id="json">
+		<button onclick="calculate()">Calc</button>
+		</br>
+		<textarea readonly placeholder="" id="ratioArea" style="width:250px;height: 200px;resize:none"></textarea>
+		<textarea readonly placeholder="" id="diffArea" style="width:250px;height: 200px;resize:none"></textarea>
+	</p>
 </body>
 <script>
+	function calculate() {
+		var input1 = document.getElementById("startArea").innerHTML
+		var input2 = document.getElementById("endArea").innerHTML
+		var ratioArea = document.getElementById("ratioArea").innerHTML = input1;
+		var diffArea = document.getElementById("diffArea").innerHTML = input2;
+	}
+
+	function fetchData(inputId, areaId) {
+		var input = document.getElementById(inputId);
+		var area = document.getElementById(areaId);
+		callRest(input.value, area)
+	}
+
+	function callRest(date, area) {
+		// Setup request towards Fitbit REST api
+		var request = new XMLHttpRequest()
+		request.open('GET', 'https://api.fitbit.com/1/user/-/body/log/fat/date/' + date + '.json', true)
+		request.setRequestHeader("Authorization", "Bearer " + paramMap.access_token);
+		request.setRequestHeader("accept", "application/json");
+		request.onload = function () {
+			var data = JSON.parse(this.response)
+			if (request.status >= 200 && request.status < 400) {
+				area.innerHTML = JSON.stringify(data, "", 4)
+			} else {
+				console.log('Request Fitbit api returned error')
+			}
+		}
+		request.send()
+	}
+
 	if (window.location.hash) {
 		var paramStr = window.location.hash.substring(1); // substring removes the initial "#"
 		var paramArray = paramStr.split(/&|=/) //Split string into array on prelimiter '&' and '='
 		var paramMap = paramArray.reduce(function (result, value, index, array) { //Array to map
 			// Even index-elements will be keys and the following will be the value
 			if (index % 2 === 0)
-				result[array[index]] = array[index+1]
+				result[array[index]] = array[index + 1]
 			return result;
 		}, {});
-		document.getElementById("auth1").innerHTML = paramMap.access_token
+		document.getElementById("date1").style.visibility = "none"
+		document.getElementById("date2").style.visibility = "none"
+		document.getElementById("json").style.visibility = "none"
+		document.getElementById("auth").style.visibility = "hidden"
+		document.getElementById("message").style.visibility = "hidden"
 	} else {
-		document.getElementById("auth").innerHTML = "You need to sign in";
+		document.getElementById("date1").style.visibility = "hidden"
+		document.getElementById("date2").style.visibility = "hidden"
+		document.getElementById("json").style.visibility = "hidden"
+		document.getElementById("auth").style.visibility = "none"
+		document.getElementById("message").style.visibility = "none"
+		document.getElementById("message").innerHTML = "You need to sign in";
 	}
+	//eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkJRODgiLCJzdWIiOiI2NlY5QlMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyd2VpIiwiZXhwIjoxNTg5NTQzOTc2LCJpYXQiOjE1ODg5Mzk0OTN9.jyaqOTrE1HUAGfe5bnLmqGwZpxmNPL2e74MZvnYdngA
+	//curl -i -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkJRODgiLCJzdWIiOiI2NlY5QlMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyd2VpIiwiZXhwIjoxNTg5NTQzOTc2LCJpYXQiOjE1ODg5Mzk0OTN9.jyaqOTrE1HUAGfe5bnLmqGwZpxmNPL2e74MZvnYdngA" "https://api.fitbit.com/1/user/-/body/log/fat/date/2020-04-20.json" -H  "accept: application/json"
 </script>
 
 </html>
