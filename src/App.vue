@@ -1,23 +1,28 @@
 <template>
   <v-app>
     <v-content>
-      <Login/>
+      <Form v-if="isLoggedIn" />
+      <Login v-else />
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Login from './components/Login';
+import Login from "./components/Login";
+import Form from "./components/Form";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     Login,
+    Form
   },
 
-  data: () => ({
-    //
-  }),
+  computed: {
+    isLoggedIn() {
+      return window.location.hash !== "";
+    }
+  }
 };
 </script>
