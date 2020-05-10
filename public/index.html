@@ -2,25 +2,20 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
 	<title>Doffa or Deffa, never Diffa</title>
 </head>
 
 <body>
-	<h2>Welcome to Doffa</h2>
-	<h4>Doffa or Deffa, never Diffa</h4>
-	<p id="message"></p>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+	<div id="app"></div>
 	<p id="auth">
-		<!-- <a
-			href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Findex.html&scope=weight&expires_in=604800">Localhost
-			Sign
-			in on Fitbit
-		</a> -->
-		<!-- </br> -->
-		<a
-			href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=https%3A%2F%2Fnangidev.github.io%2Fdoffa%2F&scope=weight&expires_in=604800">Sign
-			in on Fitbit
-		</a>
 	</p>
 	<p id="date1">
 		<input type="date" id="startDate" value="2020-04-13"></input>
