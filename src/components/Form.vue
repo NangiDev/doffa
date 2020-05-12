@@ -7,11 +7,35 @@
       <v-col cols="12">
         <v-card class="mx-auto" max-width="100%">
           <h3>Start Date</h3>
-          <v-date-picker v-model="fromDateVal" no-title :show-current="false"></v-date-picker>
-          <v-textarea :value="fromDateVal" :disabled="true" :auto-grow="true" :filled="true" :outlined="true" :solo="true"></v-textarea>
+          <v-date-picker
+            @click:date="fetchFromData"
+            v-model="fromDateVal"
+            :show-current="false"
+            no-title
+          ></v-date-picker>
+          <v-textarea
+            v-model="areaTextFrom"
+            :disabled="true"
+            :auto-grow="true"
+            :filled="true"
+            :outlined="true"
+            :solo="true"
+          ></v-textarea>
           <h3>End Date</h3>
-          <v-date-picker v-model="toDateVal" no-title :show-current="false"></v-date-picker>
-          <v-textarea :value="toDateVal" :disabled="true" :auto-grow="true" :filled="true" :outlined="true" :solo="true"></v-textarea>
+          <v-date-picker
+            @click:date="fetchToData"
+            v-model="toDateVal"
+            :show-current="false"
+            no-title
+          ></v-date-picker>
+          <v-textarea
+            v-model="areaTextTo"
+            :disabled="true"
+            :auto-grow="true"
+            :filled="true"
+            :outlined="true"
+            :solo="true"
+          ></v-textarea>
         </v-card>
       </v-col>
       <!-- <v-col cols="12">
@@ -42,7 +66,8 @@ export default {
       fromDateVal: new Date(new Date().setDate(new Date().getDate() - 7))
         .toISOString()
         .substring(0, 10),
-      validDates: this.fetchDates()
+      areaTextFrom: "Click a date above to fetch data",
+      areaTextTo: "Click a date above to fetch data"
     };
   },
   computed: {},
@@ -61,29 +86,57 @@ export default {
       return arr.access_token;
     },
 
-    reqListener() {
-      var data = JSON.parse(this.response);
-      console.log(data);
-    },
-
-    reqError(err) {
-      console.log("Fetch Error :-S", err);
-    },
-
-    fetchDates() {
+    fetchFromData(date) {
       var request = new XMLHttpRequest();
       request.open(
         "GET",
-        "https://api.fitbit.com/1/user/-/body/log/fat/date/2020-04-20/2020-04-24.json",
+        "https://api.fitbit.com/1/user/-/body/log/weight/date/" +
+          date +
+          ".json",
         true
       );
       request.setRequestHeader("Authorization", "Bearer " + this.getToken());
       request.setRequestHeader("accept", "application/json");
-      request.onload = this.reqListener;
+      request.onload = function() {
+        var data = JSON.parse(this.response).weight[0];
+        // console.log(
+        //   JSON.stringify(data, "", 4) || "Not enought data for date: " + date
+        // );
+        self.areaTextFrom =
+          JSON.stringify(data, "", 4) || "Not enought data for date: " + date;
+        console.log(self.areaTextFrom);
+      };
       request.err = this.reqError;
-      // request.send();
-      return null;
+      request.send();
     },
+
+    fetchToData(date) {
+      var request = new XMLHttpRequest();
+      request.open(
+        "GET",
+        "https://api.fitbit.com/1/user/-/body/log/weight/date/" +
+          date +
+          ".json",
+        true
+      );
+      request.setRequestHeader("Authorization", "Bearer " + this.getToken());
+      request.setRequestHeader("accept", "application/json");
+      request.onload = function() {
+        var data = JSON.parse(this.response).weight[0];
+        // console.log(
+        //   JSON.stringify(data, "", 4) || "Not enought data for date: " + date
+        // );
+        self.areaTextTo =
+          JSON.stringify(data, "", 4) || "Not enought data for date: " + date;
+        console.log(self.areaTextTo);
+      };
+      request.err = this.reqError;
+      request.send();
+    },
+
+    reqError(err) {
+      console.log("Fetch Error :-S", err);
+    }
   }
 };
 
