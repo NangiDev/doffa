@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <v-img :src="require('../assets/logo.svg')" class="my-3" contain height="80" />
+        <v-img :src="require('../assets/logo.png')" class="my-3" contain height="80" />
       </v-col>
       <v-col cols="12">
         <v-card class="mx-auto" max-width="100%">
