@@ -70,6 +70,7 @@ export default {
       areaTextTo: "Click a date above to fetch data"
     };
   },
+
   computed: {},
 
   methods: {
@@ -87,6 +88,7 @@ export default {
     },
 
     fetchFromData(date) {
+      var self = this;
       var request = new XMLHttpRequest();
       request.open(
         "GET",
@@ -99,18 +101,15 @@ export default {
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
         var data = JSON.parse(this.response).weight[0];
-        // console.log(
-        //   JSON.stringify(data, "", 4) || "Not enought data for date: " + date
-        // );
         self.areaTextFrom =
           JSON.stringify(data, "", 4) || "Not enought data for date: " + date;
-        console.log(self.areaTextFrom);
       };
       request.err = this.reqError;
       request.send();
     },
 
     fetchToData(date) {
+      var self = this;
       var request = new XMLHttpRequest();
       request.open(
         "GET",
@@ -123,12 +122,8 @@ export default {
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
         var data = JSON.parse(this.response).weight[0];
-        // console.log(
-        //   JSON.stringify(data, "", 4) || "Not enought data for date: " + date
-        // );
         self.areaTextTo =
           JSON.stringify(data, "", 4) || "Not enought data for date: " + date;
-        console.log(self.areaTextTo);
       };
       request.err = this.reqError;
       request.send();
