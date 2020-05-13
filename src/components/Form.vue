@@ -87,6 +87,37 @@ export default {
       return arr.access_token;
     },
 
+    mapObject(data) {
+      if (!data) {
+        return data
+      }
+      var date = data.date;
+      var kg = data.weight;
+      var fat = kg * (data.fat / 100);
+      var lean = kg - fat;
+      var bmi = data.bmi;
+
+      var text =
+        "{" +
+        '"date": "' +
+        date +
+        '",' +
+        '"kg":"' +
+        kg +
+        '",' +
+        '"fat":"' +
+        fat +
+        '",' +
+        '"lean":"' +
+        lean +
+        '",' +
+        '"bmi":"' +
+        bmi +
+        '"' +
+        "}";
+      return JSON.stringify(JSON.parse(text), "", 4);
+    },
+
     fetchFromData(date) {
       var self = this;
       var request = new XMLHttpRequest();
@@ -100,9 +131,9 @@ export default {
       request.setRequestHeader("Authorization", "Bearer " + this.getToken());
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
-        var data = JSON.parse(this.response).weight[0];
+        var data = JSON.parse(this.response);
         self.areaTextFrom =
-          JSON.stringify(data, "", 4) || "Not enought data for date: " + date;
+          self.mapObject(data.weight[0]) || "Not enought data for date: " + date;
       };
       request.err = this.reqError;
       request.send();
@@ -121,9 +152,9 @@ export default {
       request.setRequestHeader("Authorization", "Bearer " + this.getToken());
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
-        var data = JSON.parse(this.response).weight[0];
+        var data = JSON.parse(this.response);
         self.areaTextTo =
-          JSON.stringify(data, "", 4) || "Not enought data for date: " + date;
+          self.mapObject(data.weight[0]) || "Not enought data for date: " + date;
       };
       request.err = this.reqError;
       request.send();
@@ -171,34 +202,6 @@ export default {
 //     "{" +
 //     '"days": "' +
 //     days +
-//     '",' +
-//     '"kg":"' +
-//     kg +
-//     '",' +
-//     '"fat":"' +
-//     fat +
-//     '",' +
-//     '"lean":"' +
-//     lean +
-//     '",' +
-//     '"bmi":"' +
-//     bmi +
-//     '"' +
-//     "}";
-//   return JSON.stringify(JSON.parse(text), "", 4);
-// }
-
-// function mapObject(data) {
-//   var date = data.date;
-//   var kg = data.weight;
-//   var fat = kg * (data.fat / 100);
-//   var lean = kg - fat;
-//   var bmi = data.bmi;
-
-//   var text =
-//     "{" +
-//     '"date": "' +
-//     date +
 //     '",' +
 //     '"kg":"' +
 //     kg +
