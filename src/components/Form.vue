@@ -36,21 +36,24 @@
             :outlined="true"
             :solo="true"
           ></v-textarea>
+          <v-btn @click="calculate">Calculate</v-btn>
+          <v-textarea
+            v-model="areaTextDiff"
+            :disabled="true"
+            :auto-grow="true"
+            :filled="true"
+            :outlined="true"
+            :solo="true"
+          ></v-textarea>
+          <v-textarea
+            v-model="areaTextRatio"
+            :disabled="true"
+            :auto-grow="true"
+            :filled="true"
+            :outlined="true"
+            :solo="true"
+          ></v-textarea>
         </v-card>
-      </v-col>
-      <!-- <v-col cols="12">
-        <v-card class="mx-auto" max-width="344">
-          <h3>End Date</h3>
-          <br />
-          <v-date-picker v-model="toDateVal" no-title :show-current="false"></v-date-picker>
-          <v-textarea :value="toDateVal"></v-textarea>
-        </v-card>
-      </v-col>-->
-
-      <v-col cols="12">
-        <!-- <v-btn></v-btn> -->
-        <!-- <v-textarea dense="true" auto-grow="true" filled="true" rounded="true"></v-textarea>
-        <v-textarea dense="true" auto-grow="true" filled="true" rounded="true"></v-textarea>-->
       </v-col>
     </v-row>
   </v-container>
@@ -67,7 +70,9 @@ export default {
         .toISOString()
         .substring(0, 10),
       areaTextFrom: "Click a date above to fetch data",
-      areaTextTo: "Click a date above to fetch data"
+      areaTextTo: "Click a date above to fetch data",
+      areaTextDiff: "Will show progress after calculated",
+      areaTextRatio: "Will show ratio after calculated"
     };
   },
 
@@ -89,7 +94,7 @@ export default {
 
     mapObject(data) {
       if (!data) {
-        return data
+        return data;
       }
       var date = data.date;
       var kg = data.weight;
@@ -118,6 +123,75 @@ export default {
       return JSON.stringify(JSON.parse(text), "", 4);
     },
 
+    isValidJSONString(str) {
+      try {
+        JSON.parse(str);
+      } catch (e) {
+        return false;
+      }
+      return true;
+    },
+
+    dateDiff(string1, string2) {
+      const date1 = new Date(string1);
+      const date2 = new Date(string2);
+      const diffTime = Math.abs(date2 - date1);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    },
+
+    diff(d1, d2) {
+      d1 = JSON.parse(d1);
+      d2 = JSON.parse(d2);
+
+      var days = this.dateDiff(d1.date, d2.date);
+      var kg = d2.kg - d1.kg;
+      var fat = d2.fat - d1.fat;
+      var lean = d2.lean - d1.lean;
+      var bmi = d2.bmi - d1.bmi;
+
+      var text =
+        "{" +
+        '"days": "' +
+        days +
+        '",' +
+        '"kg":"' +
+        kg +
+        '",' +
+        '"fat":"' +
+        fat +
+        '",' +
+        '"lean":"' +
+        lean +
+        '",' +
+        '"bmi":"' +
+        bmi +
+        '"' +
+        "}";
+      return JSON.stringify(JSON.parse(text), "", 4);
+    },
+
+    ratio(diffData) {
+      diffData = JSON.parse(diffData);
+      var lean = Math.round((diffData.lean / diffData.kg) * 100 + 0.5);
+      var fat = Math.round((diffData.fat / diffData.kg) * 100 + 0.5);
+      return "" + lean + "/" + fat;
+    },
+
+    calculate() {
+      if (
+        this.isValidJSONString(this.areaTextFrom) &&
+        this.isValidJSONString(this.areaTextTo)
+      ) {
+        var diffJson = this.diff(this.areaTextFrom, this.areaTextTo);
+        this.areaTextDiff = diffJson;
+        this.areaTextRatio = this.ratio(diffJson);
+      } else {
+        this.areaTextDiff = "Invalid data. Try another date";
+        this.areaTextRatio = "Invalid data- Try another date";
+      }
+    },
+
     fetchFromData(date) {
       var self = this;
       var request = new XMLHttpRequest();
@@ -133,7 +207,8 @@ export default {
       request.onload = function() {
         var data = JSON.parse(this.response);
         self.areaTextFrom =
-          self.mapObject(data.weight[0]) || "Not enought data for date: " + date;
+          self.mapObject(data.weight[0]) ||
+          "Not enought data for date: " + date;
       };
       request.err = this.reqError;
       request.send();
@@ -154,7 +229,8 @@ export default {
       request.onload = function() {
         var data = JSON.parse(this.response);
         self.areaTextTo =
-          self.mapObject(data.weight[0]) || "Not enought data for date: " + date;
+          self.mapObject(data.weight[0]) ||
+          "Not enought data for date: " + date;
       };
       request.err = this.reqError;
       request.send();
@@ -165,93 +241,4 @@ export default {
     }
   }
 };
-
-// function calculate() {
-//   var input1 = document.getElementById("startArea").innerHTML;
-//   var input2 = document.getElementById("endArea").innerHTML;
-//   var ratioArea = document.getElementById("ratioArea");
-//   var diffArea = document.getElementById("diffArea");
-//   if (input1 === "" || input2 == "") {
-//     diffArea.innerHTML = "Make sure you have fetched start and end data";
-//   } else {
-//     var diffJson = diff(input1, input2);
-//     diffArea.innerHTML = diffJson;
-//     ratioArea.innerHTML = ratio(diffJson);
-//   }
-// }
-
-// function dateDiff(string1, string2) {
-//   const date1 = new Date(string1);
-//   const date2 = new Date(string2);
-//   const diffTime = Math.abs(date2 - date1);
-//   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-//   return diffDays;
-// }
-
-// function diff(d1, d2) {
-//   d1 = JSON.parse(d1);
-//   d2 = JSON.parse(d2);
-
-//   var days = dateDiff(d1.date, d2.date);
-//   var kg = d2.kg - d1.kg;
-//   var fat = d2.fat - d1.fat;
-//   var lean = d2.lean - d1.lean;
-//   var bmi = d2.bmi - d1.bmi;
-
-//   var text =
-//     "{" +
-//     '"days": "' +
-//     days +
-//     '",' +
-//     '"kg":"' +
-//     kg +
-//     '",' +
-//     '"fat":"' +
-//     fat +
-//     '",' +
-//     '"lean":"' +
-//     lean +
-//     '",' +
-//     '"bmi":"' +
-//     bmi +
-//     '"' +
-//     "}";
-//   return JSON.stringify(JSON.parse(text), "", 4);
-// }
-
-// function ratio(diffData) {
-//   diffData = JSON.parse(diffData);
-//   var lean = Math.round((diffData.lean / diffData.kg) * 100 + 0.5);
-//   var fat = Math.round((diffData.fat / diffData.kg) * 100 + 0.5);
-//   return "" + lean + "/" + fat;
-// }
-
-// function callRest(date, area) {
-//   var paramStr = window.location.hash.substring(1); // substring removes the initial "#"
-//   var paramArray = paramStr.split(/&|=/); //Split string into array on prelimiter '&' and '='
-//   var paramMap = paramArray.reduce(function(result, value, index, array) {
-//     //Array to map
-//     // Even index-elements will be keys and the following will be the value
-//     if (index % 2 === 0) result[array[index]] = array[index + 1];
-//     return result;
-//   }, {});
-//   // Setup request towards Fitbit REST api
-//   var request = new XMLHttpRequest();
-//   request.open(
-//     "GET",
-//     "https://api.fitbit.com/1/user/-/body/log/weight/date/" + date + ".json",
-//     true
-//   );
-//   request.setRequestHeader("Authorization", "Bearer " + paramMap.access_token);
-//   request.setRequestHeader("accept", "application/json");
-//   request.onload = function() {
-//     var data = JSON.parse(this.response);
-//     if (request.status >= 200 && request.status < 400) {
-//       area.innerHTML = mapObject(data.weight[0]);
-//     } else {
-//       console.log("Request Fitbit api returned error");
-//     }
-//   };
-//   request.send();
-// }
 </script>
