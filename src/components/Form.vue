@@ -37,7 +37,7 @@
           :auto-grow="true"
           :filled="true"
           :solo="true"
-          class="mx-xl-5 mx-lg-5 mx-md-5 mx-sm-5"
+          class="mx-7"
         />
         <v-textarea
           v-model="areaTextTo"
@@ -45,7 +45,7 @@
           :auto-grow="true"
           :filled="true"
           :solo="true"
-          class="mx-xl-5 mx-lg-5 mx-md-5 mx-sm-5"
+          class="mx-7"
         />
       </v-row>
       <v-textarea
@@ -54,13 +54,14 @@
         :auto-grow="true"
         :filled="true"
         :solo="true"
+        class="mx-4"
       />
       <v-btn
         @click="calculate"
         class="m-10 white--text"
         color="#4288f5"
         elevation="2"
-        x-large
+        large
       >
         Calculate</v-btn
       >
@@ -70,6 +71,7 @@
         :disabled="true"
         :auto-grow="true"
         :filled="true"
+        class="mx-4"
       />
     </v-col>
   </v-container>
@@ -225,6 +227,8 @@ export default {
         self.areaTextFrom =
           self.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
+
+        self.calculate();
       };
       request.err = this.reqError;
       request.send();
@@ -247,6 +251,7 @@ export default {
         self.areaTextTo =
           self.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
+        self.calculate();
       };
       request.err = this.reqError;
       request.send();
