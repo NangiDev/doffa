@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <v-content>
+    <v-main>
       <Form v-if="isLoggedIn" />
       <Login v-else />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -16,13 +16,13 @@ export default {
 
   components: {
     Login,
-    Form
+    Form,
   },
 
   computed: {
     isLoggedIn() {
       return window.location.hash !== "";
-    }
-  }
+    },
+  },
 };
 </script>

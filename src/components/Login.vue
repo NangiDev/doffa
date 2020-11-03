@@ -1,27 +1,27 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-img :src="require('../assets/logo.png')" class="my-3" contain height="200" />
-      </v-col>
-
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">Welcome to Doffa</h1>
-      </v-col>
-
-      <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-3">Please login to the platform of your choise</h2>
-
-        <v-row justify="center">
-          <v-btn
-            v-for="(next, i) in platforms"
-            :key="i"
-            :href="next.href"
-            class="subheading my-3"
-          >{{ next.text }}</v-btn>
-        </v-row>
-      </v-col>
-    </v-row>
+    <v-col class="text-center">
+      <v-img
+        :src="require('../assets/logo.png')"
+        class="m-6"
+        contain
+        height="200"
+      />
+      <h1 class="text-h1">Welcome to Doffa</h1>
+      <h2 class="text-h6 m-6">
+        Please login to the platform of your choise
+      </h2>
+      <v-btn
+        color="primary"
+        rounded
+        elevation="3"
+        class="m-2"
+        v-for="(next, i) in platforms"
+        :key="i"
+        :href="next.href"
+        >{{ next.text }}
+      </v-btn>
+    </v-col>
   </v-container>
 </template>
 
@@ -34,14 +34,9 @@ export default {
       {
         text: "Fitbit",
         href:
-          "https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=https%3A%2F%2Fnangidev.github.io%2Fdoffa%2F&scope=weight&expires_in=604800"
+          "https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=https%3A%2F%2Fnangidev.github.io%2Fdoffa%2F&scope=weight&expires_in=604800",
       },
-      {
-        text: "Localhost",
-        href:
-          "https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BQ88&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fdoffa%2F&scope=weight&expires_in=604800"
-      }
-    ]
-  })
+    ],
+  }),
 };
 </script>
