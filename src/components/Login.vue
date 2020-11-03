@@ -12,6 +12,7 @@
         Please login to the platform of your choise
       </h2>
       <v-btn
+        x-large
         color="primary"
         rounded
         elevation="3"
