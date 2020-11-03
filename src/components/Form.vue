@@ -125,52 +125,17 @@ export default {
       return true;
     },
 
-    diff(d1, d2) {
-      d1 = JSON.parse(d1);
-      d2 = JSON.parse(d2);
-
-      var days = Compute.dateDiff(d1.date, d2.date);
-      var kg = d2.kg - d1.kg;
-      var fat = d2.fat - d1.fat;
-      var lean = d2.lean - d1.lean;
-      var bmi = d2.bmi - d1.bmi;
-
-      var text =
-        "{" +
-        '"days": "' +
-        days +
-        '",' +
-        '"kg":"' +
-        kg +
-        '",' +
-        '"fat":"' +
-        fat +
-        '",' +
-        '"lean":"' +
-        lean +
-        '",' +
-        '"bmi":"' +
-        bmi +
-        '"' +
-        "}";
-      return JSON.stringify(JSON.parse(text), "", 4);
-    },
-
-    ratio(diffData) {
-      diffData = JSON.parse(diffData);
-      var lean = Math.round((diffData.lean / diffData.kg) * 100 + 0.5);
-      var fat = Math.round((diffData.fat / diffData.kg) * 100 + 0.5);
-      return "" + lean + "/" + fat;
-    },
-
     calculate() {
       if (
         this.isValidJSONString(this.areaTextFrom) &&
         this.isValidJSONString(this.areaTextTo)
       ) {
-        var diffJson = this.diff(this.areaTextFrom, this.areaTextTo);
+        var diffJson = Compute.calculateDiff(
+          this.areaTextFrom,
+          this.areaTextTo
+        );
         this.areaTextDiff = diffJson;
-        this.areaTextRatio = this.ratio(diffJson);
+        this.areaTextRatio = Compute.getRatio(diffJson);
       }
     },
 
