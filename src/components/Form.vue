@@ -1,18 +1,39 @@
 <template>
-  <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-img :src="require('../assets/logo.png')" class="my-3" contain height="80" />
-      </v-col>
-      <v-col cols="12">
-        <v-card class="mx-auto" max-width="100%">
-          <h3>Start Date</h3>
+  <v-container fill-height>
+    <v-col align="center" justify="center">
+      <v-img :src="require('../assets/logo.png')" max-height="120px" contain />
+      <div class="headline text-h3 mb-10 font-weight-medium">DOFFA</div>
+      <v-row>
+        <v-col>
+          <div class="instructions text-h6">Start date</div>
           <v-date-picker
             @click:date="fetchFromData"
             v-model="fromDateVal"
             :show-current="false"
-            no-title
-          ></v-date-picker>
+            color="#4288f5"
+            class="mb-5 mx-xl-5 mx-lg-5 mx-md-5 mx-sm-5"
+            elevation="5"
+            :first-day-of-week="1"
+          />
+        </v-col>
+        <v-col>
+          <div class="instructions text-h6">End date</div>
+          <v-date-picker
+            @click:date="fetchToData"
+            v-model="toDateVal"
+            :show-current="false"
+            color="#4288f5"
+            class="mb-5 mx-xl-5 mx-lg-5 mx-md-5 mx-sm-5"
+            elevation="5"
+            :first-day-of-week="1"
+          />
+        </v-col>
+      </v-row>
+    </v-col>
+
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-card class="mx-auto" max-width="100%">
           <v-textarea
             v-model="areaTextFrom"
             :disabled="true"
@@ -21,13 +42,6 @@
             :outlined="true"
             :solo="true"
           ></v-textarea>
-          <h3>End Date</h3>
-          <v-date-picker
-            @click:date="fetchToData"
-            v-model="toDateVal"
-            :show-current="false"
-            no-title
-          ></v-date-picker>
           <v-textarea
             v-model="areaTextTo"
             :disabled="true"
@@ -72,7 +86,7 @@ export default {
       areaTextFrom: "Click a date above to fetch data",
       areaTextTo: "Click a date above to fetch data",
       areaTextDiff: "Will show progress after calculated",
-      areaTextRatio: "Will show ratio after calculated"
+      areaTextRatio: "Will show ratio after calculated",
     };
   },
 
@@ -238,7 +252,7 @@ export default {
 
     reqError(err) {
       console.log("Fetch Error :-S", err);
-    }
-  }
+    },
+  },
 };
 </script>

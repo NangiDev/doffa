@@ -21,7 +21,7 @@ export default {
 
   computed: {
     isLoggedIn() {
-      return window.location.hash !== "";
+      return !window.location.hash !== "";
     },
   },
 };

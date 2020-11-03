@@ -3,7 +3,6 @@
     <v-col align="center" justify="center">
       <v-img
         :src="require('../assets/logo.png')"
-        min-height="80px"
         max-height="200px"
         contain
         class="mb-10"
