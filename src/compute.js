@@ -39,5 +39,6 @@ export function calculateDiff(data1, data2) {
   var lean = roundOff(data2.lean - data1.lean);
   var bmi = roundOff(data2.bmi - data1.bmi);
 
-  return { days: days, kg: kg, fat: fat, lean: lean, bmi: bmi };
+  let jsonObj = { days: days, kg: kg, fat: fat, lean: lean, bmi: bmi };
+  return JSON.stringify(jsonObj, "", 4);
 }
