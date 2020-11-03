@@ -56,23 +56,9 @@
         :solo="true"
         class="mx-4"
       />
-      <v-btn
-        @click="calculate"
-        class="m-10 white--text"
-        color="#4288f5"
-        elevation="2"
-        large
-      >
-        Calculate</v-btn
-      >
-      <v-text-field
-        solo
-        v-model="areaTextRatio"
-        :disabled="true"
-        :auto-grow="true"
-        :filled="true"
-        class="mx-4"
-      />
+      <div class="ratio text-h4 mw-10">
+        {{ areaTextRatio }}
+      </div>
     </v-col>
   </v-container>
 </template>
@@ -87,10 +73,10 @@ export default {
       fromDateVal: new Date(new Date().setDate(new Date().getDate() - 7))
         .toISOString()
         .substring(0, 10),
-      areaTextFrom: "Click a date above to fetch data",
-      areaTextTo: "Click a date above to fetch data",
+      areaTextFrom: "Select a start date above to fetch data",
+      areaTextTo: "Select a end date above to fetch data",
       areaTextDiff: "Will show progress after calculated",
-      areaTextRatio: "Will show ratio after calculated",
+      areaTextRatio: "Will show ratio after calculation",
     };
   },
 
@@ -204,9 +190,6 @@ export default {
         var diffJson = this.diff(this.areaTextFrom, this.areaTextTo);
         this.areaTextDiff = diffJson;
         this.areaTextRatio = this.ratio(diffJson);
-      } else {
-        this.areaTextDiff = "Invalid data. Try another date";
-        this.areaTextRatio = "Invalid data- Try another date";
       }
     },
 
