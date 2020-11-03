@@ -176,7 +176,10 @@ export default {
           ".json",
         true
       );
-      request.setRequestHeader("Authorization", "Bearer " + this.getToken());
+      request.setRequestHeader(
+        "Authorization",
+        "Bearer " + Compute.getAccessTokenFromWindowHashLocation()
+      );
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
         var data = JSON.parse(this.response);

@@ -39,17 +39,5 @@ export function calculateDiff(data1, data2) {
   var lean = roundOff(data2.lean - data1.lean);
   var bmi = roundOff(data2.bmi - data1.bmi);
 
-  var text =
-    '{"days": "' +
-    days +
-    '","kg":"' +
-    kg +
-    '","fat":"' +
-    fat +
-    '","lean":"' +
-    lean +
-    '","bmi":"' +
-    bmi +
-    '"}';
-  return JSON.stringify(JSON.parse(text), "", 4);
+  return { days: days, kg: kg, fat: fat, lean: lean, bmi: bmi };
 }
