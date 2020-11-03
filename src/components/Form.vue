@@ -71,9 +71,7 @@ export default {
 
   data() {
     return {
-      toDateVal: localStorage.getItem("endDate")
-        ? localStorage.getItem("endDate")
-        : new Date().toISOString().substring(0, 10),
+      toDateVal: new Date().toISOString().substring(0, 10),
       fromDateVal: localStorage.getItem("startDate")
         ? localStorage.getItem("startDate")
         : new Date(new Date().setDate(new Date().getDate() - 7))
@@ -129,7 +127,6 @@ export default {
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
         var data = JSON.parse(this.response);
-        localStorage.setItem("startDate", date);
         self.areaTextFrom =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
@@ -158,12 +155,10 @@ export default {
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
         var data = JSON.parse(this.response);
-        localStorage.setItem("endDate", date);
         self.areaTextTo =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
         self.calculate();
-        localStorage.setItem("endDate", date);
       };
       request.err = this.reqError;
       request.send();
