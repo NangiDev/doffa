@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import * as Compute from "../compute";
+
 export default {
   name: "Form",
 
@@ -83,19 +85,6 @@ export default {
   computed: {},
 
   methods: {
-    getToken: () => {
-      var arr = window.location.hash
-        .substring(1)
-        .split(/&|=/)
-        .reduce(function(result, value, index, array) {
-          //Array to map
-          // Even index-elements will be keys and the following will be the value
-          if (index % 2 === 0) result[array[index]] = array[index + 1];
-          return result;
-        }, {});
-      return arr.access_token;
-    },
-
     mapObject(data) {
       if (!data) {
         return data;
@@ -136,19 +125,11 @@ export default {
       return true;
     },
 
-    dateDiff(string1, string2) {
-      const date1 = new Date(string1);
-      const date2 = new Date(string2);
-      const diffTime = Math.abs(date2 - date1);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays;
-    },
-
     diff(d1, d2) {
       d1 = JSON.parse(d1);
       d2 = JSON.parse(d2);
 
-      var days = this.dateDiff(d1.date, d2.date);
+      var days = Compute.dateDiff(d1.date, d2.date);
       var kg = d2.kg - d1.kg;
       var fat = d2.fat - d1.fat;
       var lean = d2.lean - d1.lean;
@@ -203,7 +184,10 @@ export default {
           ".json",
         true
       );
-      request.setRequestHeader("Authorization", "Bearer " + this.getToken());
+      request.setRequestHeader(
+        "Authorization",
+        "Bearer " + Compute.getAccessTokenFromWindowHashLocation()
+      );
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
         var data = JSON.parse(this.response);
