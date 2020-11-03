@@ -1,22 +1,22 @@
 <template>
-  <v-container>
-    <v-col class="text-center">
+  <v-container fill-height>
+    <v-col align="center" justify="center">
       <v-img
         :src="require('../assets/logo.png')"
-        class="m-6"
+        min-height="80px"
+        max-height="200px"
         contain
-        height="200"
+        class="mb-10"
       />
-      <h1 class="text-h1">Welcome to Doffa</h1>
-      <h2 class="text-h6 m-6">
-        Please login to the platform of your choise
-      </h2>
+      <div class="headline text-h1 mb-10 font-weight-medium">DOFFA</div>
+      <div class="instructions text-h5 mb-14">Choose your platform</div>
       <v-btn
-        x-large
-        color="primary"
-        rounded
+        min-width="200px"
+        class="text-h6 mb-10 white--text"
+        color="#4288f5"
         elevation="3"
-        class="m-2"
+        rounded
+        x-large
         v-for="(next, i) in platforms"
         :key="i"
         :href="next.href"
