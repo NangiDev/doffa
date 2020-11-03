@@ -13,7 +13,7 @@
         min-width="200px"
         class="text-h6 mb-10 white--text"
         color="#4288f5"
-        elevation="3"
+        elevation="2"
         rounded
         x-large
         v-for="(next, i) in platforms"

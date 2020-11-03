@@ -12,7 +12,7 @@
             :show-current="false"
             color="#4288f5"
             class="mb-5 mx-xl-5 mx-lg-5 mx-md-5 mx-sm-5"
-            elevation="5"
+            elevation="2"
             :first-day-of-week="1"
           />
         </v-col>
@@ -24,52 +24,54 @@
             :show-current="false"
             color="#4288f5"
             class="mb-5 mx-xl-5 mx-lg-5 mx-md-5 mx-sm-5"
-            elevation="5"
+            elevation="2"
             :first-day-of-week="1"
           />
         </v-col>
       </v-row>
-    </v-col>
 
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-card class="mx-auto" max-width="100%">
-          <v-textarea
-            v-model="areaTextFrom"
-            :disabled="true"
-            :auto-grow="true"
-            :filled="true"
-            :outlined="true"
-            :solo="true"
-          ></v-textarea>
-          <v-textarea
-            v-model="areaTextTo"
-            :disabled="true"
-            :auto-grow="true"
-            :filled="true"
-            :outlined="true"
-            :solo="true"
-          ></v-textarea>
-          <v-btn @click="calculate">Calculate</v-btn>
-          <v-textarea
-            v-model="areaTextDiff"
-            :disabled="true"
-            :auto-grow="true"
-            :filled="true"
-            :outlined="true"
-            :solo="true"
-          ></v-textarea>
-          <v-textarea
-            v-model="areaTextRatio"
-            :disabled="true"
-            :auto-grow="true"
-            :filled="true"
-            :outlined="true"
-            :solo="true"
-          ></v-textarea>
-        </v-card>
-      </v-col>
-    </v-row>
+      <v-row>
+        <v-textarea
+          v-model="areaTextFrom"
+          :disabled="true"
+          :auto-grow="true"
+          :filled="true"
+          :solo="true"
+          class="mx-xl-5 mx-lg-5 mx-md-5 mx-sm-5"
+        />
+        <v-textarea
+          v-model="areaTextTo"
+          :disabled="true"
+          :auto-grow="true"
+          :filled="true"
+          :solo="true"
+          class="mx-xl-5 mx-lg-5 mx-md-5 mx-sm-5"
+        />
+      </v-row>
+      <v-textarea
+        v-model="areaTextDiff"
+        :disabled="true"
+        :auto-grow="true"
+        :filled="true"
+        :solo="true"
+      />
+      <v-btn
+        @click="calculate"
+        class="m-10 white--text"
+        color="#4288f5"
+        elevation="2"
+        x-large
+      >
+        Calculate</v-btn
+      >
+      <v-text-field
+        solo
+        v-model="areaTextRatio"
+        :disabled="true"
+        :auto-grow="true"
+        :filled="true"
+      />
+    </v-col>
   </v-container>
 </template>
 
