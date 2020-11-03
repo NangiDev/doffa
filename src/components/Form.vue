@@ -7,7 +7,9 @@
         <v-col>
           <div class="instructions text-h6">Start date</div>
           <v-date-picker
+            id="datePickerFrom"
             @click:date="fetchFromData"
+            @load:date="fetchFromData"
             v-model="fromDateVal"
             :show-current="false"
             color="#4288f5"
@@ -19,7 +21,9 @@
         <v-col>
           <div class="instructions text-h6">End date</div>
           <v-date-picker
+            id="datePickerTo"
             @click:date="fetchToData"
+            @load:date="fetchToData"
             v-model="toDateVal"
             :show-current="false"
             color="#4288f5"
@@ -82,6 +86,17 @@ export default {
       areaTextDiff: "Will show progress after calculated",
       areaTextRatio: "Will show ratio after calculation",
     };
+  },
+
+  mounted() {
+    const toDateVal = new Date().toISOString().substring(0, 10);
+    const fromDateVal = localStorage.getItem("startDate")
+      ? localStorage.getItem("startDate")
+      : new Date(new Date().setDate(new Date().getDate() - 7))
+          .toISOString()
+          .substring(0, 10);
+    this.fetchFromData(fromDateVal);
+    this.fetchToData(toDateVal);
   },
 
   computed: {},
