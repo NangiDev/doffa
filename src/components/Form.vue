@@ -85,37 +85,6 @@ export default {
   computed: {},
 
   methods: {
-    mapObject(data) {
-      if (!data) {
-        return data;
-      }
-      var date = data.date;
-      var kg = data.weight;
-      var fat = kg * (data.fat / 100);
-      var lean = kg - fat;
-      var bmi = data.bmi;
-
-      var text =
-        "{" +
-        '"date": "' +
-        date +
-        '",' +
-        '"kg":"' +
-        kg +
-        '",' +
-        '"fat":"' +
-        fat +
-        '",' +
-        '"lean":"' +
-        lean +
-        '",' +
-        '"bmi":"' +
-        bmi +
-        '"' +
-        "}";
-      return JSON.stringify(JSON.parse(text), "", 4);
-    },
-
     isValidJSONString(str) {
       try {
         JSON.parse(str);
@@ -157,7 +126,7 @@ export default {
       request.onload = function() {
         var data = JSON.parse(this.response);
         self.areaTextFrom =
-          self.mapObject(data.weight[0]) ||
+          Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
 
         self.calculate();
@@ -184,7 +153,7 @@ export default {
       request.onload = function() {
         var data = JSON.parse(this.response);
         self.areaTextTo =
-          self.mapObject(data.weight[0]) ||
+          Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
         self.calculate();
       };

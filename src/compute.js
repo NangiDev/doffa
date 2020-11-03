@@ -23,7 +23,7 @@ export function getRatio(diffData) {
   return lean + "/" + fat;
 }
 
-export function roundOff(num) {
+function roundOff(num) {
   let decimalePlaces = 2;
   const x = Math.pow(10, decimalePlaces);
   return Math.round(num * x) / x;
@@ -40,5 +40,19 @@ export function calculateDiff(data1, data2) {
   var bmi = roundOff(data2.bmi - data1.bmi);
 
   let jsonObj = { days: days, kg: kg, fat: fat, lean: lean, bmi: bmi };
+  return JSON.stringify(jsonObj, "", 4);
+}
+
+export function mapObject(data) {
+  if (!data) {
+    return data;
+  }
+  var date = data.date;
+  var kg = data.weight;
+  var fat = kg * (data.fat / 100);
+  var lean = kg - fat;
+  var bmi = data.bmi;
+
+  let jsonObj = { date: date, kg: kg, fat: fat, lean: lean, bmi: bmi };
   return JSON.stringify(jsonObj, "", 4);
 }
