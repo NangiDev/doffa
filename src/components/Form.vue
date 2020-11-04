@@ -156,31 +156,12 @@ export default {
   computed: {},
 
   methods: {
-    isValidJSONString(str) {
-      try {
-        JSON.parse(str);
-      } catch (e) {
-        return false;
-      } finally {
-        console.log(str);
-      }
-      return true;
-    },
-
     calculate() {
-      if (
-        this.isValidJSONString(this.areaTextFrom) &&
-        this.isValidJSONString(this.areaTextTo)
-      ) {
-        var diffJson = Compute.calculateDiff(
-          this.areaTextFrom,
-          this.areaTextTo
-        );
-        console.log(diffJson);
-        console.log(JSON.parse(diffJson));
-        this.areaTextDiff = diffJson;
-        this.areaTextRatio = Compute.getRatio(diffJson);
-      }
+      var diffJson = Compute.calculateDiff(this.areaTextFrom, this.areaTextTo);
+      console.log(diffJson);
+      console.log(JSON.parse(diffJson));
+      this.areaTextDiff = diffJson;
+      this.areaTextRatio = Compute.getRatio(diffJson);
     },
 
     fetchFromData(date) {
