@@ -66,21 +66,21 @@
             <v-row align="center" justify="space-around">
               <v-col>
                 <div class="text-h6 my-auto">
-                  {{ "Date : " + areaTextFrom.date }}
+                  {{ "Date : " + areaTextTo.date }}
                 </div>
                 <div class="text-h6">
-                  {{ "BMI : " + areaTextFrom.bmi }}
+                  {{ "BMI : " + areaTextTo.bmi }}
                 </div>
               </v-col>
               <v-col>
                 <div class="text-h6">
-                  {{ "Kg : " + areaTextFrom.kg }}
+                  {{ "Kg : " + areaTextTo.kg }}
                 </div>
                 <div class="text-h6">
-                  {{ "Fat : " + areaTextFrom.fat }}
+                  {{ "Fat : " + areaTextTo.fat }}
                 </div>
                 <div class="text-h6">
-                  {{ "Lean : " + areaTextFrom.lean }}
+                  {{ "Lean : " + areaTextTo.lean }}
                 </div>
               </v-col>
             </v-row>

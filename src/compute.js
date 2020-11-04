@@ -47,10 +47,10 @@ export function mapObject(data) {
     return data;
   }
   var date = data.date;
-  var kg = data.weight;
-  var fat = kg * (data.fat / 100);
-  var lean = kg - fat;
-  var bmi = data.bmi;
+  var kg = roundOff(data.weight);
+  var fat = roundOff(kg * (data.fat / 100));
+  var lean = roundOff(kg - fat);
+  var bmi = roundOff(data.bmi);
 
   return { date: date, kg: kg, fat: fat, lean: lean, bmi: bmi };
 }
