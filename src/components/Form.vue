@@ -160,7 +160,6 @@ export default {
   methods: {
     calculate() {
       var diffJson = Compute.calculateDiff(this.areaTextFrom, this.areaTextTo);
-      console.log("Diff: " + diffJson);
       this.areaTextDiff = diffJson;
       this.areaTextRatio = Compute.getRatio(diffJson);
     },
