@@ -87,36 +87,38 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-col>
-        <v-card>
-          <v-row align="center" justify="space-around">
-            <v-col>
-              <div class="text-h6">
-                {{ "Days : " + areaTextDiff.days }}
-              </div>
-              <div class="text-h6">
-                {{ "BMI : " + areaTextDiff.bmi }}
-              </div>
-            </v-col>
-            <v-col>
-              <div class="ratio text-h4 mw-10">
-                {{ areaTextRatio }}
-              </div>
-            </v-col>
-            <v-col>
-              <div class="text-h6">
-                {{ "Kg : " + areaTextDiff.kg }}
-              </div>
-              <div class="text-h6">
-                {{ "Fat : " + areaTextDiff.fat }}
-              </div>
-              <div class="text-h6">
-                {{ "Lean : " + areaTextDiff.lean }}
-              </div>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-row align="center" justify="space-around">
+              <v-col>
+                <div class="text-h6">
+                  {{ "Days : " + areaTextDiff.days }}
+                </div>
+                <div class="text-h6">
+                  {{ "BMI : " + areaTextDiff.bmi }}
+                </div>
+              </v-col>
+              <v-col>
+                <div class="ratio text-h4 mw-10">
+                  {{ areaTextRatio }}
+                </div>
+              </v-col>
+              <v-col>
+                <div class="text-h6">
+                  {{ "Kg : " + areaTextDiff.kg }}
+                </div>
+                <div class="text-h6">
+                  {{ "Fat : " + areaTextDiff.fat }}
+                </div>
+                <div class="text-h6">
+                  {{ "Lean : " + areaTextDiff.lean }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-col>
   </v-container>
 </template>
