@@ -174,6 +174,8 @@ export default {
           this.areaTextFrom,
           this.areaTextTo
         );
+        console.log(diffJson);
+        console.log(JSON.parse(diffJson));
         this.areaTextDiff = diffJson;
         this.areaTextRatio = Compute.getRatio(diffJson);
       }
