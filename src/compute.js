@@ -30,6 +30,8 @@ function roundOff(num) {
 }
 
 export function calculateDiff(data1, data2) {
+  console.log(data1);
+  console.log(data2);
   var days = absDiffDaysBetweenDates(data1.date, data2.date);
   var kg = roundOff(data2.kg - data1.kg);
   var fat = roundOff(data2.fat - data1.fat);

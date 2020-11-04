@@ -161,6 +161,8 @@ export default {
         JSON.parse(str);
       } catch (e) {
         return false;
+      } finally {
+        console.log(str);
       }
       return true;
     },
