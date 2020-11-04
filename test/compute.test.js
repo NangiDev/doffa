@@ -123,10 +123,12 @@ describe("Ratio calculations", () => {
 
 describe("Difference data calculations", () => {
   test("Given two data points, returns correct difference", () => {
-    let data1 =
-      '{"date":"2020-05-19","kg":"84.4","fat":"13.1","lean":"71.3","bmi":"22.89"}';
-    let data2 =
-      '{"date":"2020-06-23","kg":"87","fat":"13.86","lean":"73.14","bmi":"23.6"}';
+    let data1 = JSON.parse(
+      '{"date":"2020-05-19","kg":"84.4","fat":"13.1","lean":"71.3","bmi":"22.89"}'
+    );
+    let data2 = JSON.parse(
+      '{"date":"2020-06-23","kg":"87","fat":"13.86","lean":"73.14","bmi":"23.6"}'
+    );
     let expectedDiff = JSON.parse(
       '{"days": 35, "kg": 2.6, "fat": 0.76, "lean": 1.84, "bmi": 0.71}'
     );
@@ -135,3 +137,32 @@ describe("Difference data calculations", () => {
     expect(result).toMatchObject(expectedDiff);
   });
 });
+
+/*
+
+    "weight": [
+        {
+            "bmi": 23.3,
+            "date": "2020-09-01",
+            "fat": 17.104000091552734,
+            "logId": 1598947687000,
+            "source": "Aria",
+            "time": "08:08:07",
+            "weight": 85.9
+        }
+    ]
+
+
+    "weight": [
+        {
+            "bmi": 22.33,
+            "date": "2020-11-04",
+            "fat": 15.182999610900879,
+            "logId": 1604477183000,
+            "source": "Aria",
+            "time": "08:06:23",
+            "weight": 82.3
+        }
+    ]
+
+*/
