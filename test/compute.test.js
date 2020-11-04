@@ -127,15 +127,11 @@ describe("Difference data calculations", () => {
       '{"date":"2020-05-19","kg":"84.4","fat":"13.1","lean":"71.3","bmi":"22.89"}';
     let data2 =
       '{"date":"2020-06-23","kg":"87","fat":"13.86","lean":"73.14","bmi":"23.6"}';
-    let expectedDiff = JSON.stringify(
-      JSON.parse(
-        '{"days": 35, "kg": 2.6, "fat": 0.76, "lean": 1.84, "bmi": 0.71}'
-      ),
-      "",
-      4
+    let expectedDiff = JSON.parse(
+      '{"days": 35, "kg": 2.6, "fat": 0.76, "lean": 1.84, "bmi": 0.71}'
     );
 
     let result = Compute.calculateDiff(data1, data2);
-    expect(result).toBe(expectedDiff);
+    expect(result).toMatchObject(expectedDiff);
   });
 });

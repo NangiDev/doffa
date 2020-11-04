@@ -3,6 +3,7 @@
     <v-col align="center" justify="center">
       <v-img :src="require('../assets/logo.png')" max-height="120px" contain />
       <div class="headline text-h3 mb-10 font-weight-medium">DOFFA</div>
+
       <v-row>
         <v-col>
           <div class="instructions text-h6">Start date</div>
@@ -35,34 +36,87 @@
       </v-row>
 
       <v-row>
-        <v-textarea
-          v-model="areaTextFrom"
-          :disabled="true"
-          :auto-grow="true"
-          :filled="true"
-          :solo="true"
-          class="mx-7"
-        />
-        <v-textarea
-          v-model="areaTextTo"
-          :disabled="true"
-          :auto-grow="true"
-          :filled="true"
-          :solo="true"
-          class="mx-7"
-        />
+        <v-col>
+          <v-card>
+            <v-row align="center" justify="space-around">
+              <v-col>
+                <div class="text-h6">
+                  {{ "Date : " + areaTextFrom.date }}
+                </div>
+                <div class="text-h6">
+                  {{ "BMI : " + areaTextFrom.bmi }}
+                </div>
+              </v-col>
+              <v-col>
+                <div class="text-h6">
+                  {{ "Kg : " + areaTextFrom.kg }}
+                </div>
+                <div class="text-h6">
+                  {{ "Fat : " + areaTextFrom.fat }}
+                </div>
+                <div class="text-h6">
+                  {{ "Lean : " + areaTextFrom.lean }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card>
+            <v-row align="center" justify="space-around">
+              <v-col>
+                <div class="text-h6 my-auto">
+                  {{ "Date : " + areaTextFrom.date }}
+                </div>
+                <div class="text-h6">
+                  {{ "BMI : " + areaTextFrom.bmi }}
+                </div>
+              </v-col>
+              <v-col>
+                <div class="text-h6">
+                  {{ "Kg : " + areaTextFrom.kg }}
+                </div>
+                <div class="text-h6">
+                  {{ "Fat : " + areaTextFrom.fat }}
+                </div>
+                <div class="text-h6">
+                  {{ "Lean : " + areaTextFrom.lean }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
       </v-row>
-      <v-textarea
-        v-model="areaTextDiff"
-        :disabled="true"
-        :auto-grow="true"
-        :filled="true"
-        :solo="true"
-        class="mx-4"
-      />
-      <div class="ratio text-h4 mw-10">
-        {{ areaTextRatio }}
-      </div>
+      <v-col>
+        <v-card>
+          <v-row align="center" justify="space-around">
+            <v-col>
+              <div class="text-h6">
+                {{ "Days : " + areaTextDiff.days }}
+              </div>
+              <div class="text-h6">
+                {{ "BMI : " + areaTextDiff.bmi }}
+              </div>
+            </v-col>
+            <v-col>
+              <div class="ratio text-h4 mw-10">
+                {{ areaTextRatio }}
+              </div>
+            </v-col>
+            <v-col>
+              <div class="text-h6">
+                {{ "Kg : " + areaTextDiff.kg }}
+              </div>
+              <div class="text-h6">
+                {{ "Fat : " + areaTextDiff.fat }}
+              </div>
+              <div class="text-h6">
+                {{ "Lean : " + areaTextDiff.lean }}
+              </div>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
     </v-col>
   </v-container>
 </template>

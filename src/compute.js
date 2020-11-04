@@ -39,8 +39,7 @@ export function calculateDiff(data1, data2) {
   var lean = roundOff(data2.lean - data1.lean);
   var bmi = roundOff(data2.bmi - data1.bmi);
 
-  let jsonObj = { days: days, kg: kg, fat: fat, lean: lean, bmi: bmi };
-  return JSON.stringify(jsonObj, "", 4);
+  return { days: days, kg: kg, fat: fat, lean: lean, bmi: bmi };
 }
 
 export function mapObject(data) {
@@ -53,6 +52,5 @@ export function mapObject(data) {
   var lean = kg - fat;
   var bmi = data.bmi;
 
-  let jsonObj = { date: date, kg: kg, fat: fat, lean: lean, bmi: bmi };
-  return JSON.stringify(jsonObj, "", 4);
+  return { date: date, kg: kg, fat: fat, lean: lean, bmi: bmi };
 }
