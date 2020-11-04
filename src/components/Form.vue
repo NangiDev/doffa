@@ -196,7 +196,7 @@ export default {
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
         var data = JSON.parse(this.response);
-        console.log("From: " + data);
+        console.log("From: " + JSON.stringify(data, "", 4));
         self.areaTextFrom =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
@@ -225,7 +225,7 @@ export default {
       request.setRequestHeader("accept", "application/json");
       request.onload = function() {
         var data = JSON.parse(this.response);
-        console.log("To: " + data);
+        console.log("To: " + JSON.stringify(data, "", 4));
         self.areaTextTo =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
