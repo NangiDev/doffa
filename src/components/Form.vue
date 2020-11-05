@@ -1,6 +1,6 @@
 <template>
   <v-container fill-height>
-    <v-col align="center" justify="center">
+    <v-col class="ma-auto" cols="auto" align="center">
       <v-img :src="require('../assets/prism.svg')" max-height="120px" contain />
       <div class="headline text-h3 mb-10 font-weight-medium">DOFFA</div>
 
@@ -35,84 +35,90 @@
         </v-col>
       </v-row>
 
-      <v-row>
+      <v-row class="mb-5 mx-xl-16 mx-lg-16 mx-md-16 mx-sm-16">
         <v-col>
           <v-card>
-            <v-row align="center" justify="space-around">
-              <v-col>
-                <div class="text-h6">
-                  {{ "Date : " + areaTextFrom.date }}
+            <v-row>
+              <v-col align="right">
+                <div class="text-h8">
+                  {{ areaTextFrom.date }}
                 </div>
-                <div class="text-h6">
-                  {{ "BMI : " + areaTextFrom.bmi }}
+                <div class="text-h8">
+                  {{ areaTextFrom.bmi }}
                 </div>
-              </v-col>
-              <v-col>
-                <div class="text-h6">
-                  {{ "Kg : " + areaTextFrom.kg }}
+                <div class="text-h8">
+                  {{ areaTextFrom.kg }}
                 </div>
-                <div class="text-h6">
-                  {{ "Fat : " + areaTextFrom.fat }}
+                <div class="text-h8">
+                  {{ areaTextFrom.fat }}
                 </div>
-                <div class="text-h6">
-                  {{ "Lean : " + areaTextFrom.lean }}
+                <div class="text-h8">
+                  {{ areaTextFrom.lean }}
                 </div>
               </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-        <v-col>
-          <v-card>
-            <v-row align="center" justify="space-around">
-              <v-col>
-                <div class="text-h6 my-auto">
-                  {{ "Date : " + areaTextTo.date }}
+              <v-col align="center">
+                <div class="text-h8 font-weight-bold">
+                  {{ "DATE" }}
                 </div>
-                <div class="text-h6">
-                  {{ "BMI : " + areaTextTo.bmi }}
+                <div class="text-h8 font-weight-bold">
+                  {{ "BMI" }}
+                </div>
+                <div class="text-h8 font-weight-bold">
+                  {{ "KG" }}
+                </div>
+                <div class="text-h8 font-weight-bold">
+                  {{ "FAT" }}
+                </div>
+                <div class="text-h8 font-weight-bold">
+                  {{ "LEAN" }}
                 </div>
               </v-col>
-              <v-col>
-                <div class="text-h6">
-                  {{ "Kg : " + areaTextTo.kg }}
+              <v-col align="left">
+                <div class="text-h8">
+                  {{ areaTextFrom.date }}
                 </div>
-                <div class="text-h6">
-                  {{ "Fat : " + areaTextTo.fat }}
+                <div class="text-h8">
+                  {{ areaTextFrom.bmi }}
                 </div>
-                <div class="text-h6">
-                  {{ "Lean : " + areaTextTo.lean }}
+                <div class="text-h8">
+                  {{ areaTextFrom.kg }}
+                </div>
+                <div class="text-h8">
+                  {{ areaTextFrom.fat }}
+                </div>
+                <div class="text-h8">
+                  {{ areaTextFrom.lean }}
                 </div>
               </v-col>
             </v-row>
           </v-card>
         </v-col>
       </v-row>
-      <v-row>
+
+      <v-row class="mx-xl-16 mx-lg-16 mx-md-16 mx-sm-16">
         <v-col>
           <v-card>
-            <v-row align="center" justify="space-around">
+            <v-row>
               <v-col>
-                <div class="text-h6">
-                  {{ "Days : " + areaTextDiff.days }}
+                <div class="text-h8">
+                  {{ "DAYS: " + areaTextDiff.days }}
                 </div>
-                <div class="text-h6">
-                  {{ "BMI : " + areaTextDiff.bmi }}
+                <div class="text-h8">
+                  {{ "BMI: " + areaTextDiff.bmi }}
+                </div>
+                <div class="text-h8">
+                  {{ "KG: " + areaTextDiff.kg }}
                 </div>
               </v-col>
               <v-col>
-                <div class="ratio text-h4 mw-10">
-                  {{ areaTextRatio }}
+                <div class="text-h8">
+                  {{ "FAT: " + areaTextDiff.fat }}
                 </div>
-              </v-col>
-              <v-col>
-                <div class="text-h6">
-                  {{ "Kg : " + areaTextDiff.kg }}
+                <div class="text-h8">
+                  {{ "LEAN: " + areaTextDiff.lean }}
                 </div>
-                <div class="text-h6">
-                  {{ "Fat : " + areaTextDiff.fat }}
-                </div>
-                <div class="text-h6">
-                  {{ "Lean : " + areaTextDiff.lean }}
+                <div class="ratio text-h8 mw-10">
+                  {{ "RATIO: " + areaTextRatio }}
                 </div>
               </v-col>
             </v-row>
@@ -137,22 +143,28 @@ export default {
         : new Date(new Date().setDate(new Date().getDate() - 7))
             .toISOString()
             .substring(0, 10),
-      areaTextFrom: "Select a start date above to fetch data",
-      areaTextTo: "Select a end date above to fetch data",
-      areaTextDiff: "Will show progress after calculated",
-      areaTextRatio: "Will show ratio after calculation",
+      areaTextFrom: JSON.parse(
+        '{"date":"2020-01-01","kg":"10.00","fat":"10.00","lean":"10.00","bmi":"10.00"}'
+      ),
+      areaTextTo: JSON.parse(
+        '{"date":"2020-01-01","kg":"10.00","fat":"10.00","lean":"10.00","bmi":"10.00"}'
+      ),
+      areaTextDiff: JSON.parse(
+        '{"days": 23, "kg": 10.00, "fat": 10.00, "lean": 10.00, "bmi": 10.00}'
+      ),
+      areaTextRatio: "44/56",
     };
   },
 
   mounted() {
-    const toDateVal = new Date().toISOString().substring(0, 10);
-    const fromDateVal = localStorage.getItem("startDate")
-      ? localStorage.getItem("startDate")
-      : new Date(new Date().setDate(new Date().getDate() - 7))
-          .toISOString()
-          .substring(0, 10);
-    this.fetchFromData(fromDateVal);
-    this.fetchToData(toDateVal);
+    // const toDateVal = new Date().toISOString().substring(0, 10);
+    // const fromDateVal = localStorage.getItem("startDate")
+    //   ? localStorage.getItem("startDate")
+    //   : new Date(new Date().setDate(new Date().getDate() - 7))
+    //       .toISOString()
+    //       .substring(0, 10);
+    // this.fetchFromData(fromDateVal);
+    // this.fetchToData(toDateVal);
   },
 
   computed: {},
