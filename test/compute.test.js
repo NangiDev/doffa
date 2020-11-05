@@ -76,7 +76,7 @@ describe("Difference computations", () => {
 describe("Ratio calculations", () => {
   test("Given negative fat and lean return correct doffa ratio", () => {
     let hundredPercent = 100;
-    let diffData = '{"kg":"-3.6","fat":"-1.92","lean":"-1.68"}';
+    let diffData = JSON.parse('{"kg":"-3.6","fat":"-1.92","lean":"-1.68"}');
 
     let result = Compute.getRatio(diffData);
     let pair = result.split("/");
@@ -87,7 +87,7 @@ describe("Ratio calculations", () => {
 
   test("Given negative fat and positive lean return correct doffa ratio", () => {
     let hundredPercent = 100;
-    let diffData = '{"kg":"0.8","fat":"-1.07","lean":"0.27"}';
+    let diffData = JSON.parse('{"kg":"0.8","fat":"-1.07","lean":"0.27"}');
 
     let result = Compute.getRatio(diffData);
     let pair = result.split("/");
@@ -100,7 +100,7 @@ describe("Ratio calculations", () => {
 
   test("Given positive fat and negative lean return correct doffa ratio", () => {
     let hundredPercent = 100;
-    let diffData = '{"kg":"0.8","fat":"1.07","lean":"-0.27"}';
+    let diffData = JSON.parse('{"kg":"0.8","fat":"1.07","lean":"-0.27"}');
 
     let result = Compute.getRatio(diffData);
     let pair = result.split("/");
@@ -111,7 +111,7 @@ describe("Ratio calculations", () => {
 
   test("Given positive fat and lean return correct doffa ratio", () => {
     let hundredPercent = 100;
-    let diffData = '{"kg":"2.6","fat":"0.76","lean":"1.84"}';
+    let diffData = JSON.parse('{"kg":"2.6","fat":"0.76","lean":"1.84"}');
 
     let result = Compute.getRatio(diffData);
     let pair = result.split("/");
