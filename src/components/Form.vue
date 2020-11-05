@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height>
     <v-col align="center" justify="center">
-      <v-img :src="require('../assets/logo.png')" max-height="120px" contain />
+      <v-img :src="require('../assets/prism.svg')" max-height="120px" contain />
       <div class="headline text-h3 mb-10 font-weight-medium">DOFFA</div>
 
       <v-row>

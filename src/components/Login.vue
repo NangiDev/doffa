@@ -2,7 +2,7 @@
   <v-container fill-height>
     <v-col align="center" justify="center">
       <v-img
-        :src="require('../assets/logo.png')"
+        :src="require('../assets/prism.svg')"
         max-height="200px"
         contain
         class="mb-10"
