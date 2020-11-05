@@ -1,11 +1,10 @@
 <template>
   <v-container fill-height>
     <v-col align="center" justify="center">
-      <v-img
+      <inline-svg
+        height="200px"
+        width="200px"
         :src="require('../assets/prism.svg')"
-        max-height="200px"
-        contain
-        class="mb-10"
       />
       <div class="headline text-h1 mb-10 font-weight-medium">DOFFA</div>
       <div class="instructions text-h5 mb-14">Choose your platform</div>
