@@ -75,19 +75,19 @@
               </v-col>
               <v-col align="left">
                 <div class="text-h8">
-                  {{ areaTextFrom.date }}
+                  {{ areaTextTo.date }}
                 </div>
                 <div class="text-h8">
-                  {{ areaTextFrom.bmi }}
+                  {{ areaTextTo.bmi }}
                 </div>
                 <div class="text-h8">
-                  {{ areaTextFrom.kg }}
+                  {{ areaTextTo.kg }}
                 </div>
                 <div class="text-h8">
-                  {{ areaTextFrom.fat }}
+                  {{ areaTextTo.fat }}
                 </div>
                 <div class="text-h8">
-                  {{ areaTextFrom.lean }}
+                  {{ areaTextTo.lean }}
                 </div>
               </v-col>
             </v-row>
