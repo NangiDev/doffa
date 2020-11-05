@@ -191,23 +191,31 @@ export default {
 
     fetchFromData(date) {
       this.requestDataFromDate(date, (request) => {
-        var data = JSON.parse(request.response);
-        this.areaTextFrom =
-          Compute.mapObject(data.weight[0]) ||
-          "Not enought data for date: " + date;
+        try {
+          var data = JSON.parse(request.response);
+          this.areaTextFrom =
+            Compute.mapObject(data.weight[0]) ||
+            "Not enought data for date: " + date;
 
-        this.calculate();
-        localStorage.setItem("startDate", date);
+          this.calculate();
+          localStorage.setItem("startDate", date);
+        } catch {
+          console.log("Failed parsing respose");
+        }
       });
     },
 
     fetchToData(date) {
       this.requestDataFromDate(date, (request) => {
-        var data = JSON.parse(request.response);
-        this.areaTextTo =
-          Compute.mapObject(data.weight[0]) ||
-          "Not enought data for date: " + date;
-        this.calculate();
+        try {
+          var data = JSON.parse(request.response);
+          this.areaTextTo =
+            Compute.mapObject(data.weight[0]) ||
+            "Not enought data for date: " + date;
+          this.calculate();
+        } catch {
+          console.log("Failed parsing respose");
+        }
       });
     },
   },
