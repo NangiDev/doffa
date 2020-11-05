@@ -165,13 +165,13 @@ export default {
 
   methods: {
     calculate() {
-      var diffJson = Compute.calculateDiff(this.areaTextFrom, this.areaTextTo);
+      let diffJson = Compute.calculateDiff(this.areaTextFrom, this.areaTextTo);
       this.areaTextDiff = diffJson;
       this.areaTextRatio = Compute.getRatio(diffJson);
     },
 
     requestDataFromDate(date, onLoadFunction) {
-      var request = new XMLHttpRequest();
+      let request = new XMLHttpRequest();
       request.open(
         "GET",
         "https://api.fitbit.com/1/user/-/body/log/weight/date/" +
@@ -190,10 +190,10 @@ export default {
     },
 
     fetchFromData(date) {
-      var self = this;
+      let self = this;
       this.requestDataFromDate(date, () => {
-        var responseStr = this.response;
-        var data = JSON.parse(responseStr).weight[0];
+        let responseStr = this.response;
+        let data = JSON.parse(responseStr).weight[0];
         self.areaTextFrom =
           Compute.mapObject(data) || "Not enought data for date: " + date;
 
@@ -203,10 +203,10 @@ export default {
     },
 
     fetchToData(date) {
-      var self = this;
+      let self = this;
       this.requestDataFromDate(date, () => {
-        var responseStr = this.response;
-        var data = JSON.parse(responseStr).weight[0];
+        let responseStr = this.response;
+        let data = JSON.parse(responseStr).weight[0];
         self.areaTextTo =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
