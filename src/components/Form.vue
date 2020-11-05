@@ -143,16 +143,10 @@ export default {
         : new Date(new Date().setDate(new Date().getDate() - 7))
             .toISOString()
             .substring(0, 10),
-      areaTextFrom: JSON.parse(
-        '{"date":"2020-01-01","kg":"10.00","fat":"10.00","lean":"10.00","bmi":"10.00"}'
-      ),
-      areaTextTo: JSON.parse(
-        '{"date":"2020-01-01","kg":"10.00","fat":"10.00","lean":"10.00","bmi":"10.00"}'
-      ),
-      areaTextDiff: JSON.parse(
-        '{"days": 23, "kg": 10.00, "fat": 10.00, "lean": 10.00, "bmi": 10.00}'
-      ),
-      areaTextRatio: "44/56",
+      areaTextFrom: "Select a start date above to fetch data",
+      areaTextTo: "Select a end date above to fetch data",
+      areaTextDiff: "Will show progress after calculated",
+      areaTextRatio: "Will show ratio after calculation",
     };
   },
 
