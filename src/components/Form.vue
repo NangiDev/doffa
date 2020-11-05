@@ -157,14 +157,14 @@ export default {
   },
 
   mounted() {
-    // const toDateVal = new Date().toISOString().substring(0, 10);
-    // const fromDateVal = localStorage.getItem("startDate")
-    //   ? localStorage.getItem("startDate")
-    //   : new Date(new Date().setDate(new Date().getDate() - 7))
-    //       .toISOString()
-    //       .substring(0, 10);
-    // this.fetchFromData(fromDateVal);
-    // this.fetchToData(toDateVal);
+    const toDateVal = new Date().toISOString().substring(0, 10);
+    const fromDateVal = localStorage.getItem("startDate")
+      ? localStorage.getItem("startDate")
+      : new Date(new Date().setDate(new Date().getDate() - 7))
+          .toISOString()
+          .substring(0, 10);
+    this.fetchFromData(fromDateVal);
+    this.fetchToData(toDateVal);
   },
 
   computed: {},
