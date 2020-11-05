@@ -1,11 +1,13 @@
 <template>
   <v-container fill-height>
     <v-col align="center" justify="center">
-      <inline-svg
-        height="200px"
-        width="200px"
-        :src="require('../assets/prism.svg')"
-      />
+      <div id="logo_anim">
+        <inline-svg
+          height="200px"
+          width="200px"
+          :src="require('../assets/prism.svg')"
+        />
+      </div>
       <div id="login_anim">
         <div class="headline text-h1 mb-10 font-weight-medium">
           DOFFA
