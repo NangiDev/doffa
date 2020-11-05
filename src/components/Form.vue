@@ -192,8 +192,9 @@ export default {
     fetchFromData(date) {
       var self = this;
       this.requestDataFromDate(date, () => {
+        var data = JSON.parse(this.response);
         self.areaTextFrom =
-          Compute.mapObject(this.response.weight[0]) ||
+          Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
 
         self.calculate();
@@ -204,8 +205,9 @@ export default {
     fetchToData(date) {
       var self = this;
       this.requestDataFromDate(date, () => {
+        var data = JSON.parse(this.response);
         self.areaTextTo =
-          Compute.mapObject(this.response.weight[0]) ||
+          Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
         self.calculate();
       });
