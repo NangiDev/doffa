@@ -170,7 +170,8 @@ export default {
       this.areaTextRatio = Compute.getRatio(diffJson);
     },
 
-    requestDataFromDate(date, onLoadFunction) {
+    fetchFromData(date) {
+      let self = this;
       let request = new XMLHttpRequest();
       request.open(
         "GET",
@@ -184,34 +185,46 @@ export default {
         "Bearer " + Compute.getAccessTokenFromWindowHashLocation()
       );
       request.setRequestHeader("accept", "application/json");
-      request.onload = onLoadFunction;
+      request.onload = function() {
+        let data = JSON.parse(this.response);
+        self.areaTextFrom =
+          Compute.mapObject(data.weight[0]) ||
+          "Not enought data for date: " + date;
+        self.calculate();
+        localStorage.setItem("startDate", date);
+      };
       request.err = this.reqError;
       request.send();
     },
 
-    fetchFromData(date) {
-      let self = this;
-      this.requestDataFromDate(date, () => {
-        let responseStr = this.response;
-        let data = JSON.parse(responseStr).weight[0];
-        self.areaTextFrom =
-          Compute.mapObject(data) || "Not enought data for date: " + date;
-
-        self.calculate();
-        localStorage.setItem("startDate", date);
-      });
-    },
-
     fetchToData(date) {
       let self = this;
-      this.requestDataFromDate(date, () => {
-        let responseStr = this.response;
-        let data = JSON.parse(responseStr).weight[0];
+      let request = new XMLHttpRequest();
+      request.open(
+        "GET",
+        "https://api.fitbit.com/1/user/-/body/log/weight/date/" +
+          date +
+          ".json",
+        true
+      );
+      request.setRequestHeader(
+        "Authorization",
+        "Bearer " + Compute.getAccessTokenFromWindowHashLocation()
+      );
+      request.setRequestHeader("accept", "application/json");
+      request.onload = function() {
+        let data = JSON.parse(this.response);
         self.areaTextTo =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
         self.calculate();
-      });
+      };
+      request.err = this.reqError;
+      request.send();
+    },
+    
+    reqError(err) {
+      console.log("Fetch Error :-S", err);
     },
   },
 };
