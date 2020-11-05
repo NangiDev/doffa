@@ -6,20 +6,26 @@
         width="200px"
         :src="require('../assets/prism.svg')"
       />
-      <div class="headline text-h1 mb-10 font-weight-medium">DOFFA</div>
-      <div class="instructions text-h5 mb-14">Choose your platform</div>
-      <v-btn
-        min-width="200px"
-        class="text-h6 mb-10 white--text"
-        color="#4288f5"
-        elevation="2"
-        rounded
-        x-large
-        v-for="(next, i) in platforms"
-        :key="i"
-        :href="next.href"
-        >{{ next.text }}
-      </v-btn>
+      <div id="login_anim">
+        <div class="headline text-h1 mb-10 font-weight-medium">
+          DOFFA
+        </div>
+        <div class="instructions text-h5 mb-14">
+          Choose your platform
+        </div>
+        <v-btn
+          min-width="200px"
+          class="text-h6 mb-10 white--text"
+          color="#4288f5"
+          elevation="2"
+          rounded
+          x-large
+          v-for="(next, i) in platforms"
+          :key="i"
+          :href="next.href"
+          >{{ next.text }}
+        </v-btn>
+      </div>
     </v-col>
   </v-container>
 </template>
