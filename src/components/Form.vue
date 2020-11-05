@@ -184,38 +184,32 @@ export default {
         "Bearer " + Compute.getAccessTokenFromWindowHashLocation()
       );
       request.setRequestHeader("accept", "application/json");
-      request.onload = onLoadFunction(request);
+      request.onload = onLoadFunction();
       request.err = this.reqError;
       request.send();
     },
 
     fetchFromData(date) {
-      this.requestDataFromDate(date, (request) => {
-        try {
-          var data = JSON.parse(request.response);
-          this.areaTextFrom =
-            Compute.mapObject(data.weight[0]) ||
-            "Not enought data for date: " + date;
+      var self = this;
+      this.requestDataFromDate(date, () => {
+        var data = JSON.parse(this.response);
+        self.areaTextFrom =
+          Compute.mapObject(data.weight[0]) ||
+          "Not enought data for date: " + date;
 
-          this.calculate();
-          localStorage.setItem("startDate", date);
-        } catch {
-          console.log("Failed parsing respose");
-        }
+        self.calculate();
+        localStorage.setItem("startDate", date);
       });
     },
 
     fetchToData(date) {
-      this.requestDataFromDate(date, (request) => {
-        try {
-          var data = JSON.parse(request.response);
-          this.areaTextTo =
-            Compute.mapObject(data.weight[0]) ||
-            "Not enought data for date: " + date;
-          this.calculate();
-        } catch {
-          console.log("Failed parsing respose");
-        }
+      var self = this;
+      this.requestDataFromDate(date, () => {
+        var data = JSON.parse(this.response);
+        self.areaTextTo =
+          Compute.mapObject(data.weight[0]) ||
+          "Not enought data for date: " + date;
+        self.calculate();
       });
     },
   },
