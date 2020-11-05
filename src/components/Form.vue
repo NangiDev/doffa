@@ -192,10 +192,10 @@ export default {
     fetchFromData(date) {
       var self = this;
       this.requestDataFromDate(date, () => {
-        var data = JSON.parse(this.response);
+        var responseStr = this.response;
+        var data = JSON.parse(responseStr).weight[0];
         self.areaTextFrom =
-          Compute.mapObject(data.weight[0]) ||
-          "Not enought data for date: " + date;
+          Compute.mapObject(data) || "Not enought data for date: " + date;
 
         self.calculate();
         localStorage.setItem("startDate", date);
@@ -205,7 +205,8 @@ export default {
     fetchToData(date) {
       var self = this;
       this.requestDataFromDate(date, () => {
-        var data = JSON.parse(this.response);
+        var responseStr = this.response;
+        var data = JSON.parse(responseStr).weight[0];
         self.areaTextTo =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
