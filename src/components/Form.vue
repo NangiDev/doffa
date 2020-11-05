@@ -184,7 +184,7 @@ export default {
         "Bearer " + Compute.getAccessTokenFromWindowHashLocation()
       );
       request.setRequestHeader("accept", "application/json");
-      request.onload = onLoadFunction();
+      request.onload = onLoadFunction;
       request.err = this.reqError;
       request.send();
     },
