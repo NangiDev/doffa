@@ -184,14 +184,14 @@ export default {
         "Bearer " + Compute.getAccessTokenFromWindowHashLocation()
       );
       request.setRequestHeader("accept", "application/json");
-      request.onload = onLoadFunction;
+      request.onload = onLoadFunction(request);
       request.err = this.reqError;
       request.send();
     },
 
     fetchFromData(date) {
-      this.requestDataFromDate(date, () => {
-        var data = JSON.parse(this.response);
+      this.requestDataFromDate(date, (request) => {
+        var data = JSON.parse(request.response);
         this.areaTextFrom =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
@@ -202,8 +202,8 @@ export default {
     },
 
     fetchToData(date) {
-      this.requestDataFromDate(date, () => {
-        var data = JSON.parse(this.response);
+      this.requestDataFromDate(date, (request) => {
+        var data = JSON.parse(request.response);
         this.areaTextTo =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
