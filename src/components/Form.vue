@@ -170,8 +170,7 @@ export default {
       this.areaTextRatio = Compute.getRatio(diffJson);
     },
 
-    fetchFromData(date) {
-      var self = this;
+    requestDataFromDate(date, onLoadFunction) {
       var request = new XMLHttpRequest();
       request.open(
         "GET",
@@ -185,47 +184,31 @@ export default {
         "Bearer " + Compute.getAccessTokenFromWindowHashLocation()
       );
       request.setRequestHeader("accept", "application/json");
-      request.onload = function() {
+      request.onload = onLoadFunction;
+      request.err = this.reqError;
+      request.send();
+    },
+
+    fetchFromData(date) {
+      this.requestDataFromDate(date, () => {
         var data = JSON.parse(this.response);
-        self.areaTextFrom =
+        this.areaTextFrom =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
 
-        self.calculate();
+        this.calculate();
         localStorage.setItem("startDate", date);
-      };
-      request.err = this.reqError;
-      request.send();
+      });
     },
 
     fetchToData(date) {
-      var self = this;
-      var request = new XMLHttpRequest();
-      request.open(
-        "GET",
-        "https://api.fitbit.com/1/user/-/body/log/weight/date/" +
-          date +
-          ".json",
-        true
-      );
-      request.setRequestHeader(
-        "Authorization",
-        "Bearer " + Compute.getAccessTokenFromWindowHashLocation()
-      );
-      request.setRequestHeader("accept", "application/json");
-      request.onload = function() {
+      this.requestDataFromDate(date, () => {
         var data = JSON.parse(this.response);
-        self.areaTextTo =
+        this.areaTextTo =
           Compute.mapObject(data.weight[0]) ||
           "Not enought data for date: " + date;
-        self.calculate();
-      };
-      request.err = this.reqError;
-      request.send();
-    },
-
-    reqError(err) {
-      console.log("Fetch Error :-S", err);
+        this.calculate();
+      });
     },
   },
 };

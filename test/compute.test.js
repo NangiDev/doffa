@@ -138,6 +138,31 @@ describe("Difference data calculations", () => {
   });
 });
 
+describe("Map response to date object", () => {
+  test("Create data object from Fitbit resonse #1", () => {
+    let data = JSON.parse(
+      '{"bmi": 23.3,"date": "2020-09-01","fat": 17.104000091552734,"logId": 1598947687000,"source": "Aria","time": "08:08:07","weight": 85.9}'
+    );
+    let expectedDiff = JSON.parse(
+      '{"kg": 85.9, "fat": 14.69, "lean": 71.21, "bmi": 23.3}'
+    );
+
+    let result = Compute.mapObject(data);
+    expect(result).toMatchObject(expectedDiff);
+  });
+  test("Create data object from Fitbit resonse #1", () => {
+    let data = JSON.parse(
+      '{"bmi": 22.33,"date": "2020-11-04","fat": 15.182999610900879,"logId": 1604477183000,"source": "Aria","time": "08:06:23","weight": 82.3}'
+    );
+    let expectedDiff = JSON.parse(
+      '{"kg": 82.3, "fat": 12.5, "lean": 69.8, "bmi": 22.33}'
+    );
+
+    let result = Compute.mapObject(data);
+    expect(result).toMatchObject(expectedDiff);
+  });
+});
+
 /*
 
     "weight": [
