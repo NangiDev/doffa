@@ -1,0 +1,3 @@
+rootProject.name = 'doffa'
+
+include("android")
