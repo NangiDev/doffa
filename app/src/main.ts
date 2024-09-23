@@ -1,24 +1,36 @@
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import prismLogo from '/prism.svg'
+import './datepicker.ts'
+import './my_chart.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
+    <a href="/">
+      <img src="${prismLogo}" class="logo" alt="Prism logo" />
     </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
+    <h1>DOFFA</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input id="datePicker" type="text" placeholder="Select Start Date" readonly />
+          </td>
+          <td>
+            <input id="datePicker" type="text" placeholder="Select End Date" readonly />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+        <canvas id="myChart" width="400" height="200"></canvas>
+        <input id="dataInput" type="number" placeholder="Enter a value" />
+        <button id="updateButton">Update Chart</button>
     </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
   </div>
 `
-
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
