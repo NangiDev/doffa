@@ -1,0 +1,15 @@
+{
+  "name": "doffa",
+  "description": "Doffa - Fitness Tracker",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vite": "^5.4.8",
+    "vite-plugin-restart": "^0.4.1"
+  }
+}
