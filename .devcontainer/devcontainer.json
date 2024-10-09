@@ -19,7 +19,9 @@
 		"vscode": {
 			// Set *default* container specific settings.json values on container create.
 			"settings": {
-				"editor.fontSize": 10
+				"editor.fontSize": 10,
+				"editor.formatOnSave": true,
+				"files.autoSaveDelay": 100
 			},
 			"extensions": []
 		}
