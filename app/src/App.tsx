@@ -1,12 +1,12 @@
-import './App.css'
-import { Logo } from './components/logo/Logo'
 import { Login } from './components/login/Login'
+import { Form } from './components/form/Form'
+import './App.css'
 
 function App() {
     return (
         <>
-            <Logo></Logo>
-            <Login></Login>
+            <Form />
+            <Login />
         </>
     )
 }
