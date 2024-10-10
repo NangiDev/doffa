@@ -1,9 +1,4 @@
-import Logo from '../logo/Logo'
-import DatePicker from '../date_picker/DatePicker'
-import Graph from '../graph/Graph'
-import DataCard from '../data_card/DataCard'
-import ProgressCard from '../progress_card/ProgressCard'
-import Ratio from '../ratio/Ratio'
+import { Logo, DatePicker, Graph, DataCard, ProgressCard, Ratio } from '../Components'
 
 const Form = () => {
     return <>
