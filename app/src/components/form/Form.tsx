@@ -1,8 +1,24 @@
-import { Logo } from '../logo/Logo'
-import './Form.css'
+import Logo from '../logo/Logo'
+import DatePicker from '../date_picker/DatePicker'
+import Graph from '../graph/Graph'
+import DataCard from '../data_card/DataCard'
+import ProgressCard from '../progress_card/ProgressCard'
+import Ratio from '../ratio/Ratio'
 
-export function Form() {
+const Form = () => {
     return <>
-        <Logo></Logo>
+        <Logo />
+        <div>
+            <DatePicker />
+            <DatePicker />
+        </div>
+        <Graph />
+        <div>
+            <DataCard />
+            <ProgressCard />
+        </div>
+        <Ratio />
     </>
 }
+
+export default Form
