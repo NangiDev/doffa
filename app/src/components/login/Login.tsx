@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, Typography } from '@mui/material';
 import Logo from '../logo/Logo'
+import Button from '@mui/material/Button';
 
 const loginFitbit = () => {
     console.log("Test");
@@ -8,8 +9,14 @@ const loginFitbit = () => {
 const Login = () => {
     return <>
         <Logo />
-        <h1>Choose your platform</h1>
-        <Button onClick={loginFitbit}>FITBIT</Button>
+        <Card>
+            <CardContent>
+                <Typography variant="h4" sx={{ marginBottom: 2 }}>
+                    Choose your platform
+                </Typography>
+                <Button variant="contained" onClick={loginFitbit}>FITBIT</Button>
+            </CardContent>
+        </Card>
     </>
 }
 
