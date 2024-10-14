@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react';
-import { Box, Card, CardContent, CardHeader, Collapse, IconButton } from '@mui/material';
+import { Box, Button, Card, CardContent, CardHeader, Collapse, IconButton, Typography } from '@mui/material';
 import { LineChart } from '@mui/x-charts/LineChart';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -66,6 +66,15 @@ const Graph = () => {
                                 label: '',
                             }]}
                         />
+                    </Box>
+                    <Typography variant="body1" align="center" sx={{ marginTop: 2, marginBottom: 2 }}>
+                        Showing last '1' month(s):
+                    </Typography>
+                    <Box sx={{ display: 'flex', marginTop: 2 }}>
+                        <Button variant="contained" color="primary" sx={{ flexGrow: 1, marginRight: 1 }}>1</Button>
+                        <Button variant="contained" color="primary" sx={{ flexGrow: 1, marginRight: 1 }}>3</Button>
+                        <Button variant="contained" color="primary" sx={{ flexGrow: 1, marginRight: 1 }}>6</Button>
+                        <Button variant="contained" color="primary" sx={{ flexGrow: 1 }}>12</Button>
                     </Box>
                 </CardContent>
             </Collapse>
