@@ -1,33 +1,33 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { lightTheme, darkTheme } from "../theme";
 
-type Theme = "light" | "dark";
 interface ThemeContextType {
-    theme: Theme;
+    theme: "light" | "dark";
+    colors: typeof lightTheme;
     toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-    const getPreferredTheme = (): Theme => {
-        const storedTheme = localStorage.getItem("theme") as Theme;
-        if (storedTheme === "light" || storedTheme === "dark") return storedTheme;
-        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const getInitialTheme = (): "light" | "dark" => {
+        return (localStorage.getItem("theme") as "light" | "dark") || "light";
     };
 
-    const [theme, setTheme] = useState<Theme>(getPreferredTheme());
+    const [theme, setTheme] = useState<"light" | "dark">(getInitialTheme);
+    const colors = theme === "dark" ? darkTheme : lightTheme;
 
     useEffect(() => {
-        document.documentElement.setAttribute("data-theme", theme);
         localStorage.setItem("theme", theme);
-    }, [theme]);
+        document.documentElement.style.setProperty("--bg-color", colors.background);
+        document.documentElement.style.setProperty("--text-color", colors.text);
+        document.documentElement.style.setProperty("--primary-color", colors.primary);
+    }, [theme, colors]);
 
-    const toggleTheme = () => {
-        setTheme((prev) => (prev === "light" ? "dark" : "light"));
-    };
+    const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, colors, toggleTheme }}>
             {children}
         </ThemeContext.Provider>
     );

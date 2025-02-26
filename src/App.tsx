@@ -1,39 +1,43 @@
-import { useState } from "react";
-import { useTheme } from "./context/ThemeContext"; // Import useTheme hook
 import "./App.css";
-import reactLogo from "./assets/react.svg";
+import DatePicker from "./components/DatePicker";
+import Logo from "./components/Logo";
 import { ThemeToggle } from "./components/ThemeToggle";
-import viteLogo from "/vite.svg";
+import { useTheme } from "./context/ThemeContext"; // Import useTheme hook
+import ExpandingCard from './components/ExpandingCard';
+import { Stack } from "@mui/material";
 
 function App() {
   const { theme } = useTheme(); // Get current theme
 
-  const [count, setCount] = useState(0);
-
   return (
-    <div className={`app ${theme}`}> {/* Apply theme class */}
+    <Stack
+      className={`app ${theme}`}
+      direction={"column"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      spacing={"2em"}
+    >
       <ThemeToggle />
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+      <Logo />
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={{ xs: 2, sm: 4 }}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <DatePicker title="Start Date" />
+        <DatePicker title="Stop Date" />
+      </Stack>
+      <ExpandingCard title="Graph">
+        Graph
+      </ExpandingCard>
+      <ExpandingCard title="Data">
+        Graph
+      </ExpandingCard>
+      <ExpandingCard title="Progress">
+        Graph
+      </ExpandingCard>
+    </Stack >
   );
 }
 
