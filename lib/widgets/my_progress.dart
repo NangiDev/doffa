@@ -1,32 +1,97 @@
+import 'package:doffa/progress.dart';
 import 'package:doffa/widgets/expandable_section.dart';
 import 'package:flutter/material.dart';
 
 class MyProgress extends StatelessWidget {
-  const MyProgress({super.key});
+  final Progress progress;
+
+  const MyProgress({super.key, required this.progress});
   @override
   Widget build(BuildContext context) {
     return ExpandableSection(
       title: "Progress",
       child: Flex(
-        direction: Axis.horizontal,
+        direction: Axis.vertical,
         children: [
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Weight',
-                hintText: 'Enter Weight',
-                prefixIcon: Icon(Icons.line_weight),
+          Flex(
+            spacing: 16.0,
+            direction: Axis.horizontal,
+            children: [
+              Expanded(
+                child: Text(
+                  "DAYS",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
+              Expanded(
+                child: Text("${progress.days}", textAlign: TextAlign.left),
+              ),
+            ],
           ),
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Height',
-                hintText: 'Enter Height',
-                prefixIcon: Icon(Icons.height),
+          Flex(
+            spacing: 16.0,
+            direction: Axis.horizontal,
+            children: [
+              Expanded(
+                child: Text(
+                  "BMI",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
+              Expanded(
+                child: Text("${progress.bmi}", textAlign: TextAlign.left),
+              ),
+            ],
+          ),
+          Flex(
+            spacing: 16.0,
+            direction: Axis.horizontal,
+            children: [
+              Expanded(
+                child: Text(
+                  "KG",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: Text("${progress.kg}", textAlign: TextAlign.left),
+              ),
+            ],
+          ),
+          Flex(
+            spacing: 16.0,
+            direction: Axis.horizontal,
+            children: [
+              Expanded(
+                child: Text(
+                  "FAT",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: Text("${progress.fat}", textAlign: TextAlign.left),
+              ),
+            ],
+          ),
+          Flex(
+            spacing: 16.0,
+            direction: Axis.horizontal,
+            children: [
+              Expanded(
+                child: Text(
+                  "LEAN",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: Text("${progress.lean}", textAlign: TextAlign.left),
+              ),
+            ],
           ),
         ],
       ),

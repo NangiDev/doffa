@@ -43,10 +43,7 @@ class MyData extends StatelessWidget {
             direction: Axis.horizontal,
             children: [
               Expanded(
-                child: Text(
-                  startData.bmi.toString(),
-                  textAlign: TextAlign.left,
-                ),
+                child: Text("${startData.bmi}", textAlign: TextAlign.left),
               ),
               Expanded(
                 child: Text(
@@ -56,7 +53,7 @@ class MyData extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Text(endData.bmi.toString(), textAlign: TextAlign.right),
+                child: Text("${endData.bmi}", textAlign: TextAlign.right),
               ),
             ],
           ),
@@ -64,7 +61,7 @@ class MyData extends StatelessWidget {
             direction: Axis.horizontal,
             children: [
               Expanded(
-                child: Text(startData.kg.toString(), textAlign: TextAlign.left),
+                child: Text("${startData.kg}", textAlign: TextAlign.left),
               ),
               Expanded(
                 child: Text(
@@ -74,7 +71,7 @@ class MyData extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Text(endData.kg.toString(), textAlign: TextAlign.right),
+                child: Text("${endData.kg}", textAlign: TextAlign.right),
               ),
             ],
           ),
@@ -82,10 +79,7 @@ class MyData extends StatelessWidget {
             direction: Axis.horizontal,
             children: [
               Expanded(
-                child: Text(
-                  startData.fat.toString(),
-                  textAlign: TextAlign.left,
-                ),
+                child: Text("${startData.fat}", textAlign: TextAlign.left),
               ),
               Expanded(
                 child: Text(
@@ -95,7 +89,7 @@ class MyData extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Text(endData.fat.toString(), textAlign: TextAlign.right),
+                child: Text("${endData.fat}", textAlign: TextAlign.right),
               ),
             ],
           ),
@@ -103,10 +97,7 @@ class MyData extends StatelessWidget {
             direction: Axis.horizontal,
             children: [
               Expanded(
-                child: Text(
-                  startData.lean.toString(),
-                  textAlign: TextAlign.left,
-                ),
+                child: Text("${startData.lean}", textAlign: TextAlign.left),
               ),
               Expanded(
                 child: Text(
@@ -116,10 +107,7 @@ class MyData extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Text(
-                  endData.lean.toString(),
-                  textAlign: TextAlign.right,
-                ),
+                child: Text("${endData.lean}", textAlign: TextAlign.right),
               ),
             ],
           ),
