@@ -1,3 +1,4 @@
+import 'package:doffa/screens/gradient_container.dart';
 import 'package:doffa/widgets/my_doffa.dart';
 import 'package:flutter/material.dart';
 
@@ -7,14 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF8EB8F9), Color(0xFF3272D6)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+      body: GradientContainer(
         child: Center(
           child: SingleChildScrollView(
             child: ConstrainedBox(
