@@ -1,106 +1,138 @@
 import 'dart:convert';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'dart:html' as html; // Import for web-specific functionality
+
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  static const String fitbitClientId = "YOUR_FITBIT_CLIENT_ID";
-  static const String fitbitRedirectUri = "YOUR_REDIRECT_URI";
-  static const String fitbitClientSecret = "YOUR_FITBIT_CLIENT_SECRET";
+  static const fitbitClientId = "22BQ88";
+  static const withingsClientId = "your_withings_client_id";
 
-  static const String withingsClientId = "YOUR_WITHINGS_CLIENT_ID";
-  static const String withingsRedirectUri = "YOUR_REDIRECT_URI";
-  static const String withingsClientSecret = "YOUR_WITHINGS_CLIENT_SECRET";
+  /// Redirect URIs
+  static const mobileRedirectUri = "doffa://callback";
+  static const localWebRedirectUri = "http://localhost:3001";
+  static const productionWebRedirectUri =
+      "https://nangidev.github.io/doffa/auth/callback";
 
-  /// Store token in shared preferences
-  Future<void> _storeToken(String token, String provider) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("${provider}_token", token);
-  }
-
-  /// Login with Fitbit
-  Future<String?> loginWithFitbit() async {
-    final url =
-        "https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=$fitbitClientId&redirect_uri=$fitbitRedirectUri&scope=activity%20profile";
-
-    final result = await FlutterWebAuth.authenticate(
-      url: url,
-      callbackUrlScheme: "yourapp",
-    );
-
-    final code = Uri.parse(result).queryParameters['code'];
-    if (code != null) {
-      return await _exchangeCodeForToken(code, "fitbit");
-    }
-    return null;
-  }
-
-  /// Login with Withings
-  Future<String?> loginWithWithings() async {
-    final url =
-        "https://account.withings.com/oauth2_user/authorize2?response_type=code&client_id=$withingsClientId&redirect_uri=$withingsRedirectUri&scope=user.info,user.metrics";
-
-    final result = await FlutterWebAuth.authenticate(
-      url: url,
-      callbackUrlScheme: "yourapp",
-    );
-
-    final code = Uri.parse(result).queryParameters['code'];
-    if (code != null) {
-      return await _exchangeCodeForToken(code, "withings");
-    }
-    return null;
-  }
-
-  /// Exchange Authorization Code for Access Token
-  Future<String?> _exchangeCodeForToken(String code, String provider) async {
-    final Uri tokenUri =
-        provider == "fitbit"
-            ? Uri.parse("https://api.fitbit.com/oauth2/token")
-            : Uri.parse("https://wbsapi.withings.net/v2/oauth2");
-
-    final Map<String, String> body =
-        provider == "fitbit"
-            ? {
-              "client_id": fitbitClientId,
-              "client_secret": fitbitClientSecret,
-              "code": code,
-              "redirect_uri": fitbitRedirectUri,
-              "grant_type": "authorization_code",
-            }
-            : {
-              "client_id": withingsClientId,
-              "client_secret": withingsClientSecret,
-              "code": code,
-              "redirect_uri": withingsRedirectUri,
-              "grant_type": "authorization_code",
-            };
-
-    final response = await http.post(
-      tokenUri,
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
-      body: body,
-    );
-
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      final accessToken = jsonResponse['access_token'];
-      await _storeToken(accessToken, provider);
-      return accessToken;
+  static String getRedirectUri() {
+    if (Uri.base.host == "localhost") {
+      return localWebRedirectUri;
+    } else if (Uri.base.host.contains("nangidev.github.io")) {
+      return productionWebRedirectUri;
     } else {
-      return null;
+      return mobileRedirectUri;
     }
   }
 
-  /// Retrieve stored token
-  Future<String?> getStoredToken(String provider) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("${provider}_token");
+  static Future<void> loginWithFitbit() async {
+    _redirectToOAuth(
+      provider: "fitbit",
+      clientId: fitbitClientId,
+      authUrl: "https://www.fitbit.com/oauth2/authorize",
+      scope: "weight",
+    );
   }
 
-  /// Clear stored token
-  Future<void> clearToken(String provider) async {
+  static Future<void> loginWithWithings() async {
+    _redirectToOAuth(
+      provider: "withings",
+      clientId: withingsClientId,
+      authUrl: "https://account.withings.com/oauth2_user/authorize2",
+      scope: "user.info,user.metrics",
+    );
+  }
+
+  static void _redirectToOAuth({
+    required String provider,
+    required String clientId,
+    required String authUrl,
+    required String scope,
+  }) {
+    String redirectUri = getRedirectUri();
+
+    // Construct OAuth URL
+    final oauthUrl =
+        "$authUrl?response_type=code&client_id=$clientId&redirect_uri=$redirectUri&scope=$scope&expires_in=604800";
+
+    // Redirect in the **same tab**
+    html.window.location.assign(oauthUrl);
+  }
+
+  /// **Handles the OAuth redirect and extracts the token**
+  static Future<void> handleAuthCallback() async {
+    final uri = Uri.parse(html.window.location.href);
+    final code = uri.queryParameters["code"];
+
+    if (code == null) {
+      throw Exception("Authorization failed: No code returned");
+    }
+
+    String provider = uri.queryParameters["state"] ?? "unknown";
+    String tokenUrl = _getTokenUrlForProvider(provider);
+    String clientId = _getClientIdForProvider(provider);
+
+    final token = await _exchangeCodeForToken(
+      tokenUrl,
+      clientId,
+      getRedirectUri(),
+      code,
+    );
+
+    await _storeToken(provider, token);
+
+    // Redirect user back to the main page (optional)
+    html.window.location.assign("/home");
+  }
+
+  static String _getTokenUrlForProvider(String provider) {
+    switch (provider) {
+      case "fitbit":
+        return "https://api.fitbit.com/oauth2/token";
+      case "withings":
+        return "https://wbsapi.withings.net/v2/oauth2";
+      default:
+        throw Exception("Unknown provider: $provider");
+    }
+  }
+
+  static String _getClientIdForProvider(String provider) {
+    switch (provider) {
+      case "fitbit":
+        return fitbitClientId;
+      case "withings":
+        return withingsClientId;
+      default:
+        throw Exception("Unknown provider: $provider");
+    }
+  }
+
+  static Future<String> _exchangeCodeForToken(
+    String tokenUrl,
+    String clientId,
+    String redirectUri,
+    String code,
+  ) async {
+    final response = await http.post(
+      Uri.parse(tokenUrl),
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      body: {
+        "client_id": clientId,
+        "grant_type": "authorization_code",
+        "redirect_uri": redirectUri,
+        "code": code,
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception("Failed to get token: ${response.body}");
+    }
+
+    final jsonResponse = json.decode(response.body);
+    return jsonResponse["access_token"];
+  }
+
+  static Future<void> _storeToken(String provider, String token) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("${provider}_token");
+    await prefs.setString("${provider}_access_token", token);
   }
 }

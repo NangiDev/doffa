@@ -7,6 +7,7 @@ class MyGraph extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpandableSection(
       title: "Graph",
+      storageKey: "graph_section_state",
       child: Flex(direction: Axis.horizontal, children: [
         ],
       ),
