@@ -1,3 +1,5 @@
+import 'package:doffa/auth/auth_provider.dart';
+import 'package:doffa/auth/auth_service.dart';
 import 'package:doffa/models/progress.dart';
 import 'package:doffa/widgets/ads_google.dart';
 import 'package:doffa/widgets/my_data.dart';
@@ -7,9 +9,13 @@ import 'package:doffa/widgets/my_progress.dart';
 import 'package:doffa/widgets/my_ratio.dart';
 import 'package:flutter/material.dart';
 import 'package:doffa/models/data.dart';
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 
 class MyDoffa extends StatelessWidget {
-  const MyDoffa({super.key});
+  MyDoffa({super.key});
+
+  final Logger _logger = Logger();
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +55,19 @@ class MyDoffa extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.coffee),
                       onPressed: () {
-                        // Add your action here, e.g., navigate to a "Buy me a coffee" page or show a dialog
-                        print('Buy me a coffee button pressed');
+                        _logger.i('Buy me a coffee button pressed');
                       },
                     ),
                     MyLogo(),
                     IconButton(
                       icon: const Icon(Icons.logout),
                       onPressed: () {
-                        // Add your logout action here, e.g., clear user session or navigate to login page
-                        print('Logout button pressed');
+                        final authProvider = Provider.of<AuthProvider>(
+                          context,
+                          listen: false,
+                        );
+                        AuthService().signOut(authProvider);
+                        _logger.i('Logout button pressed');
                       },
                     ),
                   ],

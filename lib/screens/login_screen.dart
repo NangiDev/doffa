@@ -1,9 +1,11 @@
+import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/auth_service.dart';
 import 'package:doffa/screens/gradient_container.dart';
 import 'package:doffa/widgets/ads_google.dart';
 import 'package:doffa/widgets/my_logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -60,7 +62,11 @@ class MyLoginButtons extends StatelessWidget {
               label: "Fitbit",
               color: const Color(0xFF00B0B9),
               onPressed: () async {
-                AuthService().signInWithFitbit();
+                final authProvider = Provider.of<AuthProvider>(
+                  context,
+                  listen: false,
+                );
+                AuthService().signInWithFitbit(authProvider);
               },
             ),
 
