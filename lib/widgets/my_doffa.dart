@@ -1,4 +1,4 @@
-import 'package:doffa/progress.dart';
+import 'package:doffa/models/progress.dart';
 import 'package:doffa/widgets/ads_google.dart';
 import 'package:doffa/widgets/my_data.dart';
 import 'package:doffa/widgets/my_date_pickers.dart';
@@ -6,7 +6,7 @@ import 'package:doffa/widgets/my_logo.dart';
 import 'package:doffa/widgets/my_progress.dart';
 import 'package:doffa/widgets/my_ratio.dart';
 import 'package:flutter/material.dart';
-import 'package:doffa/data.dart';
+import 'package:doffa/models/data.dart';
 
 class MyDoffa extends StatelessWidget {
   const MyDoffa({super.key});

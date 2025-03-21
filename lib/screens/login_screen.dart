@@ -1,4 +1,3 @@
-import 'package:doffa/auth/auth_service.dart';
 import 'package:doffa/screens/gradient_container.dart';
 import 'package:doffa/widgets/ads_google.dart';
 import 'package:doffa/widgets/my_logo.dart';
@@ -59,9 +58,7 @@ class MyLoginButtons extends StatelessWidget {
               icon: const Icon(CupertinoIcons.bolt_fill, color: Colors.white),
               label: "Fitbit",
               color: const Color(0xFF00B0B9),
-              onPressed: () async {
-                await AuthService.loginWithFitbit();
-              },
+              onPressed: () async {},
             ),
 
             /// Withings Login Button
@@ -69,9 +66,7 @@ class MyLoginButtons extends StatelessWidget {
               icon: const Icon(CupertinoIcons.heart_fill, color: Colors.white),
               label: "Withings",
               color: const Color(0xFF00C2D7),
-              onPressed: () async {
-                await AuthService.loginWithWithings();
-              },
+              onPressed: () async {},
             ),
           ],
         ),

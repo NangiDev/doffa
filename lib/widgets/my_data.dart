@@ -1,4 +1,4 @@
-import 'package:doffa/data.dart';
+import 'package:doffa/models/data.dart';
 import 'package:doffa/widgets/expandable_section.dart';
 import 'package:flutter/material.dart';
 

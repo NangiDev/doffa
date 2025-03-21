@@ -14,10 +14,10 @@ class ExpandableSection extends StatefulWidget {
   });
 
   @override
-  _ExpandableSectionState createState() => _ExpandableSectionState();
+  ExpandableSectionState createState() => ExpandableSectionState();
 }
 
-class _ExpandableSectionState extends State<ExpandableSection> {
+class ExpandableSectionState extends State<ExpandableSection> {
   late Future<bool>
   _loadExpandedStateFuture; // Future to load the expanded state
 
@@ -56,7 +56,7 @@ class _ExpandableSectionState extends State<ExpandableSection> {
         }
 
         bool isExpanded =
-            snapshot.data ?? false; // Default to false if no state is found
+            snapshot.data ?? true; // Default to true if no state is found
 
         return Card(
           child: Padding(

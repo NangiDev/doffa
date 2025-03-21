@@ -8,10 +8,10 @@ class MyDatePickers extends StatefulWidget {
   const MyDatePickers({super.key, required this.title});
 
   @override
-  _MyDatePickersState createState() => _MyDatePickersState();
+  MyDatePickersState createState() => MyDatePickersState();
 }
 
-class _MyDatePickersState extends State<MyDatePickers> {
+class MyDatePickersState extends State<MyDatePickers> {
   DateTime? selectedDate;
   final _controller = TextEditingController();
 
@@ -54,7 +54,7 @@ class _MyDatePickersState extends State<MyDatePickers> {
 
   Future<void> _saveStartDate(DateTime date) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('start_date', date.toIso8601String());
+    prefs.setString('start_date', DateFormat('yyyy-MM-dd').format(date));
   }
 
   Future<void> _pickDate() async {
