@@ -1,4 +1,4 @@
-import 'package:doffa/screens/home_screen.dart';
+import 'package:doffa/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.from(
         colorScheme: const ColorScheme.light(primary: Color(0xFF3272D6)),
       ),
-      home: const HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }
