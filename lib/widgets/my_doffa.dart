@@ -1,20 +1,16 @@
-import 'package:doffa/auth/auth_provider.dart';
-import 'package:doffa/auth/auth_service.dart';
 import 'package:doffa/models/data.dart';
 import 'package:doffa/models/progress.dart';
+import 'package:doffa/widgets/my_coffee_button.dart';
 import 'package:doffa/widgets/my_data.dart';
 import 'package:doffa/widgets/my_date_pickers.dart';
 import 'package:doffa/widgets/my_logo.dart';
 import 'package:doffa/widgets/my_progress.dart';
 import 'package:doffa/widgets/my_ratio.dart';
+import 'package:doffa/widgets/my_sign_out_button.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 
 class MyDoffa extends StatelessWidget {
-  MyDoffa({super.key});
-
-  final Logger _logger = Logger();
+  const MyDoffa({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +36,7 @@ class MyDoffa extends StatelessWidget {
       fat: 20.0,
       lean: 60.0,
     );
+
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 600),
@@ -50,26 +47,7 @@ class MyDoffa extends StatelessWidget {
                 padding: EdgeInsets.all(16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.coffee),
-                      onPressed: () {
-                        _logger.i('Buy me a coffee button pressed');
-                      },
-                    ),
-                    MyLogo(),
-                    IconButton(
-                      icon: const Icon(Icons.logout),
-                      onPressed: () {
-                        final authProvider = Provider.of<AuthProvider>(
-                          context,
-                          listen: false,
-                        );
-                        AuthService().signOut(authProvider);
-                        _logger.i('Logout button pressed');
-                      },
-                    ),
-                  ],
+                  children: [MyCoffeeButton(), MyLogo(), MySignOutButton()],
                 ),
               ),
             ),
