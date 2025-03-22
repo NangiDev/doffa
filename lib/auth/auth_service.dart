@@ -2,8 +2,8 @@ import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/fitbit_constants.dart';
 import 'package:doffa/auth/withings_constants.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final _logger = Logger();

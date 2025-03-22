@@ -10,7 +10,7 @@ class FitbitApiService {
 
   Future<void> fetchFromData(String date) async {
     final String url =
-        "https://api.fitbit.com/1/user/-/body/log/weight/date/$date/1m.json";
+        "https://api.fitbit.com/1/user/-/body/log/weight/date/$date.json";
     try {
       final response = await http.get(
         Uri.parse(url),
@@ -25,7 +25,6 @@ class FitbitApiService {
 
         if (data.containsKey("weight") && data["weight"].isNotEmpty) {
           _logger.i("Weight data: ${data['weight'][0]}");
-          // Store data or update UI as needed
         } else {
           _logger.w("Not enough data for date: $date");
         }
