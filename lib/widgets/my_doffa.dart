@@ -1,4 +1,3 @@
-import 'package:doffa/models/fetch_result.dart';
 import 'package:doffa/widgets/my_coffee_button.dart';
 import 'package:doffa/widgets/my_data.dart';
 import 'package:doffa/widgets/my_date_pickers.dart';

@@ -26,7 +26,7 @@ class FitbitApiService {
         if (data.containsKey("weight") && data["weight"].isNotEmpty) {
           // Weight data: {bmi: 21.95, date: 2025-03-10, fat: 15.17300033569336, logId: 1741594747000, source: Aria, time: 08:19:07, weight: 80.9}
           _logger.i("Weight data: ${data['weight'][0]}");
-          return data;
+          return data['weight'][0];
         } else {
           _logger.w("Not enough data for date: $date");
         }

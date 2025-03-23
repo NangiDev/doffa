@@ -1,5 +1,7 @@
+import 'package:doffa/api/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDatePickers extends StatefulWidget {
@@ -18,11 +20,11 @@ class MyDatePickersState extends State<MyDatePickers> {
   @override
   void initState() {
     super.initState();
-    // If it's the Start Date, load from SharedPreferences, otherwise set to today for End Date.
+
     if (widget.title == "Start Date") {
-      _loadStartDate();
+      _loadStartDate().then((_) {});
     } else {
-      _setDate(DateTime.now()); // For End Date, always set to today
+      _setDate(DateTime.now());
     }
   }
 
@@ -35,9 +37,11 @@ class MyDatePickersState extends State<MyDatePickers> {
         _controller.text = DateFormat('yyyy-MM-dd').format(selectedDate!);
       });
     } else {
-      // If no saved date exists, default to today
       _setDate(DateTime.now());
     }
+
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    apiProvider.fetchStartData(_controller.text);
   }
 
   void _setDate(DateTime date) {
@@ -49,6 +53,14 @@ class MyDatePickersState extends State<MyDatePickers> {
     // For Start Date, save it in SharedPreferences
     if (widget.title == "Start Date") {
       _saveStartDate(date);
+    }
+
+    // Trigger data fetch on date selection
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    if (widget.title == "Start Date") {
+      apiProvider.fetchStartData(_controller.text);
+    } else {
+      apiProvider.fetchEndData(_controller.text);
     }
   }
 
