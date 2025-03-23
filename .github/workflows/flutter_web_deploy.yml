@@ -40,6 +40,6 @@ jobs:
           keep_files: false
           force_orphan: false
           enable_jekyll: false
-          disable_nojekyll: false
+          disable_nojekyll: true
           exclude_assets: .github  # Exclude the .github folder from being published
 
