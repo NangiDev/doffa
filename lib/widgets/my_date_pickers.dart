@@ -74,13 +74,32 @@ class MyDatePickersState extends State<MyDatePickers> {
       context: context,
       builder: (context) {
         return Dialog(
-          child: SizedBox(
-            width: 300, // Adjust the width as per your need
-            child: CalendarDatePicker(
-              initialDate: selectedDate ?? DateTime.now(),
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
-              onDateChanged: (date) => Navigator.of(context).pop(date),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              8.0,
+            ), // Match the rounded corners
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 16.0,
+              children: [
+                Text(
+                  widget.title,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  width: 300, // Adjust the width as per your need
+                  child: CalendarDatePicker(
+                    initialDate: selectedDate ?? DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                    onDateChanged: (date) => Navigator.of(context).pop(date),
+                  ),
+                ),
+              ],
             ),
           ),
         );
