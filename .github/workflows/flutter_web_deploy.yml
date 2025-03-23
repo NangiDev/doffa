@@ -33,9 +33,13 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          # The path to the Flutter build output directory
-          folder: build/web
-          # Your GitHub Pages branch (you can use 'gh-pages' for a standard GitHub Pages deployment)
-          target_branch: gh-pages
-          # You can use the token to push to the gh-pages branch
-          token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/web  # Directory containing your Flutter web build output
+          publish_branch: gh-pages  # The branch to deploy to (usually gh-pages)
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
+          allow_empty_commit: false
+          keep_files: false
+          force_orphan: false
+          enable_jekyll: false
+          disable_nojekyll: false
+          exclude_assets: .github  # Exclude the .github folder from being published
+
