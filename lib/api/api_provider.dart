@@ -10,7 +10,7 @@ class ApiProvider with ChangeNotifier {
   Data _endData = Data();
   Data get endData => _endData;
 
-  final Progress _progress = Progress();
+  Progress _progress = Progress();
   Progress get progress => _progress;
 
   FitbitApiService? api;
@@ -53,6 +53,20 @@ class ApiProvider with ChangeNotifier {
       lean: leanMass,
     );
 
+    var days = _startData.date.difference(_endData.date).inDays.abs();
+    var bmi = _endData.bmi - _startData.bmi;
+    var kg = _endData.kg - _startData.kg;
+    var fat = _endData.fat - _startData.fat;
+    var lean = _endData.lean - _startData.lean;
+
+    _progress = Progress.named(
+      days: days,
+      bmi: bmi,
+      kg: kg,
+      fat: fat,
+      lean: lean,
+    );
+
     notifyListeners();
   }
 
@@ -79,6 +93,20 @@ class ApiProvider with ChangeNotifier {
       kg: weight,
       fat: fatKg,
       lean: leanMass,
+    );
+
+    var days = _startData.date.difference(_endData.date).inDays.abs();
+    var bmi = _endData.bmi - _startData.bmi;
+    var kg = _endData.kg - _startData.kg;
+    var fat = _endData.fat - _startData.fat;
+    var lean = _endData.lean - _startData.lean;
+
+    _progress = Progress.named(
+      days: days,
+      bmi: bmi,
+      kg: kg,
+      fat: fat,
+      lean: lean,
     );
 
     notifyListeners();
