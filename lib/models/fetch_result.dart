@@ -10,8 +10,11 @@ class Data extends FetchResult {
   final double fat; // Store body fat percentage as a double
   final double lean; // Store lean mass in kilograms as a double
 
+  // Default constructor
+  Data() : date = DateTime.now(), bmi = 0.0, kg = 0.0, fat = 0.0, lean = 0.0;
+
   // Constructor for initializing the health data
-  Data({
+  Data.named({
     required this.date,
     required this.bmi,
     required this.kg,
@@ -28,8 +31,11 @@ class Progress extends FetchResult {
   final double fat; // Store body fat percentage as a double
   final double lean; // Store lean mass in kilograms as a double
 
+  // Default constructor
+  Progress() : days = 0, bmi = 0.0, kg = 0.0, fat = 0.0, lean = 0.0;
+
   // Constructor for initializing the health Progress
-  Progress({
+  Progress.named({
     required this.days,
     required this.bmi,
     required this.kg,

@@ -16,7 +16,18 @@ class GradientContainer extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
       ),
-      child: child,
+      constraints:
+          const BoxConstraints.expand(), // Ensures full screen coverage
+      child: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight:
+                MediaQuery.of(context).size.height -
+                32, // Ensure minimum height
+          ),
+          child: child,
+        ),
+      ),
     );
   }
 }

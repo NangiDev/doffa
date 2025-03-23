@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final _logger = Logger();
+  final _logger = Logger(printer: SimplePrinter(colors: false));
   static const String _accessTokenKey = "access_token";
 
   Future<void> signInWithFitbit(AuthProvider authProvider) async {

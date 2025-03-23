@@ -14,7 +14,6 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: GradientContainer(
         child: Center(
-          child: SingleChildScrollView(
             child: ConstrainedBox(
               constraints: const BoxConstraints(minWidth: 400, maxWidth: 600),
               child: Column(
@@ -34,7 +33,6 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
         ),
       ),
     );
