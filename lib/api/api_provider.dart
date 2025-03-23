@@ -75,8 +75,8 @@ class ApiProvider with ChangeNotifier {
       lean: _endData.lean / _startData.lean,
     );
 
-    var ratioLean = (lean / kg) * 100;
-    var ratioFat = (fat / kg) * 100;
+    var ratioLean = kg != 0 ? (lean / kg) * 100 : 0;
+    var ratioFat = kg != 0 ? (fat / kg) * 100 : 0;
 
     _ratio = Ratio.named(fat: ratioFat, lean: ratioLean);
 
@@ -122,8 +122,8 @@ class ApiProvider with ChangeNotifier {
       lean: lean,
     );
 
-    var ratioLean = (lean / kg) * 100;
-    var ratioFat = (fat / kg) * 100;
+    var ratioLean = kg != 0 ? (lean / kg) * 100 : 0;
+    var ratioFat = kg != 0 ? (fat / kg) * 100 : 0;
 
     _ratio = Ratio.named(fat: ratioFat, lean: ratioLean);
 
