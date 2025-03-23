@@ -40412,7 +40412,7 @@ else throw A.f(A.dr("Access token is null"))
 case 3:return A.M(null,r)}})
 return A.N($async$uE,r)},
 q5(a){return this.akB(a)},
-akB(a){var s=0,r=A.O(t.H),q,p=this,o,n,m,l,k,j,i,h,g,f
+akB(a){var s=0,r=A.O(t.H),q,p=this,o,n,m,l,k,j,i,h,g,f,e
 var $async$q5=A.K(function(b,c){if(b===1)return A.L(c,r)
 while(true)switch(s){case 0:s=3
 return A.R(p.uE(),$async$q5)
@@ -40440,12 +40440,14 @@ p.c=A.ayL(j.b-i.b,Math.abs(o),g,h,f)
 o=p.b
 i=p.a
 p.d=A.atv(o.d/i.d,o.e/i.e)
-p.d=A.atv(g/h*100,f/h*100)
+o=h!==0
+e=o?f/h*100:0
+p.d=A.atv(o?g/h*100:0,e)
 p.aA()
 case 1:return A.M(q,r)}})
 return A.N($async$q5,r)},
 uh(a){return this.aky(a)},
-aky(a){var s=0,r=A.O(t.H),q,p=this,o,n,m,l,k,j,i,h,g,f
+aky(a){var s=0,r=A.O(t.H),q,p=this,o,n,m,l,k,j,i,h,g,f,e
 var $async$uh=A.K(function(b,c){if(b===1)return A.L(c,r)
 while(true)switch(s){case 0:s=3
 return A.R(p.uE(),$async$uh)
@@ -40470,7 +40472,9 @@ h=j.c-i.c
 g=j.d-i.d
 f=j.e-i.e
 p.c=A.ayL(j.b-i.b,Math.abs(o),g,h,f)
-p.d=A.atv(g/h*100,f/h*100)
+o=h!==0
+e=o?f/h*100:0
+p.d=A.atv(o?g/h*100:0,e)
 p.aA()
 case 1:return A.M(q,r)}})
 return A.N($async$uh,r)},
