@@ -47,3 +47,16 @@ class Progress extends FetchResult {
        fat = double.parse(fat.toStringAsFixed(2)),
        lean = double.parse(lean.toStringAsFixed(2));
 }
+
+@immutable
+class Ratio extends FetchResult {
+  final double fat;
+  final double lean;
+
+  // Default constructor
+  Ratio() : fat = 0.0, lean = 0.0;
+
+  Ratio.named({required fat, required lean})
+    : fat = double.parse(fat.toStringAsFixed(0)),
+      lean = double.parse(lean.toStringAsFixed(0));
+}

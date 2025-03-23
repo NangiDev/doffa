@@ -13,6 +13,9 @@ class ApiProvider with ChangeNotifier {
   Progress _progress = Progress();
   Progress get progress => _progress;
 
+  Ratio _ratio = Ratio();
+  Ratio get ratio => _ratio;
+
   FitbitApiService? api;
 
   Future<void> initApi() async {
@@ -67,6 +70,16 @@ class ApiProvider with ChangeNotifier {
       lean: lean,
     );
 
+    _ratio = Ratio.named(
+      fat: _endData.fat / _startData.fat,
+      lean: _endData.lean / _startData.lean,
+    );
+
+    var ratioLean = (lean / kg) * 100;
+    var ratioFat = (fat / kg) * 100;
+
+    _ratio = Ratio.named(fat: ratioFat, lean: ratioLean);
+
     notifyListeners();
   }
 
@@ -108,6 +121,11 @@ class ApiProvider with ChangeNotifier {
       fat: fat,
       lean: lean,
     );
+
+    var ratioLean = (lean / kg) * 100;
+    var ratioFat = (fat / kg) * 100;
+
+    _ratio = Ratio.named(fat: ratioFat, lean: ratioLean);
 
     notifyListeners();
   }
