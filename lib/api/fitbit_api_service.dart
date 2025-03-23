@@ -10,7 +10,7 @@ class FitbitApiService {
 
   Future<Map<String, dynamic>> fetchFromData(String date) async {
     final String url =
-        "https://api.fitbit.com/1/user/-/body/log/weight/date/$date.json";
+        "https://api.fitbit.com/1/user/-/body/log/weight/date/$date/1m.json";
     try {
       final response = await http.get(
         Uri.parse(url),
@@ -25,8 +25,8 @@ class FitbitApiService {
 
         if (data.containsKey("weight") && data["weight"].isNotEmpty) {
           // Weight data: {bmi: 21.95, date: 2025-03-10, fat: 15.17300033569336, logId: 1741594747000, source: Aria, time: 08:19:07, weight: 80.9}
-          _logger.i("Weight data: ${data['weight'][0]}");
-          return data['weight'][0];
+          _logger.i("Weight data: ${data['weight'].last}");
+          return data['weight'].last;
         } else {
           _logger.w("Not enough data for date: $date");
         }
@@ -36,6 +36,7 @@ class FitbitApiService {
     } catch (e, stacktrace) {
       _logger.e("Request failed", error: e, stackTrace: stacktrace);
     }
-    throw Exception("Failed to fetch data for date: $date");
+    _logger.w("Failed to fetch data for date: $date");
+    return {};
   }
 }

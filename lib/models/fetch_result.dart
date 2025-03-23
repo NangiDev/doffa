@@ -14,11 +14,14 @@ class Data extends FetchResult {
 
   Data.named({
     required this.date,
-    required this.bmi,
-    required this.kg,
-    required this.fat,
-    required this.lean,
-  });
+    required double bmi,
+    required double kg,
+    required double fat,
+    required double lean,
+  }) : bmi = double.parse(bmi.toStringAsFixed(2)),
+       kg = double.parse(kg.toStringAsFixed(2)),
+       fat = double.parse(fat.toStringAsFixed(2)),
+       lean = double.parse(lean.toStringAsFixed(2));
 
   Data copyWith({
     DateTime? date,
@@ -29,10 +32,10 @@ class Data extends FetchResult {
   }) {
     return Data.named(
       date: date ?? this.date,
-      bmi: bmi ?? this.bmi,
-      kg: kg ?? this.kg,
-      fat: fat ?? this.fat,
-      lean: lean ?? this.lean,
+      bmi: bmi != null ? double.parse(bmi.toStringAsFixed(2)) : this.bmi,
+      kg: kg != null ? double.parse(kg.toStringAsFixed(2)) : this.kg,
+      fat: fat != null ? double.parse(fat.toStringAsFixed(2)) : this.fat,
+      lean: lean != null ? double.parse(lean.toStringAsFixed(2)) : this.lean,
     );
   }
 }

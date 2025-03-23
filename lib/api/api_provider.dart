@@ -34,12 +34,23 @@ class ApiProvider with ChangeNotifier {
 
     final data = await api!.fetchFromData(date);
 
+    if (data.isEmpty) {
+      _startData = Data();
+      notifyListeners();
+      return;
+    }
+
+    var fatPercentage = data['fat'] as double;
+    var weight = data['weight'] as double;
+    var fatKg = weight * fatPercentage / 100;
+    var leanMass = weight - fatKg;
+
     _startData = Data.named(
       date: DateTime.parse(data['date']),
       bmi: data['bmi'],
-      kg: data['weight'],
-      fat: data['fat'],
-      lean: 0,
+      kg: weight,
+      fat: fatKg,
+      lean: leanMass,
     );
 
     notifyListeners();
@@ -51,12 +62,23 @@ class ApiProvider with ChangeNotifier {
 
     final data = await api!.fetchFromData(date);
 
+    if (data.isEmpty) {
+      _startData = Data();
+      notifyListeners();
+      return;
+    }
+
+    var fatPercentage = data['fat'] as double;
+    var weight = data['weight'] as double;
+    var fatKg = weight * fatPercentage / 100;
+    var leanMass = weight - fatKg;
+
     _endData = Data.named(
       date: DateTime.parse(data['date']),
       bmi: data['bmi'],
-      kg: data['weight'],
-      fat: data['fat'],
-      lean: 0,
+      kg: weight,
+      fat: fatKg,
+      lean: leanMass,
     );
 
     notifyListeners();

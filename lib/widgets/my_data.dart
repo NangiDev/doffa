@@ -44,7 +44,7 @@ class MyData extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(child: Text(startValues[index], textAlign: TextAlign.left)),
+          Expanded(child: Text(startValues[index], textAlign: TextAlign.right)),
           Expanded(
             child: Text(
               labels[index],
@@ -52,7 +52,7 @@ class MyData extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          Expanded(child: Text(endValues[index], textAlign: TextAlign.right)),
+          Expanded(child: Text(endValues[index], textAlign: TextAlign.left)),
         ],
       );
     });
