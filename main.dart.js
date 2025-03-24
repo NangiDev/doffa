@@ -9386,11 +9386,12 @@ YC:function YC(a){this.a=a},
 aJI(){return new A.ys(new A.a5Y(),A.p(t.K,t.Qu))},
 afV:function afV(a,b){this.a=a
 this.b=b},
-zd:function zd(a,b,c,d){var _=this
+zd:function zd(a,b,c,d,e){var _=this
 _.e=a
-_.db=b
-_.R8=c
-_.a=d},
+_.cx=b
+_.db=c
+_.R8=d
+_.a=e},
 a5Y:function a5Y(){},
 a8p:function a8p(){},
 E4:function E4(){this.d=$
@@ -40610,7 +40611,7 @@ $1(a){return new A.i9(A.a_L(),A.a_L(),new A.LU(0,0,0,0,0),new A.M0(0,0),$.av())}
 $S:271}
 A.L0.prototype={
 M(a){var s=null,r=new A.oj(B.al,B.EC,B.k,s,s,s,s,s,s,B.Ee,B.l,s,s,s,s,s,s,s,s,s,s,s,s,s,s,B.Ek,B.k,s,s,B.k,B.l,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,B.k,B.l).aij(A.aY(4282550517)),q=r.a,p=q===B.ak,o=p?r.k2:r.b,n=p?r.k3:r.c,m=r.k2,l=r.k3
-return new A.zd(new A.Hr(s),A.uF(p,q,m,m,r,m,A.aw(31,l.B()>>>16&255,l.B()>>>8&255,l.B()&255),n,o,m,s,s),!0,s)}}
+return new A.zd(new A.Hr(s),"Doffa - Fitness Tracker",A.uF(p,q,m,m,r,m,A.aw(31,l.B()>>>16&255,l.B()>>>8&255,l.B()&255),n,o,m,s,s),!0,s)}}
 A.a2k.prototype={}
 A.IC.prototype={}
 A.LU.prototype={}
@@ -44774,14 +44775,15 @@ s=A.a_Z(l,m,j,j,n)
 $.aD3()
 l=new A.ws(o,new A.AT(s,j),B.ad,B.Q,j,j)
 return l},
-a3M(a){var s,r=this,q=null,p=r.a,o=p.db
-o=o.dy
-s=o
+a3M(a){var s,r,q=this,p=null,o=q.a,n=o.db
+n=n.dy
+s=n
 if(s==null)s=B.h6
-p=p.e
-o=r.gaaI()
-r.a.toString
-return new A.CB(q,q,q,new A.alC(),q,q,q,q,q,p,B.LG,q,q,q,B.Jy,r.gaaP(),"",q,B.T6,s,q,o,q,q,B.no,!1,!1,q,q,q,new A.oQ(r,t.bT))},
+n=o.e
+o=o.cx
+r=q.gaaI()
+q.a.toString
+return new A.CB(p,p,p,new A.alC(),p,p,p,p,p,n,B.LG,p,p,p,B.Jy,q.gaaP(),o,p,B.T6,s,p,r,p,p,B.no,!1,!1,p,p,p,new A.oQ(q,t.bT))},
 M(a){var s,r=null,q=A.t1(!1,!1,this.a3M(a),r,r,r,r,!0,r,r,r,new A.alD(),r,r)
 this.a.toString
 s=this.d
