@@ -14,6 +14,8 @@ class WithingsConstants {
 
   static const String scope = "user.metrics"; // Adjust scopes as needed
   static const String state = "FLUTTER_AUTH";
+  static final String env = Uri.base.host == "localhost" ? "dev" : "prod";
+
   static const String callbackUrlScheme = "http";
 
   // Base URL for Withings OAuth
