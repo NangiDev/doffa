@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.light().copyWith(primary: Color(0xff4288f5)),
       ),
       debugShowCheckedModeBanner: true,
+      title: 'Doffa - Fitness Tracker',
       home: AuthWrapper(),
     );
   }
