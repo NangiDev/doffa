@@ -1,13 +1,15 @@
 import 'dart:convert';
+import 'package:doffa/api/api_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
-class FitbitApiService {
+class FitbitApiService extends ApiService {
   final String accessToken;
   final _logger = Logger(printer: SimplePrinter(colors: false));
 
   FitbitApiService(this.accessToken);
 
+  @override
   Future<Map<String, dynamic>> fetchFromData(String date) async {
     final String url =
         "https://api.fitbit.com/1/user/-/body/log/weight/date/$date/1m.json";

@@ -1,4 +1,6 @@
+import 'package:doffa/api/api_service.dart';
 import 'package:doffa/api/fitbit_api_service.dart';
+import 'package:doffa/api/withings_api_service.dart';
 import 'package:doffa/models/fetch_result.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,15 +18,21 @@ class ApiProvider with ChangeNotifier {
   Ratio _ratio = Ratio();
   Ratio get ratio => _ratio;
 
-  FitbitApiService? api;
+  ApiService? api;
 
   Future<void> initApi() async {
     if (api == null) {
       final prefs = await SharedPreferences.getInstance();
       final accessToken = prefs.getString('access_token');
+      final refreshToken = prefs.getString('refresh_token');
+      final userId = prefs.getString('user_id');
 
       if (accessToken != null) {
-        api = FitbitApiService(accessToken);
+        if (refreshToken != null && userId != null) {
+          api = WithingsApiService(accessToken, refreshToken, userId);
+        } else {
+          api = FitbitApiService(accessToken);
+        }
       } else {
         throw Exception('Access token is null');
       }
@@ -42,6 +50,8 @@ class ApiProvider with ChangeNotifier {
       notifyListeners();
       return;
     }
+
+    print(data);
 
     var fatPercentage = data['fat'] as double;
     var weight = data['weight'] as double;
