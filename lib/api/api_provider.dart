@@ -3,9 +3,11 @@ import 'package:doffa/api/fitbit_api_service.dart';
 import 'package:doffa/api/withings_api_service.dart';
 import 'package:doffa/models/fetch_result.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiProvider with ChangeNotifier {
+  final _logger = Logger(printer: SimplePrinter(colors: false));
   Data _startData = Data();
   Data get startData => _startData;
 
@@ -51,7 +53,7 @@ class ApiProvider with ChangeNotifier {
       return;
     }
 
-    print(data);
+    _logger.i(data);
 
     var fatPercentage = data['fat'] as double;
     var weight = data['weight'] as double;
@@ -136,6 +138,15 @@ class ApiProvider with ChangeNotifier {
     var ratioFat = kg != 0 ? (fat / kg) * 100 : 0;
 
     _ratio = Ratio.named(fat: ratioFat, lean: ratioLean);
+
+    notifyListeners();
+  }
+
+  Future<void> clearData() async {
+    _endData = Data();
+    _startData = Data();
+    _progress = Progress();
+    _ratio = Ratio();
 
     notifyListeners();
   }
