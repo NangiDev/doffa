@@ -23,26 +23,30 @@ class ApiProvider with ChangeNotifier {
   ApiService? api;
 
   Future<void> initApi() async {
-    if (api == null) {
-      final prefs = await SharedPreferences.getInstance();
-      final accessToken = prefs.getString('access_token');
-      final refreshToken = prefs.getString('refresh_token');
-      final userId = prefs.getString('user_id');
+    // Reset the api instance before initializing
+    api = null;
 
-      if (accessToken != null) {
-        if (refreshToken != null && userId != null) {
-          api = WithingsApiService(accessToken, refreshToken, userId);
-        } else {
-          api = FitbitApiService(accessToken);
-        }
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('access_token');
+    final refreshToken = prefs.getString('refresh_token');
+    final userId = prefs.getString('user_id');
+
+    if (accessToken != null) {
+      if (refreshToken != null && userId != null) {
+        api = WithingsApiService(accessToken, refreshToken, userId);
+        _logger.i('Using Withings API');
       } else {
-        throw Exception('Access token is null');
+        api = FitbitApiService(accessToken);
+        _logger.i('Using Fitbit API');
       }
+    } else {
+      throw Exception('Access token is null');
     }
   }
 
   Future<void> fetchStartData(String date) async {
     await initApi();
+
     if (api == null) return;
 
     final data = await api!.fetchFromData(date);
@@ -97,6 +101,7 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> fetchEndData(String date) async {
     await initApi();
+
     if (api == null) return;
 
     final data = await api!.fetchFromData(date);
