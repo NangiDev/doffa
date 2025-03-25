@@ -58,10 +58,14 @@ class WithingsApiService extends ApiService {
             _logger.w("No measurements found for date: $date");
             return {};
           }
+          // Sort by date in descending order to get the latest measurement
+          measureGroups.sort(
+            (a, b) => (b['date'] as int).compareTo(a['date'] as int),
+          );
 
-          final dynamic lastMeasurement = measureGroups.last;
+          final dynamic latestMeasurement = measureGroups.first;
           final Map<String, dynamic> measurement = _formatMeasurement(
-            lastMeasurement,
+            latestMeasurement,
           );
           _logger.i("Measurement data: $measurement");
           return measurement;
