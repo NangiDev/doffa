@@ -97,7 +97,7 @@ class WithingsApiService extends ApiService {
 
     for (var measure in measurement["measures"]) {
       final int type = measure["type"];
-      final double value = measure["value"] * pow(10.0, measure["unit"]);
+      final double value = measure["value"]; // * pow(10.0, measure["unit"]);
 
       if (type == 1) weight = value; // Weight in kg
       if (type == 4) height = value; // Height in meters

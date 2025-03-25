@@ -26,8 +26,20 @@ class ApiProvider with ChangeNotifier {
 
   ApiService? api;
 
+  ApiProvider() {
+    _loadProvider(); // Load provider on initialization
+  }
+
+  Future<void> _loadProvider() async {
+    final prefs = await SharedPreferences.getInstance();
+    _provider = prefs.getString('provider') ?? 'demo';
+    notifyListeners();
+  }
+
   Future<void> setProvider(String provider) async {
     _provider = provider;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('provider', provider); // Save provider
     notifyListeners();
   }
 
@@ -58,11 +70,10 @@ class ApiProvider with ChangeNotifier {
         }
         break;
       case 'demo':
+      default:
         _logger.i('Using demo API');
         api = DemoApiService(accessToken);
         break;
-      default:
-        throw Exception('Unsupported provider: $_provider');
     }
   }
 
