@@ -14,10 +14,22 @@ class MyRatio extends StatelessWidget {
             child: Flex(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               direction: Axis.vertical,
+              spacing: 8.0,
               children: [
                 Text(
-                  "${apiProvider.ratio.lean}/${apiProvider.ratio.fat}",
+                  "Doffa Ratio",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "${apiProvider.ratio.lean} / ${apiProvider.ratio.fat}",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const Divider(color: Colors.black12),
+                const Text(
+                  "Left side is fat mass, right side is lean mass.\nThe number represents the percentage of the weight change.",
+                  style: TextStyle(fontStyle: FontStyle.italic),
                   textAlign: TextAlign.center,
                 ),
               ],
