@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/fitbit_constants.dart';
@@ -5,6 +7,7 @@ import 'package:doffa/auth/withings_constants.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
+import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -89,7 +92,7 @@ class AuthService {
       final data = response.data;
       final accessToken = data['at'];
       final refreshToken = data['rt'];
-      final uid = data['uid'];
+      final uid = data['uid'].toString();
 
       // Log the received tokens and user ID
       _logger.i("Access token: $accessToken");
@@ -131,5 +134,39 @@ class AuthService {
       }
     }
     return null;
+  }
+
+  Future<Map<String, dynamic>> getDemoResponse() async {
+    // Call demo endpoint for demo users
+    const String url = "https://wbsapi.withings.net/v2/oauth2";
+
+    final Map<String, String> payload = {
+      "action": "getdemoaccess",
+      "client_id": WithingsConstants.clientId,
+      "nonce": DateTime.now().millisecondsSinceEpoch.toString(),
+      "signature": DateTime.now().millisecondsSinceEpoch.toString(),
+      "scope_oauth2": WithingsConstants.scope,
+    };
+
+    try {
+      final response = await http.post(Uri.parse(url), body: payload);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        if (data['status'] == 0) {
+          final accessToken = data['body']['access_token'];
+          final refreshToken = data['body']['refresh_token'];
+          final uid = "Demo_123456";
+
+          return {'at': accessToken, 'rt': refreshToken, 'uid': uid};
+        }
+      } else {
+        _logger.e("HTTP error: ${response.statusCode} - ${response.body}");
+      }
+    } catch (e, stacktrace) {
+      _logger.e("Demo request failed", error: e, stackTrace: stacktrace);
+    }
+
+    return {};
   }
 }
