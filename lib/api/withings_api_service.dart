@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:doffa/api/api_service.dart';
 import 'package:http/http.dart' as http;
@@ -91,16 +92,19 @@ class WithingsApiService extends ApiService {
 
     double? weight;
     double? height;
-    double? fat;
+    double? fatPercentage;
+    double? fatKg;
     double? bmi;
 
     for (var measure in measurement["measures"]) {
       final int type = measure["type"];
-      final double value = measure["value"]; // * pow(10.0, measure["unit"]);
+
+      final double value = measure["value"] * pow(10.0, measure["unit"]);
 
       if (type == 1) weight = value; // Weight in kg
       if (type == 4) height = value; // Height in meters
-      if (type == 8) fat = value; // Fat percentage
+      if (type == 6) fatPercentage = value; // Fat percentage
+      if (type == 8) fatKg = value; // Fat in kg
     }
 
     if (weight != null && height != null) {
@@ -110,7 +114,8 @@ class WithingsApiService extends ApiService {
     return {
       "bmi": bmi ?? 0.0,
       "date": formattedDate,
-      "fat": fat ?? 0.0,
+      "fat_percentage": fatPercentage ?? 0.0,
+      "fat": fatKg ?? 0.0,
       "logId": timestamp * 1000, // Convert to milliseconds
       "source": "Withings",
       "time": formattedTime,
