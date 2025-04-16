@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="226.72" height="224.09" version="1.1" viewBox="0 0 59.987 59.29" xmlns="http://www.w3.org/2000/svg">
- <g transform="translate(-4.363,-3.6406)">
+<svg width="83.786" height="83.69" version="1.1" viewBox="0 0 22.169 22.143" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="j" x1="37.392" x2="47.141" y1="41.479" y2="41.479" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#4288f5" offset="0"/>
+   <stop stop-color="#1e71f5" offset="1"/>
+  </linearGradient>
+  <linearGradient id="i" x1="27.695" x2="37.418" y1="31.743" y2="31.743" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#4288f5" offset="0"/>
+   <stop stop-color="#1a6ff5" offset="1"/>
+  </linearGradient>
+  <linearGradient id="h" x1="32.543" x2="37.392" y1="36.604" y2="41.479" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#4288f5" offset="0"/>
+   <stop stop-color="#146bf5" offset="1"/>
+  </linearGradient>
+  <linearGradient id="g" x1="37.392" x2="47.141" y1="31.743" y2="31.743" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#8eb8f9" offset="0"/>
+   <stop stop-color="#cadefa" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g transform="translate(-30.696 -29.162)" display="none">
   <path id="a" d="m34.294 62.931 4.116-1.8543 5.2657-3.6543 12.193-30.107-21.539-14.825-22.781 8.8134 14.361 36.526 4.0811 3.2466z" fill="#4288f5"/>
   <path id="b" d="m55.869 27.315-21.539-14.825-22.781 8.8134 22.745 12.076z" fill="#8eb8f9"/>
   <path id="c" d="m34.33 12.49-22.781 8.8134 14.361 36.526 4.0817 3.2472 4.303 1.8543z" fill="#1b53a9" opacity=".41204"/>
@@ -9,5 +27,18 @@
    <path id="e" d="m34.294 3.6406-4.0302 6.6945c1.6957 3.2113 0.3987 3.0991 4.0302 3.0992 3.1372 1.65e-4 2.0376 0.38131 3.8802-2.1577z"/>
    <path id="f" d="m34.294 3.6406-29.931 15.803 18.143 37.949 7.4849 3.6842-3.5684-3.5272-13.949-36.168 21.82-7.9778z"/>
   </g>
+ </g>
+ <g transform="translate(-26.333 -25.521)">
+  <g>
+   <path d="m39.54 27.567 6.9178 6.9178a2.9918 2.9918 90.078 0 1-0.0058 4.2369l-6.9367 6.899a3.0082 3.0082 0.07808 0 1-4.2484-0.0058l-6.8874-6.8874a3 3 90 0 1 0-4.2426l6.9178-6.9178a3 3 2.5669e-6 0 1 4.2426 0z" fill="#4288f5" style="paint-order:normal"/>
+   <path d="m37.418 26.881 9.7232 9.7232h-9.7497z" fill="url(#g)"/>
+   <path d="m37.418 26.881-9.7232 9.7232h9.6967z" fill="url(#i)"/>
+   <path d="m27.695 36.604 9.6967 9.6967v-9.6967z" fill="url(#h)"/>
+   <path d="m47.141 36.604-9.7497 9.7497v-9.7497z" fill="url(#j)"/>
+  </g>
+  <path d="m39.54 27.567 6.9178 6.9178a2.9918 2.9918 90.078 0 1-0.0058 4.2369l-6.9367 6.899a3.0082 3.0082 0.07808 0 1-4.2484-0.0058l-6.8874-6.8874a3 3 90 0 1 0-4.2426l6.9178-6.9178a3 3 2.5669e-6 0 1 4.2426 0z" fill="none" stroke="#f9f9f9" stroke-dashoffset="16.934" stroke-linejoin="round" stroke-width="2.3503" style="paint-order:normal"/>
+ </g>
+ <g transform="translate(-26.333 -25.521)" display="none">
+  <text x="52.659821" y="43.506702" fill="#000000" font-family="sans-serif" font-size="19.756px" stroke-width=".26459" style="line-height:1.25" xml:space="preserve"><tspan x="52.659821" y="43.506702" fill="#f2f2f2" font-family="'Russo One'" font-size="19.756px" stroke-width=".26459">DOFFA</tspan></text>
  </g>
 </svg>
