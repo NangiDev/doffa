@@ -75,40 +75,40 @@ class MyLoginButtons extends StatelessWidget {
             ),
 
             // Withings Login Button
-            LoginButton(
-              icon: const Icon(CupertinoIcons.heart_fill, color: Colors.white),
-              label: "Withings",
-              color: const Color(0xFF00C2D7),
-              onPressed: () async {
-                final authProvider = Provider.of<AuthProvider>(
-                  context,
-                  listen: false,
-                );
-                Provider.of<ApiProvider>(
-                  context,
-                  listen: false,
-                ).setProvider('withings');
-                AuthService().signInWithWithings(authProvider);
-              },
-            ),
+            // LoginButton(
+            //   icon: const Icon(CupertinoIcons.heart_fill, color: Colors.white),
+            //   label: "Withings",
+            //   color: const Color(0xFF00C2D7),
+            //   onPressed: () async {
+            //     final authProvider = Provider.of<AuthProvider>(
+            //       context,
+            //       listen: false,
+            //     );
+            //     Provider.of<ApiProvider>(
+            //       context,
+            //       listen: false,
+            //     ).setProvider('withings');
+            //     AuthService().signInWithWithings(authProvider);
+            //   },
+            // ),
 
             // Demo Login Button
-            LoginButton(
-              icon: const Icon(CupertinoIcons.rocket_fill, color: Colors.white),
-              label: "Demo",
-              color: Colors.black,
-              onPressed: () async {
-                final authProvider = Provider.of<AuthProvider>(
-                  context,
-                  listen: false,
-                );
-                Provider.of<ApiProvider>(
-                  context,
-                  listen: false,
-                ).setProvider('demo');
-                AuthService().signInAsDemo(authProvider);
-              },
-            ),
+            // LoginButton(
+            //   icon: const Icon(CupertinoIcons.rocket_fill, color: Colors.white),
+            //   label: "Demo",
+            //   color: Colors.black,
+            //   onPressed: () async {
+            //     final authProvider = Provider.of<AuthProvider>(
+            //       context,
+            //       listen: false,
+            //     );
+            //     Provider.of<ApiProvider>(
+            //       context,
+            //       listen: false,
+            //     ).setProvider('demo');
+            //     AuthService().signInAsDemo(authProvider);
+            //   },
+            // ),
           ],
         ),
       ),
