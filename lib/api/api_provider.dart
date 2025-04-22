@@ -2,6 +2,7 @@ import 'package:doffa/api/api_service.dart';
 import 'package:doffa/api/demo_api_service.dart';
 import 'package:doffa/api/fitbit_api_service.dart';
 import 'package:doffa/api/withings_api_service.dart';
+import 'package:doffa/common/models.dart';
 import 'package:doffa/models/fetch_result.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -9,13 +10,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiProvider with ChangeNotifier {
   final _logger = Logger(printer: SimplePrinter(colors: false));
-  Data _startData = Data();
-  Data get startData => _startData;
+  Metrics _startData = Metrics.defaultMetrics();
+  Metrics get startData => _startData;
 
-  Data _endData = Data();
-  Data get endData => _endData;
+  Metrics _endData = Metrics.defaultMetrics();
+  Metrics get endData => _endData;
 
-  Progress _progress = Progress();
+  Progress _progress = Progress.defaultProgress();
   Progress get progress => _progress;
 
   Ratio _ratio = Ratio();
@@ -79,53 +80,40 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> fetchStartData(String date) async {
     await initApi();
-
     if (api == null) return;
 
-    final data = await api!.fetchFromData(date);
-
-    if (data.isEmpty) {
-      _startData = Data();
-      notifyListeners();
-      return;
-    }
+    final Metrics data = await api!.fetchFromData(date);
 
     _logger.i(data);
 
-    var fatPercentage = data['fat'] as double;
-    var weight = data['weight'] as double;
-    var fatKg = weight * fatPercentage / 100;
-    var leanMass = weight - fatKg;
-
-    _startData = Data.named(
-      date: DateTime.parse(data['date']),
-      bmi: data['bmi'],
-      kg: weight,
-      fat: fatKg,
-      lean: leanMass,
-    );
+    _startData = data;
 
     var days = _startData.date.difference(_endData.date).inDays.abs();
     var bmi = _endData.bmi - _startData.bmi;
-    var kg = _endData.kg - _startData.kg;
-    var fat = _endData.fat - _startData.fat;
-    var lean = _endData.lean - _startData.lean;
+    var weightInKg = _endData.weightInKg - _startData.weightInKg;
+    var fatInPercentage = _endData.fatInKg - _startData.fatInPercentage;
+    var fatInKg = _endData.fatInKg - _startData.fatInKg;
+    var leanInKg = _endData.leanInKg - _startData.leanInKg;
 
-    _progress = Progress.named(
+    _progress = Progress(
       days: days,
-      bmi: bmi,
-      kg: kg,
-      fat: fat,
-      lean: lean,
+      metrics: Metrics(
+        date: DateTime.now(),
+        bmi: bmi,
+        weightInKg: weightInKg,
+        fatInPercentage: fatInPercentage,
+        fatInKg: fatInKg,
+        leanInKg: leanInKg,
+      ),
     );
 
     _ratio = Ratio.named(
-      fat: _endData.fat / _startData.fat,
-      lean: _endData.lean / _startData.lean,
+      fat: _endData.fatInKg / _startData.fatInKg,
+      lean: _endData.leanInKg / _startData.leanInKg,
     );
 
-    var ratioLean = kg != 0 ? (lean / kg) * 100 : 0;
-    var ratioFat = kg != 0 ? (fat / kg) * 100 : 0;
+    var ratioLean = weightInKg != 0 ? (leanInKg / weightInKg) * 100 : 0;
+    var ratioFat = weightInKg != 0 ? (fatInKg / weightInKg) * 100 : 0;
 
     _ratio = Ratio.named(fat: ratioFat, lean: ratioLean);
 
@@ -137,43 +125,36 @@ class ApiProvider with ChangeNotifier {
 
     if (api == null) return;
 
-    final data = await api!.fetchFromData(date);
+    final Metrics data = await api!.fetchFromData(date);
 
-    if (data.isEmpty) {
-      _startData = Data();
-      notifyListeners();
-      return;
-    }
-
-    var fatPercentage = data['fat'] as double;
-    var weight = data['weight'] as double;
-    var fatKg = weight * fatPercentage / 100;
-    var leanMass = weight - fatKg;
-
-    _endData = Data.named(
-      date: DateTime.parse(data['date']),
-      bmi: data['bmi'],
-      kg: weight,
-      fat: fatKg,
-      lean: leanMass,
-    );
+    _endData = data;
 
     var days = _startData.date.difference(_endData.date).inDays.abs();
     var bmi = _endData.bmi - _startData.bmi;
-    var kg = _endData.kg - _startData.kg;
-    var fat = _endData.fat - _startData.fat;
-    var lean = _endData.lean - _startData.lean;
+    var weightInKg = _endData.weightInKg - _startData.weightInKg;
+    var fatInPercentage = _endData.fatInKg - _startData.fatInPercentage;
+    var fatInKg = _endData.fatInKg - _startData.fatInKg;
+    var leanInKg = _endData.leanInKg - _startData.leanInKg;
 
-    _progress = Progress.named(
+    _progress = Progress(
       days: days,
-      bmi: bmi,
-      kg: kg,
-      fat: fat,
-      lean: lean,
+      metrics: Metrics(
+        date: DateTime.now(),
+        bmi: bmi,
+        weightInKg: weightInKg,
+        fatInPercentage: fatInPercentage,
+        fatInKg: fatInKg,
+        leanInKg: leanInKg,
+      ),
     );
 
-    var ratioLean = kg != 0 ? (lean / kg) * 100 : 0;
-    var ratioFat = kg != 0 ? (fat / kg) * 100 : 0;
+    _ratio = Ratio.named(
+      fat: _endData.fatInKg / _startData.fatInKg,
+      lean: _endData.leanInKg / _startData.leanInKg,
+    );
+
+    var ratioLean = weightInKg != 0 ? (leanInKg / weightInKg) * 100 : 0;
+    var ratioFat = weightInKg != 0 ? (fatInKg / weightInKg) * 100 : 0;
 
     _ratio = Ratio.named(fat: ratioFat, lean: ratioLean);
 
@@ -181,9 +162,9 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> clearData() async {
-    _endData = Data();
-    _startData = Data();
-    _progress = Progress();
+    _endData = Metrics.defaultMetrics();
+    _startData = Metrics.defaultMetrics();
+    _progress = Progress.defaultProgress();
     _ratio = Ratio();
     _provider = 'demo';
 

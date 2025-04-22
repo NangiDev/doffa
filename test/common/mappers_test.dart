@@ -6,6 +6,7 @@ void main() {
     test('should correctly map FitBitObject to Metrics', () {
       // Arrange
       final fitBitObject = FitBitObject(
+        date: DateTime(2019, 3, 1, 7, 38, 14),
         bmi: 22.5,
         fatInPercentage: 15.0,
         weightInKg: 70.0,
@@ -15,6 +16,7 @@ void main() {
       final metrics = fitBitObject.metrics;
 
       // Assert
+      expect(metrics.date, DateTime(2019, 3, 1, 7, 38, 14));
       expect(metrics.bmi, 22.5);
       expect(metrics.weightInKg, 70.0);
       expect(metrics.fatInPercentage, 15.0);
@@ -25,6 +27,7 @@ void main() {
     test('should correctly map WithingsObject to Metrics', () {
       // Arrange
       final withingsObject = WithingsObject(
+        date: DateTime(2019, 3, 1, 7, 38, 14),
         bmi: 23.0,
         fatInPercentage: 20.0,
         fatInKg: 14.0,
@@ -36,6 +39,7 @@ void main() {
       final metrics = withingsObject.metrics;
 
       // Assert
+      expect(metrics.date, DateTime(2019, 3, 1, 7, 38, 14));
       expect(metrics.bmi, 23.0);
       expect(metrics.weightInKg, 70.0);
       expect(metrics.fatInPercentage, 20.0);

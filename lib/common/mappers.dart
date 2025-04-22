@@ -5,33 +5,21 @@ abstract class Result {
 }
 
 class FitBitObject extends Result {
+  final DateTime date;
   final double bmi;
   final double fatInPercentage;
   final double weightInKg;
 
   FitBitObject({
+    required this.date,
     required this.bmi,
     required this.fatInPercentage,
     required this.weightInKg,
   });
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is FitBitObject &&
-        other.bmi == bmi &&
-        other.fatInPercentage == fatInPercentage &&
-        other.weightInKg == weightInKg;
-  }
-
-  @override
-  int get hashCode {
-    return bmi.hashCode ^ fatInPercentage.hashCode ^ weightInKg.hashCode;
-  }
-
-  @override
   Metrics get metrics => Metrics(
+    date: date,
     bmi: bmi,
     weightInKg: weightInKg,
     fatInPercentage: fatInPercentage,
@@ -41,6 +29,7 @@ class FitBitObject extends Result {
 }
 
 class WithingsObject extends Result {
+  final DateTime date;
   final double bmi;
   final double fatInPercentage;
   final double fatInKg;
@@ -48,6 +37,7 @@ class WithingsObject extends Result {
   final double weightInKg;
 
   WithingsObject({
+    required this.date,
     required this.bmi,
     required this.fatInPercentage,
     required this.fatInKg,
@@ -56,28 +46,8 @@ class WithingsObject extends Result {
   });
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is WithingsObject &&
-        other.bmi == bmi &&
-        other.fatInPercentage == fatInPercentage &&
-        other.fatInKg == fatInKg &&
-        other.leanInKg == leanInKg &&
-        other.weightInKg == weightInKg;
-  }
-
-  @override
-  int get hashCode {
-    return bmi.hashCode ^
-        fatInPercentage.hashCode ^
-        fatInKg.hashCode ^
-        leanInKg.hashCode ^
-        weightInKg.hashCode;
-  }
-
-  @override
   Metrics get metrics => Metrics(
+    date: date,
     bmi: bmi,
     weightInKg: weightInKg,
     fatInPercentage: fatInPercentage,

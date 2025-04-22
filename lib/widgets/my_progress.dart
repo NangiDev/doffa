@@ -11,11 +11,11 @@ class MyProgress extends StatelessWidget {
     return Consumer<ApiProvider>(
       builder: (context, apiProvider, child) {
         final progressData = {
-          "DAYS": apiProvider.progress.days,
-          "BMI": apiProvider.progress.bmi,
-          "FAT": apiProvider.progress.fat,
-          "LEAN": apiProvider.progress.lean,
-          "WEIGHT": apiProvider.progress.kg,
+          "DAYS": apiProvider.progress.days.toStringAsFixed(1),
+          "BMI": apiProvider.progress.metrics.bmi.toStringAsFixed(1),
+          "FAT": apiProvider.progress.metrics.fatInKg.toStringAsFixed(1),
+          "LEAN": apiProvider.progress.metrics.leanInKg.toStringAsFixed(1),
+          "WEIGHT": apiProvider.progress.metrics.weightInKg.toStringAsFixed(1),
         };
 
         return ExpandableSection(
