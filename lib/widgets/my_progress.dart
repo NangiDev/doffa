@@ -36,7 +36,7 @@ class MyProgress extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Text("${entry.value}", textAlign: TextAlign.left),
+                      child: Text(entry.value, textAlign: TextAlign.left),
                     ),
                   ],
                 );

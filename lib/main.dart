@@ -1,33 +1,25 @@
-import 'package:doffa/api/api_provider.dart';
-import 'package:doffa/auth/auth_provider.dart';
-import 'package:doffa/auth/auth_wrapper.dart';
+import 'package:doffa/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => ApiProvider()),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  final title = 'Doffa - Fitness Tracker';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.from(
-        colorScheme: ColorScheme.light().copyWith(primary: Color(0xff4288f5)),
+      title: title,
+      theme: ThemeData(
+        colorScheme: ColorScheme.dark(surface: Color.fromARGB(255, 16, 16, 16)),
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      debugShowCheckedModeBanner: true,
-      title: 'Doffa - Fitness Tracker',
-      home: AuthWrapper(),
+      home: LoginScreen(),
     );
   }
 }
