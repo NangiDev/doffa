@@ -1,4 +1,4 @@
-import 'package:doffa/screens/home_screen.dart';
+import 'package:doffa/screens/old_home_screen.dart';
 import 'package:doffa/screens/old_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +11,6 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isLoggedIn = context.watch<AuthProvider>().isAuthenticated;
 
-    return isLoggedIn ? HomeScreen() : OldLoginScreen();
+    return isLoggedIn ? OldHomeScreen() : OldLoginScreen();
   }
 }

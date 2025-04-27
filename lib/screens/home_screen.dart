@@ -1,5 +1,7 @@
-import 'package:doffa/screens/gradient_container.dart';
-import 'package:doffa/widgets/my_doffa.dart';
+import 'package:doffa/widgets/git_versioning.dart';
+import 'package:doffa/widgets/my_ads.dart';
+import 'package:doffa/widgets/my_date_picker_card.dart';
+import 'package:doffa/widgets/my_logo_wide.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -7,12 +9,25 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GradientContainer(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 400, maxWidth: 600),
-            child: MyDoffa(),
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: 400, // Set max width (adjust as needed)
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              spacing: 8,
+              children: [
+                MyLogoWide(),
+                MyDatePickerCard(),
+                MyAds(),
+                MyAds(),
+                MyAds(),
+                GitVersioningWidget(),
+              ],
+            ),
           ),
         ),
       ),

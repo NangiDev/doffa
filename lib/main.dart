@@ -1,4 +1,4 @@
-import 'package:doffa/screens/login_screen.dart';
+import 'package:doffa/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Scaffold(body: SafeArea(child: LoginScreen())),
+      home: Scaffold(body: SafeArea(child: HomeScreen())),
     );
   }
 }
