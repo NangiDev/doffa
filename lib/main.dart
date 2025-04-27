@@ -1,6 +1,4 @@
-import 'package:doffa/widgets/git_versioning.dart';
-import 'package:doffa/widgets/my_button_card.dart';
-import 'package:doffa/widgets/my_logo_tall.dart';
+import 'package:doffa/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,30 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Center(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: 400, // Set max width (adjust as needed)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    spacing: 64,
-                    children: [
-                      MyLogoTall(),
-                      MyButtonCard(),
-                      GitVersioningWidget(),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      home: Scaffold(body: SafeArea(child: LoginScreen())),
     );
   }
 }
