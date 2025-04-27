@@ -21,7 +21,7 @@ class MyLoginButton extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         double maxWidth = constraints.maxWidth;
-        double iconSize = maxWidth / 8; // Adjust this value for icon scaling
+        double iconSize = maxWidth / 10; // Adjust this value for icon scaling
 
         return ElevatedButton.icon(
           onPressed: onPressed,
@@ -32,7 +32,7 @@ class MyLoginButton extends StatelessWidget {
           label: Text(
             label,
             style: GoogleFonts.montserrat(
-              fontSize: maxWidth / 10, // Adjust text size based on width
+              fontSize: maxWidth / 12, // Adjust text size based on width
               color: Colors.white,
               fontWeight: FontWeight.w300,
               height: 1,
@@ -46,7 +46,7 @@ class MyLoginButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4),
             ),
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: EdgeInsets.all(16),
             minimumSize: Size(double.infinity, 48), // Ensure button fills width
           ),
         );

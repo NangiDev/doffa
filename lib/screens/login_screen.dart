@@ -1,4 +1,5 @@
 import 'package:doffa/widgets/git_versioning.dart';
+import 'package:doffa/widgets/my_ads.dart';
 import 'package:doffa/widgets/my_button_card.dart';
 import 'package:doffa/widgets/my_logo_tall.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,25 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               spacing: 64,
-              children: [MyLogoTall(), MyButtonCard(), GitVersioningWidget()],
+              children: [
+                MyAds(),
+                MyLogoTall(),
+                MyButtonCard(),
+                Column(
+                  spacing: 8,
+                  children: [
+                    Row(
+                      spacing: 8,
+                      children: [
+                        Expanded(child: MyAds()),
+                        Expanded(child: MyAds()),
+                      ],
+                    ),
+                    MyAds(),
+                  ],
+                ),
+                GitVersioningWidget(),
+              ],
             ),
           ),
         ),
