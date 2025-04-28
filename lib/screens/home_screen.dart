@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                 MyDatePickerCard(),
                 MyAds(),
                 MyRatioCard(),
-                MyHistoryCard(),
+                // MyHistoryCard(),
                 MyDataCard(),
                 MyProgressCard(),
                 MyAds(),
@@ -65,23 +65,63 @@ class MyProgressCard extends StatelessWidget {
             border: Border.all(color: Color(0xFF606060), width: 2),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.only(top: 16, left: 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 16,
+              spacing: 8,
               children: [
                 Text(
-                  "Progress",
+                  "PROGRESS",
                   style: GoogleFonts.montserrat(
-                    fontSize: maxWidth / 24,
+                    fontSize: maxWidth / 18,
                     color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     height: 1,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  "Changes between start and end dZate",
+                  style: GoogleFonts.montserrat(
+                    fontSize: maxWidth / 32,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w100,
+                    height: 1,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Container(
+                  width: maxWidth,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 55, 55, 55),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      spacing: 8,
+                      children: [
+                        Text(
+                          "100",
+                          style: GoogleFonts.montserrat(
+                            fontSize: maxWidth / 6,
+                            color: Color.fromARGB(255, 109, 255, 129),
+                            fontWeight: FontWeight.w900,
+                            height: 1,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -159,23 +199,63 @@ class MyDataCard extends StatelessWidget {
             border: Border.all(color: Color(0xFF606060), width: 2),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.only(top: 16, left: 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 16,
+              spacing: 8,
               children: [
                 Text(
-                  "Data",
+                  "DATA",
                   style: GoogleFonts.montserrat(
-                    fontSize: maxWidth / 24,
+                    fontSize: maxWidth / 18,
                     color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     height: 1,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  "Measurements",
+                  style: GoogleFonts.montserrat(
+                    fontSize: maxWidth / 32,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w100,
+                    height: 1,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Container(
+                  width: maxWidth,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 55, 55, 55),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      spacing: 8,
+                      children: [
+                        Text(
+                          "100",
+                          style: GoogleFonts.montserrat(
+                            fontSize: maxWidth / 6,
+                            color: Color.fromARGB(255, 109, 255, 129),
+                            fontWeight: FontWeight.w900,
+                            height: 1,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
