@@ -1,13 +1,10 @@
 import 'package:doffa/widgets/git_versioning.dart';
 import 'package:doffa/widgets/my_ads.dart';
-import 'package:doffa/widgets/my_coffee_button.dart';
 import 'package:doffa/widgets/my_data_card.dart';
 import 'package:doffa/widgets/my_date_picker_card.dart';
-import 'package:doffa/widgets/my_history_card.dart';
 import 'package:doffa/widgets/my_logo_wide.dart';
 import 'package:doffa/widgets/my_progress_card.dart';
 import 'package:doffa/widgets/my_ratio_card.dart';
-import 'package:doffa/widgets/my_sign_out_button.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,7 +15,7 @@ class HomeScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 600),
+          constraints: BoxConstraints(maxWidth: 400),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -28,7 +25,7 @@ class HomeScreen extends StatelessWidget {
                 MyDatePickerCard(),
                 MyAds(),
                 MyRatioCard(),
-                MyHistoryCard(),
+                // MyHistoryCard(),
                 MyDataCard(),
                 MyProgressCard(),
                 MyAds(),
