@@ -41,10 +41,16 @@ class MyDatePickerCard extends StatelessWidget {
                 ),
                 Row(
                   spacing: 8,
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     MyDatePicker(title: "Start Date"),
+                    Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white70,
+                      size: maxWidth / 24, // You can adjust the size
+                    ),
                     MyDatePicker(title: "End Date"),
                   ],
                 ),

@@ -7,30 +7,28 @@ class MyLogoWide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              './assets/opt_prism_dark.svg',
-              semanticsLabel: 'App Logo',
-              height: 64, // fixed height for logo
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            './assets/opt_prism_dark.svg',
+            semanticsLabel: 'App Logo',
+            height: 64, // fixed height for logo
+          ),
+          SizedBox(width: 24),
+          Text(
+            'DOFFA',
+            style: GoogleFonts.russoOne(
+              fontSize: 64, // fixed font size
+              color: Colors.white,
+              height: 1,
             ),
-            SizedBox(width: 24),
-            Text(
-              'DOFFA',
-              style: GoogleFonts.russoOne(
-                fontSize: 64, // fixed font size
-                color: Colors.white,
-                height: 1,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

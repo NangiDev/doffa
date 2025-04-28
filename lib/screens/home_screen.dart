@@ -18,16 +18,24 @@ class HomeScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: BoxConstraints(maxWidth: 600),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               spacing: 8,
               children: [
-                Row(
-                  spacing: 16,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [MyLogoWide(), MyCoffeeButton(), MySignOutButton()],
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MyLogoWide(),
+                      Row(
+                        spacing: 16,
+                        children: [MyCoffeeButton(), MySignOutButton()],
+                      ),
+                    ],
+                  ),
                 ),
                 MyDatePickerCard(),
                 MyAds(),
