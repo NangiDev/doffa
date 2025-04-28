@@ -68,41 +68,39 @@ class MyDatePicker extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = constraints.maxWidth;
-          return Expanded(
-            child: TextField(
-              controller: TextEditingController(),
-              readOnly: true,
-              style: GoogleFonts.montserrat(
-                fontSize: maxWidth / 14,
-                color: Colors.white,
+          return TextField(
+            controller: TextEditingController(),
+            readOnly: true,
+            style: GoogleFonts.montserrat(
+              fontSize: maxWidth / 14,
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+              height: 1,
+            ),
+            decoration: InputDecoration(
+              labelText: title,
+              labelStyle: GoogleFonts.montserrat(
+                fontSize: maxWidth / 12,
+                color: Colors.white70,
                 fontWeight: FontWeight.w300,
-                height: 1,
               ),
-              decoration: InputDecoration(
-                labelText: title,
-                labelStyle: GoogleFonts.montserrat(
-                  fontSize: maxWidth / 12,
-                  color: Colors.white70,
-                  fontWeight: FontWeight.w300,
-                ),
-                prefixIcon: const Icon(
-                  Icons.calendar_today,
-                  color: Colors.white70,
-                ),
-                filled: true,
-                fillColor: const Color.fromARGB(255, 55, 55, 55),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: Colors.white24),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: Colors.white24),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: Colors.blueAccent),
-                ),
+              prefixIcon: const Icon(
+                Icons.calendar_today,
+                color: Colors.white70,
+              ),
+              filled: true,
+              fillColor: const Color.fromARGB(255, 55, 55, 55),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: const BorderSide(color: Colors.white24),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: const BorderSide(color: Colors.white24),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: const BorderSide(color: Colors.blueAccent),
               ),
             ),
           );

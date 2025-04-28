@@ -2,6 +2,7 @@ import 'package:doffa/widgets/git_versioning.dart';
 import 'package:doffa/widgets/my_ads.dart';
 import 'package:doffa/widgets/my_date_picker_card.dart';
 import 'package:doffa/widgets/my_logo_wide.dart';
+import 'package:doffa/widgets/my_ratio_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -34,53 +35,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class MyRatioCard extends StatelessWidget {
-  const MyRatioCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double maxWidth = constraints.maxWidth;
-        return Container(
-          width: maxWidth,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF3A3A3A), Color(0xFF222222)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            border: Border.all(color: Color(0xFF606060), width: 2),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 16,
-              children: [
-                Text(
-                  "Ratio",
-                  style: GoogleFonts.montserrat(
-                    fontSize: maxWidth / 24,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    height: 1,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }
