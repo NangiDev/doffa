@@ -24,19 +24,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               spacing: 8,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MyLogoWide(),
-                      Row(
-                        spacing: 16,
-                        children: [MyCoffeeButton(), MySignOutButton()],
-                      ),
-                    ],
-                  ),
-                ),
+                MyLogoWide(),
                 MyDatePickerCard(),
                 MyAds(),
                 MyRatioCard(),
