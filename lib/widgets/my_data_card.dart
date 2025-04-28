@@ -191,8 +191,9 @@ class _MyDataCardState extends State<MyDataCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Column(
+                    spacing: 2,
                     children: [
                       Row(
                         spacing: 16,
@@ -203,7 +204,7 @@ class _MyDataCardState extends State<MyDataCard> {
                             child: Text(
                               "BMI",
                               style: GoogleFonts.montserrat(
-                                fontSize: maxWidth / 32,
+                                fontSize: maxWidth / 24,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w300,
                                 height: 1,
@@ -219,7 +220,7 @@ class _MyDataCardState extends State<MyDataCard> {
                               child: Text(
                                 "29.5",
                                 style: GoogleFonts.montserrat(
-                                  fontSize: maxWidth / 32,
+                                  fontSize: maxWidth / 24,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300,
                                   height: 1,
@@ -236,7 +237,7 @@ class _MyDataCardState extends State<MyDataCard> {
                               child: Text(
                                 "29.5",
                                 style: GoogleFonts.montserrat(
-                                  fontSize: maxWidth / 32,
+                                  fontSize: maxWidth / 24,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300,
                                   height: 1,
@@ -257,8 +258,9 @@ class _MyDataCardState extends State<MyDataCard> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Column(
+                    spacing: 2,
                     children: [
                       Row(
                         spacing: 16,
@@ -269,7 +271,7 @@ class _MyDataCardState extends State<MyDataCard> {
                             child: Text(
                               "Fat (%)",
                               style: GoogleFonts.montserrat(
-                                fontSize: maxWidth / 32,
+                                fontSize: maxWidth / 24,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w300,
                                 height: 1,
@@ -285,7 +287,7 @@ class _MyDataCardState extends State<MyDataCard> {
                               child: Text(
                                 "29.5",
                                 style: GoogleFonts.montserrat(
-                                  fontSize: maxWidth / 32,
+                                  fontSize: maxWidth / 24,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300,
                                   height: 1,
@@ -302,7 +304,7 @@ class _MyDataCardState extends State<MyDataCard> {
                               child: Text(
                                 "29.5",
                                 style: GoogleFonts.montserrat(
-                                  fontSize: maxWidth / 32,
+                                  fontSize: maxWidth / 24,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300,
                                   height: 1,
@@ -323,8 +325,9 @@ class _MyDataCardState extends State<MyDataCard> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Column(
+                    spacing: 2,
                     children: [
                       Row(
                         spacing: 16,
@@ -335,7 +338,7 @@ class _MyDataCardState extends State<MyDataCard> {
                             child: Text(
                               "Fat (kg)",
                               style: GoogleFonts.montserrat(
-                                fontSize: maxWidth / 32,
+                                fontSize: maxWidth / 24,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w300,
                                 height: 1,
@@ -351,7 +354,7 @@ class _MyDataCardState extends State<MyDataCard> {
                               child: Text(
                                 "29.5",
                                 style: GoogleFonts.montserrat(
-                                  fontSize: maxWidth / 32,
+                                  fontSize: maxWidth / 24,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300,
                                   height: 1,
@@ -368,7 +371,7 @@ class _MyDataCardState extends State<MyDataCard> {
                               child: Text(
                                 "29.5",
                                 style: GoogleFonts.montserrat(
-                                  fontSize: maxWidth / 32,
+                                  fontSize: maxWidth / 24,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300,
                                   height: 1,
@@ -389,8 +392,9 @@ class _MyDataCardState extends State<MyDataCard> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Column(
+                    spacing: 2,
                     children: [
                       Row(
                         spacing: 16,
@@ -401,7 +405,7 @@ class _MyDataCardState extends State<MyDataCard> {
                             child: Text(
                               "Lean (kg)",
                               style: GoogleFonts.montserrat(
-                                fontSize: maxWidth / 32,
+                                fontSize: maxWidth / 24,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w300,
                                 height: 1,
@@ -417,7 +421,7 @@ class _MyDataCardState extends State<MyDataCard> {
                               child: Text(
                                 "29.5",
                                 style: GoogleFonts.montserrat(
-                                  fontSize: maxWidth / 32,
+                                  fontSize: maxWidth / 24,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300,
                                   height: 1,
@@ -434,7 +438,7 @@ class _MyDataCardState extends State<MyDataCard> {
                               child: Text(
                                 "29.5",
                                 style: GoogleFonts.montserrat(
-                                  fontSize: maxWidth / 32,
+                                  fontSize: maxWidth / 24,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300,
                                   height: 1,
@@ -455,7 +459,7 @@ class _MyDataCardState extends State<MyDataCard> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Row(
                     spacing: 16,
                     mainAxisSize: MainAxisSize.min,
@@ -465,7 +469,7 @@ class _MyDataCardState extends State<MyDataCard> {
                         child: Text(
                           "Weight (kg)",
                           style: GoogleFonts.montserrat(
-                            fontSize: maxWidth / 32,
+                            fontSize: maxWidth / 24,
                             color: Colors.white,
                             fontWeight: FontWeight.w300,
                             height: 1,
@@ -481,7 +485,7 @@ class _MyDataCardState extends State<MyDataCard> {
                           child: Text(
                             "29.5",
                             style: GoogleFonts.montserrat(
-                              fontSize: maxWidth / 32,
+                              fontSize: maxWidth / 24,
                               color: Colors.white,
                               fontWeight: FontWeight.w300,
                               height: 1,
@@ -498,7 +502,7 @@ class _MyDataCardState extends State<MyDataCard> {
                           child: Text(
                             "29.5",
                             style: GoogleFonts.montserrat(
-                              fontSize: maxWidth / 32,
+                              fontSize: maxWidth / 24,
                               color: Colors.white,
                               fontWeight: FontWeight.w300,
                               height: 1,
@@ -516,43 +520,6 @@ class _MyDataCardState extends State<MyDataCard> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildColumn({
-    required CrossAxisAlignment alignment,
-    required double maxWidth,
-    required FontWeight fontWeight,
-    required List<String> values,
-  }) {
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      alignment: Alignment.centerLeft,
-      child: Column(
-        spacing: 2,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: alignment,
-        children:
-            values
-                .map(
-                  (text) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Text(
-                      text,
-                      style: GoogleFonts.montserrat(
-                        fontSize: maxWidth / 28,
-                        color: Colors.white,
-                        fontWeight: fontWeight,
-                        height: 1,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                )
-                .toList(),
-      ),
     );
   }
 }
