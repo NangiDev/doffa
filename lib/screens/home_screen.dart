@@ -1,8 +1,10 @@
 import 'package:doffa/widgets/git_versioning.dart';
 import 'package:doffa/widgets/my_ads.dart';
+import 'package:doffa/widgets/my_coffee_button.dart';
 import 'package:doffa/widgets/my_date_picker_card.dart';
 import 'package:doffa/widgets/my_logo_wide.dart';
 import 'package:doffa/widgets/my_ratio_card.dart';
+import 'package:doffa/widgets/my_sign_out_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,7 +22,11 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               spacing: 8,
               children: [
-                MyLogoWide(),
+                Row(
+                  spacing: 16,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [MyLogoWide(), MyCoffeeButton(), MySignOutButton()],
+                ),
                 MyDatePickerCard(),
                 MyAds(),
                 MyRatioCard(),
