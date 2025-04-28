@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class GitVersioningWidget extends StatelessWidget {
-  const GitVersioningWidget({super.key});
+class MyAppInfo extends StatelessWidget {
+  const MyAppInfo({super.key});
 
   @override
   Widget build(BuildContext context) {

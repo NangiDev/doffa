@@ -1,7 +1,7 @@
-import 'package:doffa/widgets/git_versioning.dart';
-import 'package:doffa/widgets/my_ads.dart';
-import 'package:doffa/widgets/my_button_card.dart';
-import 'package:doffa/widgets/my_logo_tall.dart';
+import 'package:doffa/widgets/info/my_app_info.dart';
+import 'package:doffa/widgets/ad/my_ads.dart';
+import 'package:doffa/widgets/cards/my_button_card.dart';
+import 'package:doffa/widgets/logo/my_logo_tall.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
                     MyAds(),
                   ],
                 ),
-                GitVersioningWidget(),
+                MyAppInfo(),
               ],
             ),
           ),

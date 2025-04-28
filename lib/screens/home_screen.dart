@@ -1,10 +1,10 @@
-import 'package:doffa/widgets/git_versioning.dart';
-import 'package:doffa/widgets/my_ads.dart';
-import 'package:doffa/widgets/my_data_card.dart';
-import 'package:doffa/widgets/my_date_picker_card.dart';
-import 'package:doffa/widgets/my_logo_wide.dart';
-import 'package:doffa/widgets/my_progress_card.dart';
-import 'package:doffa/widgets/my_ratio_card.dart';
+import 'package:doffa/widgets/info/my_app_info.dart';
+import 'package:doffa/widgets/ad/my_ads.dart';
+import 'package:doffa/widgets/cards/my_data_card.dart';
+import 'package:doffa/widgets/date/my_date_picker_card.dart';
+import 'package:doffa/widgets/logo/my_logo_wide.dart';
+import 'package:doffa/widgets/cards/my_progress_card.dart';
+import 'package:doffa/widgets/cards/my_ratio_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                 MyProgressCard(),
                 MyAds(),
                 MyAds(),
-                GitVersioningWidget(),
+                MyAppInfo(),
               ],
             ),
           ),

@@ -1,4 +1,4 @@
-import 'package:doffa/widgets/my_login_button.dart';
+import 'package:doffa/widgets/buttons/my_login_button.dart';
 import 'package:flutter/cupertino.dart';
 
 class MyButtonCard extends StatelessWidget {
