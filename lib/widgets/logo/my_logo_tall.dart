@@ -2,7 +2,6 @@ import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:doffa/widgets/text/my_russo_one.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyLogoTall extends StatelessWidget {
   const MyLogoTall({super.key});

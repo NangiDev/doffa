@@ -17,16 +17,16 @@ class MyAppInfo extends StatelessWidget {
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                style: MyMontserrat.defaultStyle(),
                 children: [
                   TextSpan(
                     text:
-                        'Version: ${const String.fromEnvironment('GIT_HASH', defaultValue: 'Unknown')}\n',
-                    style: TextStyle(fontWeight: FontWeight.normal),
+                        'Version: ${const String.fromEnvironment('GIT_HASH', defaultValue: 'Unknown')}',
+                    style: MyMontserrat.defaultStyle().copyWith(height: 1.5),
                   ),
+                  const TextSpan(text: '\n'),
                   TextSpan(
                     text: '© 2020 Doffa. All rights reserved.',
-                    style: TextStyle(fontWeight: FontWeight.normal),
+                    style: MyMontserrat.defaultStyle().copyWith(height: 1.5),
                   ),
                 ],
               ),

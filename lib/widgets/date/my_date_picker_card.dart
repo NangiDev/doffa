@@ -71,35 +71,36 @@ class MyDatePicker extends StatelessWidget {
               fontWeight: FontWeight.w300,
               height: 1,
             ),
-            decoration: InputDecoration(
-              labelText: title,
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              labelStyle: GoogleFonts.montserrat(
-                fontSize: maxWidth / 10,
-                color: Colors.white70,
-                fontWeight: FontWeight.w300,
-              ),
-              prefixIcon: const Icon(
-                Icons.calendar_today,
-                color: Colors.white70,
-              ),
-              filled: true,
-              fillColor: const Color.fromARGB(255, 55, 55, 55),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: Colors.white24),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: Colors.white24),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: Colors.blueAccent),
-              ),
-            ),
+            decoration: inputDeco(maxWidth),
           );
         },
+      ),
+    );
+  }
+
+  InputDecoration inputDeco(double maxWidth) {
+    return InputDecoration(
+      labelText: title,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      labelStyle: GoogleFonts.montserrat(
+        fontSize: maxWidth / 10,
+        color: Colors.white70,
+        fontWeight: FontWeight.w300,
+      ),
+      prefixIcon: const Icon(Icons.calendar_today, color: Colors.white70),
+      filled: true,
+      fillColor: const Color.fromARGB(255, 55, 55, 55),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Colors.white24),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Colors.white24),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Colors.blueAccent),
       ),
     );
   }
