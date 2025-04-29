@@ -1,15 +1,23 @@
+import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'utils/motivational_scale.dart';
 
 class MyRatioCard extends StatelessWidget {
   const MyRatioCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final metricsProvider = context.watch<MetricsProvider>();
+    final ratio = metricsProvider.getRatio();
+    final wordColor = getWordColor(ratio);
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        double maxWidth = constraints.maxWidth;
+        final double maxWidth = constraints.maxWidth;
+
         return MyContainer(
           maxWidth: maxWidth,
           child: Padding(
@@ -33,36 +41,33 @@ class MyRatioCard extends StatelessWidget {
                   Container(
                     width: maxWidth,
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 55, 55, 55),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
+                      color: const Color(0xFF373737),
+                      borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(8),
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         spacing: 8,
                         children: [
                           MyMontserrat(
-                            text: "100",
+                            text: ratio.toString(),
                             maxWidth: maxWidth,
                             sizeFactor: 6,
                             fontWeight: FontWeight.w900,
-                            color: Color.fromARGB(255, 109, 255, 129),
+                            color: wordColor.color,
                           ),
                           BadgeContainer(
+                            color: wordColor.color,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  MyMontserrat(
-                                    text: "EXCELLENT",
-                                    maxWidth: maxWidth,
-                                    sizeFactor: 32,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ],
+                              child: MyMontserrat(
+                                text: wordColor.word,
+                                maxWidth: maxWidth,
+                                sizeFactor: 32,
+                                fontWeight: FontWeight.w600,
+                                color: readableTextColor(wordColor.color),
                               ),
                             ),
                           ),
@@ -81,20 +86,21 @@ class MyRatioCard extends StatelessWidget {
 }
 
 class BadgeContainer extends StatelessWidget {
-  const BadgeContainer({super.key, required this.child});
+  const BadgeContainer({super.key, required this.child, required this.color});
 
   final Widget child;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF4AB358), Color(0xFF33723B)],
+          colors: [color, color.withAlpha((0.5 * 255).round())],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(1000)),
+        borderRadius: const BorderRadius.all(Radius.circular(1000)),
       ),
       child: child,
     );

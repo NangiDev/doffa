@@ -1,8 +1,10 @@
+import 'dart:math';
+
 import 'package:doffa/common/models.dart';
 import 'package:flutter/material.dart';
 
 class MetricsProvider extends ChangeNotifier {
-  // Store start and end metrics
+  // TODO: Set start and end to default again
   Metrics _startMetrics = Metrics(
     date: DateTime.now().subtract(const Duration(days: 14)),
     bmi: 21,
@@ -11,6 +13,7 @@ class MetricsProvider extends ChangeNotifier {
     fatInKg: 20,
     leanInKg: 60,
   );
+
   Metrics _endMetrics = Metrics(
     date: DateTime.now(),
     bmi: 22,
@@ -34,19 +37,28 @@ class MetricsProvider extends ChangeNotifier {
     return endMetrics.date.difference(startMetrics.date).inDays;
   }
 
+  // Method to get the calulated ratio
+  int getRatio() {
+    // TODO: Implement a better ratio calculation
+
+    // This is a placeholder for the actual ratio calculation
+    // Random integer between -100 and 100
+    return -100 + Random().nextInt(200);
+  }
+
   // Method to set start metrics
   void setStartMetrics(Metrics metrics) {
     _startMetrics = metrics;
-    setChangeMetrics(_startMetrics, endMetrics);
+    _setChangeMetrics(_startMetrics, endMetrics);
   }
 
   // Method to set end metrics
   void setEndMetrics(Metrics metrics) {
     _endMetrics = metrics;
-    setChangeMetrics(startMetrics, _endMetrics);
+    _setChangeMetrics(startMetrics, _endMetrics);
   }
 
-  void setChangeMetrics(Metrics start, Metrics end) {
+  void _setChangeMetrics(Metrics start, Metrics end) {
     _changeMetrics = end.difference(start);
     notifyListeners();
   }
