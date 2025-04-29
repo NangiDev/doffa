@@ -1,5 +1,5 @@
 import 'package:doffa/providers/ui_state_provider.dart';
-import 'package:doffa/widgets/cards/my_expandable_header.dart';
+import 'package:doffa/widgets/cards/common/my_expandable_header.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';

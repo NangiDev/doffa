@@ -1,4 +1,4 @@
-import 'package:doffa/providers/data_provider.dart';
+import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/providers/ui_state_provider.dart';
 import 'package:doffa/screens/home_screen.dart';
 import 'package:doffa/screens/login_screen.dart';
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => UiStateProvider()),
-        ChangeNotifierProvider(create: (_) => DataProvider()),
+        ChangeNotifierProvider(create: (_) => MetricsProvider()),
       ],
       child: MaterialApp(
         title: title,
