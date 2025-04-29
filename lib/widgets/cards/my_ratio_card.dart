@@ -51,8 +51,7 @@ class MyRatioCard extends StatelessWidget {
                             fontWeight: FontWeight.w900,
                             color: Color.fromARGB(255, 109, 255, 129),
                           ),
-                          MyContainer(
-                            maxWidth: maxWidth,
+                          BadgeContainer(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -77,6 +76,27 @@ class MyRatioCard extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class BadgeContainer extends StatelessWidget {
+  const BadgeContainer({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF4AB358), Color(0xFF33723B)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(1000)),
+      ),
+      child: child,
     );
   }
 }

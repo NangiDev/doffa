@@ -1,4 +1,3 @@
-import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/providers/ui_state_provider.dart';
 import 'package:doffa/widgets/cards/common/my_expandable_content.dart';
@@ -16,28 +15,7 @@ class MyProgressCard extends StatelessWidget {
     final isExpanded = uiState.isExpanded(ExpandableSection.progress);
 
     final metricsProvider = context.watch<MetricsProvider>();
-    final startMetrics = metricsProvider.startMetrics;
-    final endMetrics = metricsProvider.endMetrics;
-
-    final changeMetrics = Metrics(
-      date: endMetrics.date,
-      bmi: endMetrics.bmi - startMetrics.bmi,
-      fatInPercentage:
-          endMetrics.fatInPercentage - startMetrics.fatInPercentage,
-      fatInKg: endMetrics.fatInKg - startMetrics.fatInKg,
-      leanInKg: endMetrics.leanInKg - startMetrics.leanInKg,
-      weightInKg: endMetrics.weightInKg - startMetrics.weightInKg,
-    );
-
-    final statusMetrics = Metrics(
-      date: endMetrics.date,
-      bmi: endMetrics.bmi - startMetrics.bmi,
-      fatInPercentage:
-          endMetrics.fatInPercentage - startMetrics.fatInPercentage,
-      fatInKg: endMetrics.fatInKg - startMetrics.fatInKg,
-      leanInKg: endMetrics.leanInKg - startMetrics.leanInKg,
-      weightInKg: endMetrics.weightInKg - startMetrics.weightInKg,
-    );
+    final changeMetrics = metricsProvider.changeMetrics;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -57,7 +35,7 @@ class MyProgressCard extends StatelessWidget {
                     () => uiState.toggleExpanded(ExpandableSection.progress),
                 secondChild: MyExpandableContent(
                   start: changeMetrics,
-                  end: statusMetrics,
+                  end: changeMetrics,
                   maxWidth: maxWidth,
                 ),
               ),

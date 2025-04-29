@@ -53,13 +53,7 @@ class MyExpandableContent extends StatelessWidget {
       children: [
         Container(
           width: maxWidth,
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 55, 55, 55),
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(8),
-              bottomRight: Radius.circular(8),
-            ),
-          ),
+          decoration: BoxDecoration(color: Color.fromARGB(255, 55, 55, 55)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Padding(

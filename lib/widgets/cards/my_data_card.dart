@@ -18,6 +18,11 @@ class MyDataCard extends StatelessWidget {
     final startMetrics = metricsProvider.startMetrics;
     final endMetrics = metricsProvider.endMetrics;
 
+    // Update the metrics after the first frame is rendered
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      metricsProvider.setChangeMetrics(startMetrics, endMetrics);
+    });
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final double maxWidth = constraints.maxWidth;

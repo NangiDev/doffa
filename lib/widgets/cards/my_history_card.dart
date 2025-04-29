@@ -41,25 +41,28 @@ class MyHistoryCard extends StatelessWidget {
     );
   }
 
-  Padding _buildExpandedContent(double maxWidth) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          MyMontserrat(
-            text: "100",
-            maxWidth: maxWidth,
-            sizeFactor: 6,
-            fontWeight: FontWeight.w900,
-            color: Color.fromARGB(255, 109, 255, 129),
-          ),
-          MyMontserrat(
-            text: "Additional content displayed when expanded",
-            maxWidth: maxWidth,
-            sizeFactor: 32,
-            fontWeight: FontWeight.w200,
-          ),
-        ],
+  Widget _buildExpandedContent(double maxWidth) {
+    return Container(
+      width: maxWidth,
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 55, 55, 55),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(8),
+          bottomRight: Radius.circular(8),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            MyMontserrat(
+              text: "Additional content displayed when expanded",
+              maxWidth: maxWidth,
+              sizeFactor: 24,
+              fontWeight: FontWeight.w200,
+            ),
+          ],
+        ),
       ),
     );
   }
