@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 
 abstract class FetchResult {
@@ -53,12 +55,21 @@ class Metrics implements BodyMetrics {
   Metrics difference(Metrics other) {
     return Metrics(
       date: DateTime.now(),
-      bmi: bmi - other.bmi,
-      weightInKg: weightInKg - other.weightInKg,
-      fatInPercentage: fatInPercentage - other.fatInPercentage,
-      fatInKg: fatInKg - other.fatInKg,
-      leanInKg: leanInKg - other.leanInKg,
+      bmi: -10.0 + Random().nextInt(20),
+      weightInKg: -10.0 + Random().nextInt(20),
+      fatInPercentage: -10.0 + Random().nextInt(20),
+      fatInKg: -10.0 + Random().nextInt(20),
+      leanInKg: -10.0 + Random().nextInt(20),
     );
+
+    // return Metrics(
+    //   date: DateTime.now(),
+    //   bmi: bmi - other.bmi,
+    //   weightInKg: weightInKg - other.weightInKg,
+    //   fatInPercentage: fatInPercentage - other.fatInPercentage,
+    //   fatInKg: fatInKg - other.fatInKg,
+    //   leanInKg: leanInKg - other.leanInKg,
+    // );
   }
 }
 

@@ -42,22 +42,27 @@ class MyProgressCard extends StatelessWidget {
                         MetricCell(
                           value: changeMetrics.bmi,
                           color: Colors.greenAccent,
+                          hasIcon: true,
                         ),
                         MetricCell(
                           value: changeMetrics.fatInPercentage,
                           color: Colors.greenAccent,
+                          hasIcon: true,
                         ),
                         MetricCell(
                           value: changeMetrics.fatInKg,
                           color: Colors.greenAccent,
+                          hasIcon: true,
                         ),
                         MetricCell(
                           value: changeMetrics.leanInKg,
                           color: Colors.redAccent,
+                          hasIcon: true,
                         ),
                         MetricCell(
                           value: changeMetrics.weightInKg,
-                          color: Colors.redAccent,
+                          // Transparent Icon is needed for alignment
+                          hasIcon: true,
                         ),
                       ],
                     ),

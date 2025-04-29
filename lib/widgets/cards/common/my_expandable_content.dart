@@ -89,14 +89,17 @@ class MyExpandableContent extends StatelessWidget {
         children: [
           _buildMetricText(
             rowTitles[rowIndex],
+            0.0,
             maxWidth: maxWidth,
             alignment: Alignment.centerLeft,
           ),
           for (final column in columns)
             _buildMetricText(
-              column.cells[rowIndex].value.toString(),
+              column.cells[rowIndex].value.abs().toString(),
+              column.cells[rowIndex].value,
               maxWidth: maxWidth,
               color: column.cells[rowIndex].color,
+              hasIcon: column.cells[rowIndex].hasIcon,
             ),
         ],
       ),
@@ -104,22 +107,53 @@ class MyExpandableContent extends StatelessWidget {
   }
 
   Widget _buildMetricText(
-    String value, {
+    String valueStr,
+    double value, {
     required double maxWidth,
     Alignment alignment = Alignment.center,
     Color color = Colors.white,
+    bool hasIcon = false,
   }) {
+    Icon icon = Icon(
+      value < 0 ? Icons.arrow_downward : Icons.arrow_upward,
+      color: value == 0.0 ? Colors.transparent : color,
+    );
+
     return Expanded(
       flex: 1,
-      child: Align(
-        alignment: alignment,
-        child: MyMontserrat(
-          maxWidth: maxWidth,
-          text: value,
-          sizeFactor: 24,
-          fontWeight: FontWeight.w400,
-          color: color,
-        ),
+      child: Row(
+        children: [
+          if (hasIcon)
+            Expanded(
+              flex: 1,
+              child: Align(alignment: Alignment.centerRight, child: icon),
+            ),
+          if (hasIcon) SizedBox(width: 4),
+          if (hasIcon)
+            Expanded(
+              flex: 0,
+              child: MyMontserrat(
+                maxWidth: maxWidth,
+                text: '-',
+                sizeFactor: 24,
+                fontWeight: FontWeight.w400,
+                color: value < 0 ? color : Colors.transparent,
+              ),
+            ),
+          Expanded(
+            flex: 1,
+            child: Align(
+              alignment: hasIcon ? Alignment.centerLeft : alignment,
+              child: MyMontserrat(
+                maxWidth: maxWidth,
+                text: valueStr,
+                sizeFactor: 24,
+                fontWeight: FontWeight.w400,
+                color: color,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -147,8 +181,13 @@ class MyExpandableContent extends StatelessWidget {
 class MetricCell {
   final double value;
   final Color color;
+  final bool hasIcon;
 
-  MetricCell({required this.value, this.color = Colors.white});
+  MetricCell({
+    required this.value,
+    this.color = Colors.white,
+    this.hasIcon = false,
+  });
 }
 
 class MetricColumn {
