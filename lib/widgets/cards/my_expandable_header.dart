@@ -1,16 +1,41 @@
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
 
-class MyCardheader extends StatefulWidget {
-  const MyCardheader({super.key, required this.maxWidth});
+class MyExpandableHeader extends StatefulWidget {
+  final String title;
+  final String subtitle;
   final double maxWidth;
+  final ValueChanged<bool> onToggle;
+  final bool initiallyExpanded;
+
+  const MyExpandableHeader({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.maxWidth,
+    required this.onToggle,
+    this.initiallyExpanded = false,
+  });
 
   @override
-  State<MyCardheader> createState() => _MyCardheaderState();
+  State<MyExpandableHeader> createState() => _MyExpandableHeaderState();
 }
 
-class _MyCardheaderState extends State<MyCardheader> {
-  bool _isExpanded = false;
+class _MyExpandableHeaderState extends State<MyExpandableHeader> {
+  late bool _isExpanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _isExpanded = widget.initiallyExpanded;
+  }
+
+  void _toggleExpanded() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+    widget.onToggle(_isExpanded);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +49,14 @@ class _MyCardheaderState extends State<MyCardheader> {
             children: [
               MyMontserrat(
                 maxWidth: widget.maxWidth,
-                text: "DATA",
+                text: widget.title,
                 sizeFactor: 18,
                 fontWeight: FontWeight.w500,
               ),
               const SizedBox(height: 8),
               MyMontserrat(
                 maxWidth: widget.maxWidth,
-                text: "Measurements",
+                text: widget.subtitle,
                 sizeFactor: 28,
                 fontWeight: FontWeight.w100,
               ),
@@ -42,11 +67,7 @@ class _MyCardheaderState extends State<MyCardheader> {
               _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               color: Colors.white,
             ),
-            onPressed: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
+            onPressed: _toggleExpanded,
           ),
         ],
       ),

@@ -1,5 +1,5 @@
+import 'package:doffa/widgets/cards/my_expandable_header.dart';
 import 'package:doffa/widgets/my_container.dart';
-import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,6 +13,12 @@ class MyDataCard extends StatefulWidget {
 class _MyDataCardState extends State<MyDataCard> {
   bool _isExpanded = false;
 
+  void _handleToggle(bool expanded) {
+    setState(() {
+      _isExpanded = expanded;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -24,7 +30,13 @@ class _MyDataCardState extends State<MyDataCard> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildHeader(maxWidth),
+              MyExpandableHeader(
+                title: "DATA",
+                subtitle: "Measurements",
+                maxWidth: maxWidth,
+                initiallyExpanded: _isExpanded,
+                onToggle: _handleToggle,
+              ),
               AnimatedCrossFade(
                 duration: const Duration(milliseconds: 300),
                 firstChild: const SizedBox.shrink(),
@@ -38,46 +50,6 @@ class _MyDataCardState extends State<MyDataCard> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildHeader(double maxWidth) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MyMontserrat(
-                maxWidth: maxWidth,
-                text: "DATA",
-                sizeFactor: 18,
-                fontWeight: FontWeight.w500,
-              ),
-              const SizedBox(height: 8),
-              MyMontserrat(
-                maxWidth: maxWidth,
-                text: "Measurements",
-                sizeFactor: 28,
-                fontWeight: FontWeight.w100,
-              ),
-            ],
-          ),
-          IconButton(
-            icon: Icon(
-              _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
-          ),
-        ],
-      ),
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:doffa/widgets/cards/my_expandable_header.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,12 @@ class MyHistoryCard extends StatefulWidget {
 
 class MyHistoryCardState extends State<MyHistoryCard> {
   bool _isExpanded = false;
+
+  void _handleToggle(bool expanded) {
+    setState(() {
+      _isExpanded = expanded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,44 +33,12 @@ class MyHistoryCardState extends State<MyHistoryCard> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      spacing: 8,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        MyMontserrat(
-                          text: "HISTORY",
-                          maxWidth: maxWidth,
-                          sizeFactor: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        MyMontserrat(
-                          text: "Ration over time",
-                          maxWidth: maxWidth,
-                          sizeFactor: 28,
-                          fontWeight: FontWeight.w100,
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        _isExpanded
-                            ? Icons.keyboard_arrow_up
-                            : Icons.keyboard_arrow_down,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isExpanded = !_isExpanded;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+              MyExpandableHeader(
+                title: "HISTORY",
+                subtitle: "Ratio over time",
+                maxWidth: maxWidth,
+                initiallyExpanded: _isExpanded,
+                onToggle: _handleToggle,
               ),
               AnimatedCrossFade(
                 duration: const Duration(milliseconds: 300),

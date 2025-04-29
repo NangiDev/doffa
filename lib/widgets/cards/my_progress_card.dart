@@ -1,3 +1,4 @@
+import 'package:doffa/widgets/cards/my_expandable_header.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,12 @@ class MyProgressCard extends StatefulWidget {
 class _MyProgressCardState extends State<MyProgressCard> {
   bool _isExpanded = false;
 
+  void _handleToggle(bool expanded) {
+    setState(() {
+      _isExpanded = expanded;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -23,7 +30,13 @@ class _MyProgressCardState extends State<MyProgressCard> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildHeader(maxWidth),
+              MyExpandableHeader(
+                title: "PROGRESS",
+                subtitle: "Changes between start and end date",
+                maxWidth: maxWidth,
+                initiallyExpanded: _isExpanded,
+                onToggle: _handleToggle,
+              ),
               AnimatedCrossFade(
                 duration: const Duration(milliseconds: 300),
                 firstChild: const SizedBox.shrink(),
@@ -37,56 +50,6 @@ class _MyProgressCardState extends State<MyProgressCard> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildHeader(double maxWidth) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "PROGRESS",
-                style: GoogleFonts.montserrat(
-                  fontSize: maxWidth / 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  height: 1,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Changes between start and end date",
-                style: GoogleFonts.montserrat(
-                  fontSize: maxWidth / 28,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w100,
-                  height: 1,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-          IconButton(
-            icon: Icon(
-              _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
-          ),
-        ],
-      ),
     );
   }
 
