@@ -39,9 +39,29 @@ class MyDataCard extends StatelessWidget {
                 isExpanded: isExpanded,
                 onToggle: () => uiState.toggleExpanded(ExpandableSection.data),
                 secondChild: MyExpandableContent(
-                  start: startMetrics,
-                  end: endMetrics,
                   maxWidth: maxWidth,
+                  columns: [
+                    MetricColumn(
+                      header: startMetrics.dateAsString,
+                      values: [
+                        startMetrics.bmi,
+                        startMetrics.fatInPercentage,
+                        startMetrics.fatInKg,
+                        startMetrics.leanInKg,
+                        startMetrics.weightInKg,
+                      ],
+                    ),
+                    MetricColumn(
+                      header: endMetrics.dateAsString,
+                      values: [
+                        endMetrics.bmi,
+                        endMetrics.fatInPercentage,
+                        endMetrics.fatInKg,
+                        endMetrics.leanInKg,
+                        endMetrics.weightInKg,
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class AuthProvider extends ChangeNotifier {
-  bool _isLoggedIn = false;
+  bool _isLoggedIn = kDebugMode;
 
   bool get isLoggedIn => _isLoggedIn;
 

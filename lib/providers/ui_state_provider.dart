@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 enum ExpandableSection { history, data, progress }
 
 class UiStateProvider extends ChangeNotifier {
   final Map<ExpandableSection, bool> _expandedStates = {
-    ExpandableSection.history: false,
-    ExpandableSection.data: false,
-    ExpandableSection.progress: false,
+    ExpandableSection.history: kDebugMode,
+    ExpandableSection.data: kDebugMode,
+    ExpandableSection.progress: kDebugMode,
   };
 
   bool isExpanded(ExpandableSection key) => _expandedStates[key] ?? false;

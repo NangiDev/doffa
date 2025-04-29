@@ -34,9 +34,19 @@ class MyProgressCard extends StatelessWidget {
                 onToggle:
                     () => uiState.toggleExpanded(ExpandableSection.progress),
                 secondChild: MyExpandableContent(
-                  start: changeMetrics,
-                  end: changeMetrics,
                   maxWidth: maxWidth,
+                  columns: [
+                    MetricColumn(
+                      header: "Difference",
+                      values: [
+                        changeMetrics.bmi,
+                        changeMetrics.fatInPercentage,
+                        changeMetrics.fatInKg,
+                        changeMetrics.leanInKg,
+                        changeMetrics.weightInKg,
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
