@@ -1,13 +1,20 @@
+import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class MyDatePickerCard extends StatelessWidget {
   const MyDatePickerCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final metricsProvider = context.watch<MetricsProvider>();
+    final startMetrics = metricsProvider.startMetrics;
+    final endMetrics = metricsProvider.endMetrics;
+    final days = metricsProvider.getDays();
+
     return LayoutBuilder(
       builder: (context, constraints) {
         double maxWidth = constraints.maxWidth;
@@ -23,7 +30,7 @@ class MyDatePickerCard extends StatelessWidget {
               children: [
                 MyMontserrat(
                   maxWidth: maxWidth,
-                  text: "INTERVAL - 50 DAYS",
+                  text: "INTERVAL - $days DAY(S)",
                   sizeFactor: 24,
                   fontWeight: FontWeight.w600,
                 ),
@@ -33,13 +40,19 @@ class MyDatePickerCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    MyDatePicker(title: "Start Date"),
+                    MyDatePicker(
+                      title: "Start Date",
+                      dateString: startMetrics.dateAsString,
+                    ),
                     Icon(
                       Icons.arrow_forward,
                       color: Colors.white70,
                       size: maxWidth / 24, // You can adjust the size
                     ),
-                    MyDatePicker(title: "End Date"),
+                    MyDatePicker(
+                      title: "End Date",
+                      dateString: endMetrics.dateAsString,
+                    ),
                   ],
                 ),
               ],
@@ -52,24 +65,30 @@ class MyDatePickerCard extends StatelessWidget {
 }
 
 class MyDatePicker extends StatelessWidget {
-  const MyDatePicker({super.key, required this.title});
+  const MyDatePicker({
+    super.key,
+    required this.title,
+    required this.dateString,
+  });
 
   final String title;
+  final String dateString;
 
   @override
   Widget build(BuildContext context) {
+    final controller = TextEditingController(text: dateString);
+
     return Expanded(
       child: LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = constraints.maxWidth;
           return TextField(
-            controller: TextEditingController(),
+            controller: controller,
             readOnly: true,
-            style: GoogleFonts.montserrat(
-              fontSize: maxWidth / 14,
-              color: Colors.white,
+            style: MyMontserrat.defaultStyle(
+              maxWidth: maxWidth,
+              sizeFactor: 10,
               fontWeight: FontWeight.w300,
-              height: 1,
             ),
             decoration: inputDeco(maxWidth),
           );
@@ -82,9 +101,10 @@ class MyDatePicker extends StatelessWidget {
     return InputDecoration(
       labelText: title,
       floatingLabelBehavior: FloatingLabelBehavior.always,
-      labelStyle: GoogleFonts.montserrat(
-        fontSize: maxWidth / 10,
-        color: Colors.white70,
+      labelStyle: MyMontserrat.defaultStyle(
+        maxWidth: maxWidth,
+        sizeFactor: 10,
+        color: Colors.white60,
         fontWeight: FontWeight.w300,
       ),
       prefixIcon: const Icon(Icons.calendar_today, color: Colors.white70),

@@ -42,15 +42,24 @@ class Metrics implements BodyMetrics {
   factory Metrics.defaultMetrics() {
     return Metrics(
       date: DateTime.now(),
-      bmi: 1.0,
-      weightInKg: 2.0,
-      fatInPercentage: 3.0,
-      fatInKg: 4.0,
-      leanInKg: 5.0,
+      bmi: 0.0,
+      weightInKg: 0.0,
+      fatInPercentage: 0.0,
+      fatInKg: 0.0,
+      leanInKg: 0.0,
     );
   }
 
-  
+  Metrics difference(Metrics other) {
+    return Metrics(
+      date: DateTime.now(),
+      bmi: bmi - other.bmi,
+      weightInKg: weightInKg - other.weightInKg,
+      fatInPercentage: fatInPercentage - other.fatInPercentage,
+      fatInKg: fatInKg - other.fatInKg,
+      leanInKg: leanInKg - other.leanInKg,
+    );
+  }
 }
 
 @immutable

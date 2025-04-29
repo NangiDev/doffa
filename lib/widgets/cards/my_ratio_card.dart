@@ -25,7 +25,7 @@ class MyRatioCard extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                   MyMontserrat(
-                    text: "RATIO",
+                    text: "Overall Progress Quality",
                     maxWidth: maxWidth,
                     sizeFactor: 32,
                     fontWeight: FontWeight.w100,

@@ -3,17 +3,35 @@ import 'package:flutter/material.dart';
 
 class MetricsProvider extends ChangeNotifier {
   // Store start and end metrics
-  Metrics _startMetrics = Metrics.defaultMetrics();
-  Metrics _endMetrics = Metrics.defaultMetrics();
-  Metrics _changeMetrics = Metrics.defaultMetrics();
+  Metrics _startMetrics = Metrics(
+    date: DateTime.now().subtract(const Duration(days: 14)),
+    bmi: 21,
+    weightInKg: 80,
+    fatInPercentage: 15,
+    fatInKg: 20,
+    leanInKg: 60,
+  );
+  Metrics _endMetrics = Metrics(
+    date: DateTime.now(),
+    bmi: 22,
+    weightInKg: 81,
+    fatInPercentage: 16,
+    fatInKg: 21,
+    leanInKg: 58,
+  );
+
+  late Metrics _changeMetrics;
+  MetricsProvider() {
+    _changeMetrics = _endMetrics.difference(_startMetrics);
+  }
 
   Metrics get startMetrics => _startMetrics;
   Metrics get endMetrics => _endMetrics;
   Metrics get changeMetrics => _changeMetrics;
 
   // Method to get days between two dates
-  int getDays(DateTime start, DateTime end) {
-    return end.difference(start).inDays;
+  int getDays() {
+    return endMetrics.date.difference(startMetrics.date).inDays;
   }
 
   // Method to set start metrics
@@ -29,14 +47,7 @@ class MetricsProvider extends ChangeNotifier {
   }
 
   void setChangeMetrics(Metrics start, Metrics end) {
-    _changeMetrics = Metrics(
-      date: DateTime.now(),
-      bmi: end.bmi - start.bmi,
-      weightInKg: end.weightInKg - start.weightInKg,
-      fatInPercentage: end.fatInPercentage - start.fatInPercentage,
-      fatInKg: end.fatInKg - start.fatInKg,
-      leanInKg: end.leanInKg - start.leanInKg,
-    );
+    _changeMetrics = end.difference(start);
     notifyListeners();
   }
 }

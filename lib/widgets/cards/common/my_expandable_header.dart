@@ -20,7 +20,7 @@ class MyExpandableHeader extends StatelessWidget {
     required this.isExpanded,
     required this.onToggle,
     this.firstChild,
-    this.animationDuration = const Duration(milliseconds: 300),
+    this.animationDuration = const Duration(milliseconds: 100),
   });
 
   @override
