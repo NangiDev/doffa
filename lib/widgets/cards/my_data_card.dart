@@ -3,21 +3,8 @@ import 'package:doffa/widgets/my_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyDataCard extends StatefulWidget {
+class MyDataCard extends StatelessWidget {
   const MyDataCard({super.key});
-
-  @override
-  State<MyDataCard> createState() => _MyDataCardState();
-}
-
-class _MyDataCardState extends State<MyDataCard> {
-  bool _isExpanded = false;
-
-  void _handleToggle(bool expanded) {
-    setState(() {
-      _isExpanded = expanded;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +21,7 @@ class _MyDataCardState extends State<MyDataCard> {
                 title: "DATA",
                 subtitle: "Measurements",
                 maxWidth: maxWidth,
-                initiallyExpanded: _isExpanded,
-                onToggle: _handleToggle,
-              ),
-              AnimatedCrossFade(
-                duration: const Duration(milliseconds: 300),
-                firstChild: const SizedBox.shrink(),
                 secondChild: _buildExpandedContent(maxWidth),
-                crossFadeState:
-                    _isExpanded
-                        ? CrossFadeState.showSecond
-                        : CrossFadeState.showFirst,
               ),
             ],
           ),

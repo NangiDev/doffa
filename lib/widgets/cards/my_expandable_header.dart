@@ -5,16 +5,20 @@ class MyExpandableHeader extends StatefulWidget {
   final String title;
   final String subtitle;
   final double maxWidth;
-  final ValueChanged<bool> onToggle;
+  final Widget secondChild;
+  final Widget? firstChild;
   final bool initiallyExpanded;
+  final Duration animationDuration;
 
   const MyExpandableHeader({
     super.key,
     required this.title,
     required this.subtitle,
     required this.maxWidth,
-    required this.onToggle,
+    required this.secondChild,
+    this.firstChild,
     this.initiallyExpanded = false,
+    this.animationDuration = const Duration(milliseconds: 300),
   });
 
   @override
@@ -34,43 +38,57 @@ class _MyExpandableHeaderState extends State<MyExpandableHeader> {
     setState(() {
       _isExpanded = !_isExpanded;
     });
-    widget.onToggle(_isExpanded);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              MyMontserrat(
-                maxWidth: widget.maxWidth,
-                text: widget.title,
-                sizeFactor: 18,
-                fontWeight: FontWeight.w500,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyMontserrat(
+                    maxWidth: widget.maxWidth,
+                    text: widget.title,
+                    sizeFactor: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  const SizedBox(height: 8),
+                  MyMontserrat(
+                    maxWidth: widget.maxWidth,
+                    text: widget.subtitle,
+                    sizeFactor: 28,
+                    fontWeight: FontWeight.w100,
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
-              MyMontserrat(
-                maxWidth: widget.maxWidth,
-                text: widget.subtitle,
-                sizeFactor: 28,
-                fontWeight: FontWeight.w100,
+              IconButton(
+                icon: Icon(
+                  _isExpanded
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                  color: Colors.white,
+                ),
+                onPressed: _toggleExpanded,
               ),
             ],
           ),
-          IconButton(
-            icon: Icon(
-              _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              color: Colors.white,
-            ),
-            onPressed: _toggleExpanded,
-          ),
-        ],
-      ),
+        ),
+        AnimatedCrossFade(
+          duration: widget.animationDuration,
+          firstChild: widget.firstChild ?? const SizedBox.shrink(),
+          secondChild: widget.secondChild,
+          crossFadeState:
+              _isExpanded
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+        ),
+      ],
     );
   }
 }

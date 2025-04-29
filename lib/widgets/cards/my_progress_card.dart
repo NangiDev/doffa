@@ -3,21 +3,8 @@ import 'package:doffa/widgets/my_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyProgressCard extends StatefulWidget {
+class MyProgressCard extends StatelessWidget {
   const MyProgressCard({super.key});
-
-  @override
-  State<MyProgressCard> createState() => _MyProgressCardState();
-}
-
-class _MyProgressCardState extends State<MyProgressCard> {
-  bool _isExpanded = false;
-
-  void _handleToggle(bool expanded) {
-    setState(() {
-      _isExpanded = expanded;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +21,7 @@ class _MyProgressCardState extends State<MyProgressCard> {
                 title: "PROGRESS",
                 subtitle: "Changes between start and end date",
                 maxWidth: maxWidth,
-                initiallyExpanded: _isExpanded,
-                onToggle: _handleToggle,
-              ),
-              AnimatedCrossFade(
-                duration: const Duration(milliseconds: 300),
-                firstChild: const SizedBox.shrink(),
                 secondChild: _buildExpandedContent(maxWidth),
-                crossFadeState:
-                    _isExpanded
-                        ? CrossFadeState.showSecond
-                        : CrossFadeState.showFirst,
               ),
             ],
           ),
