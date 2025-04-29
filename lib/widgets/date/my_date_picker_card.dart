@@ -85,8 +85,9 @@ class MyDatePicker extends StatelessWidget {
             ),
             decoration: InputDecoration(
               labelText: title,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
               labelStyle: GoogleFonts.montserrat(
-                fontSize: maxWidth / 12,
+                fontSize: maxWidth / 10,
                 color: Colors.white70,
                 fontWeight: FontWeight.w300,
               ),

@@ -72,7 +72,7 @@ class _MyProgressCardState extends State<MyProgressCard> {
               Text(
                 "Changes between start and end date",
                 style: GoogleFonts.montserrat(
-                  fontSize: maxWidth / 32,
+                  fontSize: maxWidth / 28,
                   color: Colors.white,
                   fontWeight: FontWeight.w100,
                   height: 1,

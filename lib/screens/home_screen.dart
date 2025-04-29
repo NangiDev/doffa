@@ -1,5 +1,6 @@
 import 'package:doffa/widgets/buttons/my_coffee_button.dart';
 import 'package:doffa/widgets/buttons/my_sign_out_button.dart';
+import 'package:doffa/widgets/cards/my_history_card.dart';
 import 'package:doffa/widgets/info/my_app_info.dart';
 import 'package:doffa/widgets/ad/my_ads.dart';
 import 'package:doffa/widgets/cards/my_data_card.dart';
@@ -39,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                 MyDatePickerCard(),
                 MyAds(),
                 MyRatioCard(),
-                // MyHistoryCard(),
+                MyHistoryCard(),
                 MyDataCard(),
                 MyProgressCard(),
                 MyAds(),
