@@ -1,7 +1,9 @@
+import 'package:doffa/providers/auth_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyButtonCard extends StatelessWidget {
   const MyButtonCard({super.key});
@@ -23,13 +25,17 @@ class MyButtonCard extends StatelessWidget {
                   icon: CupertinoIcons.bolt_fill,
                   label: "Login with Fitbit",
                   color: const Color(0xFF00B0B9),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    Provider.of<AuthProvider>(context, listen: false).logIn();
+                  },
                 ),
                 MyLoginButton(
                   icon: CupertinoIcons.play_circle_fill,
                   label: "Try Demo",
                   color: const Color(0xFF000000),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    Provider.of<AuthProvider>(context, listen: false).logIn();
+                  },
                 ),
               ],
             ),
