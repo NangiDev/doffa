@@ -28,6 +28,8 @@ class Metrics implements BodyMetrics {
   @override
   final double leanInKg;
 
+  String get dateAsString => date.toIso8601String().split('T').first;
+
   const Metrics({
     required this.date,
     required this.bmi,
@@ -40,11 +42,11 @@ class Metrics implements BodyMetrics {
   factory Metrics.defaultMetrics() {
     return Metrics(
       date: DateTime.now(),
-      bmi: 0.0,
-      weightInKg: 0.0,
-      fatInPercentage: 0.0,
-      fatInKg: 0.0,
-      leanInKg: 0.0,
+      bmi: 1.0,
+      weightInKg: 2.0,
+      fatInPercentage: 3.0,
+      fatInKg: 4.0,
+      leanInKg: 5.0,
     );
   }
 }

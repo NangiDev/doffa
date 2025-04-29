@@ -1,42 +1,50 @@
+import 'package:doffa/common/models.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
 
 class MyExpandableContent extends StatelessWidget {
   final double maxWidth;
+  final Metrics start;
+  final Metrics end;
 
-  const MyExpandableContent({super.key, required this.maxWidth});
+  const MyExpandableContent({
+    super.key,
+    required this.maxWidth,
+    required this.start,
+    required this.end,
+  });
 
   @override
   Widget build(BuildContext context) {
     final metrics = [
       _MetricRow(
         name: "BMI",
-        startValue: "29.5",
-        endValue: "29.5",
+        startValue: start.bmi,
+        endValue: end.bmi,
         maxWidth: maxWidth,
       ),
       _MetricRow(
         name: "Fat (%)",
-        startValue: "29.5",
-        endValue: "29.5",
+        startValue: start.fatInPercentage,
+        endValue: end.fatInPercentage,
         maxWidth: maxWidth,
       ),
       _MetricRow(
         name: "Fat (kg)",
-        startValue: "29.5",
-        endValue: "29.5",
+        startValue: start.fatInKg,
+        endValue: end.fatInKg,
         maxWidth: maxWidth,
       ),
       _MetricRow(
         name: "Lean (kg)",
-        startValue: "29.5",
-        endValue: "29.5",
+        startValue: start.leanInKg,
+        endValue: end.leanInKg,
         maxWidth: maxWidth,
       ),
       _MetricRow(
         name: "Weight (kg)",
-        startValue: "29.5",
-        endValue: "29.5",
+        startValue: start.weightInKg,
+        endValue: end.weightInKg,
         maxWidth: maxWidth,
       ),
     ];
@@ -62,16 +70,18 @@ class MyExpandableContent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildHeaderColumn("Metric", maxWidth, Alignment.centerLeft),
+                  // Change
                   _buildHeaderColumn(
-                    "2025-01-01",
+                    start.dateAsString,
                     maxWidth,
                     Alignment.center,
-                  ), // Change
+                  ),
+                  // Status
                   _buildHeaderColumn(
-                    "2025-05-25",
+                    end.dateAsString,
                     maxWidth,
                     Alignment.center,
-                  ), // Status
+                  ),
                 ],
               ),
             ),
@@ -111,8 +121,8 @@ class MyExpandableContent extends StatelessWidget {
 
 class _MetricRow extends StatelessWidget {
   final String name;
-  final String startValue;
-  final String endValue;
+  final double startValue;
+  final double endValue;
   final double maxWidth;
 
   const _MetricRow({
@@ -131,8 +141,8 @@ class _MetricRow extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildMetricText(name, maxWidth, Alignment.centerLeft),
-          _buildMetricText(startValue, maxWidth, Alignment.center),
-          _buildMetricText(endValue, maxWidth, Alignment.center),
+          _buildMetricText(startValue.toString(), maxWidth, Alignment.center),
+          _buildMetricText(endValue.toString(), maxWidth, Alignment.center),
         ],
       ),
     );

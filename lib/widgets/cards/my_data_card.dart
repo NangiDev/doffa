@@ -33,7 +33,11 @@ class MyDataCard extends StatelessWidget {
                 maxWidth: maxWidth,
                 isExpanded: isExpanded,
                 onToggle: () => uiState.toggleExpanded(ExpandableSection.data),
-                secondChild: MyExpandableContent(maxWidth: maxWidth),
+                secondChild: MyExpandableContent(
+                  start: startMetrics,
+                  end: endMetrics,
+                  maxWidth: maxWidth,
+                ),
               ),
             ],
           ),
