@@ -1,13 +1,18 @@
+import 'package:doffa/providers/ui_state_provider.dart';
 import 'package:doffa/widgets/cards/my_expandable_header.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class MyDataCard extends StatelessWidget {
   const MyDataCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final uiState = context.watch<UiStateProvider>();
+    final isExpanded = uiState.isExpanded(ExpandableSection.data);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final double maxWidth = constraints.maxWidth;
@@ -21,6 +26,8 @@ class MyDataCard extends StatelessWidget {
                 title: "DATA",
                 subtitle: "Measurements",
                 maxWidth: maxWidth,
+                isExpanded: isExpanded,
+                onToggle: () => uiState.toggleExpanded(ExpandableSection.data),
                 secondChild: _buildExpandedContent(maxWidth),
               ),
             ],

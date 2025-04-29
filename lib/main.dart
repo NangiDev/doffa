@@ -1,3 +1,5 @@
+import 'package:doffa/providers/data_provider.dart';
+import 'package:doffa/providers/ui_state_provider.dart';
 import 'package:doffa/screens/home_screen.dart';
 import 'package:doffa/screens/login_screen.dart';
 import 'package:doffa/providers/auth_provider.dart';
@@ -15,8 +17,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AuthProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => UiStateProvider()),
+        ChangeNotifierProvider(create: (_) => DataProvider()),
+      ],
       child: MaterialApp(
         title: title,
         theme: ThemeData(
