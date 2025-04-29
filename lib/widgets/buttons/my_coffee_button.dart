@@ -12,9 +12,35 @@ class MyCoffeeButton extends StatelessWidget {
         tooltip: 'Buy me a coffee',
         icon: Icon(Icons.coffee),
         onPressed: () {
-          _logger.i('Buy me a coffee button pressed');
+          _confirmCoffee(context, () {
+            _logger.i('Buy me a coffee button pressed');
+          });
         },
       ),
+    );
+  }
+
+  void _confirmCoffee(BuildContext context, VoidCallback onConfirm) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('You are awesome!'),
+            content: const Text('You will now be redirected to Kofi'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  onConfirm();
+                },
+                child: const Text('Lets go!'),
+              ),
+            ],
+          ),
     );
   }
 }

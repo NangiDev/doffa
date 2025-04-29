@@ -8,7 +8,7 @@ class MyRussoOne extends StatelessWidget {
     required this.text,
     this.sizeFactor = 1,
     this.color = Colors.white,
-    this.fontWeight = FontWeight.w100,
+    this.fontWeight = FontWeight.w400,
   });
 
   final double maxWidth;
@@ -36,7 +36,7 @@ class MyRussoOne extends StatelessWidget {
     double maxWidth = 1000,
     double sizeFactor = 1,
     Color color = Colors.white,
-    FontWeight fontWeight = FontWeight.w100,
+    FontWeight fontWeight = FontWeight.w400,
     double height = 1.4,
   }) {
     return GoogleFonts.russoOne(

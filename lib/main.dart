@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         title: title,
         theme: ThemeData(
           colorScheme: const ColorScheme.dark(
+            primary: Colors.blue,
             surface: Color.fromARGB(255, 16, 16, 16),
           ),
           primarySwatch: Colors.blue,

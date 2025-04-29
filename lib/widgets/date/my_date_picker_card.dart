@@ -86,8 +86,8 @@ class MyDatePicker extends StatelessWidget {
             readOnly: true,
             style: MyMontserrat.defaultStyle(
               maxWidth: maxWidth,
-              sizeFactor: 10,
-              fontWeight: FontWeight.w300,
+              sizeFactor: 12,
+              fontWeight: FontWeight.w400,
             ),
             decoration: inputDeco(maxWidth),
           );
@@ -103,8 +103,7 @@ class MyDatePicker extends StatelessWidget {
       labelStyle: MyMontserrat.defaultStyle(
         maxWidth: maxWidth,
         sizeFactor: 10,
-        color: Colors.white60,
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.w400,
       ),
       prefixIcon: const Icon(Icons.calendar_today, color: Colors.white70),
       filled: true,

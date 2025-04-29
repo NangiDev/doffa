@@ -46,7 +46,7 @@ class MyExpandableHeader extends StatelessWidget {
                     maxWidth: maxWidth,
                     text: subtitle,
                     sizeFactor: 28,
-                    fontWeight: FontWeight.w100,
+                    fontWeight: FontWeight.w400,
                   ),
                 ],
               ),

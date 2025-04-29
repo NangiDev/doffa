@@ -36,7 +36,7 @@ class MyMontserrat extends StatelessWidget {
     double maxWidth = 1000,
     double sizeFactor = 1,
     Color color = Colors.white,
-    FontWeight fontWeight = FontWeight.w100,
+    FontWeight fontWeight = FontWeight.w400,
     double height = 1.4,
   }) {
     return GoogleFonts.montserrat(

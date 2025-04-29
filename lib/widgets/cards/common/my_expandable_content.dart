@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class MyExpandableContent extends StatelessWidget {
   final double maxWidth;
-  final List<MetricColumn> columns; // Dynamic columns after "Metric"
+  final List<MetricColumn> columns;
 
   final List<String> rowTitles = const [
     "BMI",
@@ -87,19 +87,28 @@ class MyExpandableContent extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         children: [
-          _buildMetricText(rowTitles[rowIndex], maxWidth, Alignment.centerLeft),
+          _buildMetricText(
+            rowTitles[rowIndex],
+            maxWidth: maxWidth,
+            alignment: Alignment.centerLeft,
+          ),
           for (final column in columns)
             _buildMetricText(
-              column.values[rowIndex].toString(),
-              maxWidth,
-              Alignment.center,
+              column.cells[rowIndex].value.toString(),
+              maxWidth: maxWidth,
+              color: column.cells[rowIndex].color,
             ),
         ],
       ),
     );
   }
 
-  Widget _buildMetricText(String value, double maxWidth, Alignment alignment) {
+  Widget _buildMetricText(
+    String value, {
+    required double maxWidth,
+    Alignment alignment = Alignment.center,
+    Color color = Colors.white,
+  }) {
     return Expanded(
       flex: 1,
       child: Align(
@@ -108,7 +117,8 @@ class MyExpandableContent extends StatelessWidget {
           maxWidth: maxWidth,
           text: value,
           sizeFactor: 24,
-          fontWeight: FontWeight.w200,
+          fontWeight: FontWeight.w400,
+          color: color,
         ),
       ),
     );
@@ -134,9 +144,16 @@ class MyExpandableContent extends StatelessWidget {
   }
 }
 
+class MetricCell {
+  final double value;
+  final Color color;
+
+  MetricCell({required this.value, this.color = Colors.white});
+}
+
 class MetricColumn {
   final String header;
-  final List<double> values;
+  final List<MetricCell> cells;
 
-  MetricColumn({required this.header, required this.values});
+  MetricColumn({required this.header, required this.cells});
 }

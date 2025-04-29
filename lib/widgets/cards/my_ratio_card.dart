@@ -36,7 +36,7 @@ class MyRatioCard extends StatelessWidget {
                     text: "Overall Progress Quality",
                     maxWidth: maxWidth,
                     sizeFactor: 32,
-                    fontWeight: FontWeight.w100,
+                    fontWeight: FontWeight.w400,
                   ),
                   Container(
                     width: maxWidth,
@@ -93,10 +93,14 @@ class BadgeContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hsl = HSLColor.fromColor(color);
+    final Color secondaryColor =
+        hsl.withLightness((hsl.lightness * 0.7).clamp(0.0, 1.0)).toColor();
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [color, color.withAlpha((0.5 * 255).round())],
+          colors: [color, secondaryColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),

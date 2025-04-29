@@ -59,7 +59,7 @@ class MyHistoryCard extends StatelessWidget {
               text: "Additional content displayed when expanded",
               maxWidth: maxWidth,
               sizeFactor: 24,
-              fontWeight: FontWeight.w200,
+              fontWeight: FontWeight.w400,
             ),
           ],
         ),

@@ -1,17 +1,12 @@
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 class MyAds extends StatelessWidget {
   const MyAds({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode) {
-      return const SizedBox.shrink();
-    }
-
     return LayoutBuilder(
       builder: (context, constraints) {
         double maxWidth = constraints.maxWidth;
@@ -24,7 +19,7 @@ class MyAds extends StatelessWidget {
                 maxWidth: maxWidth,
                 text: "Google Ads",
                 sizeFactor: 12,
-                fontWeight: FontWeight.w100,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),

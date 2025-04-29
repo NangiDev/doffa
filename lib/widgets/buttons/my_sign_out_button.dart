@@ -14,10 +14,36 @@ class MySignOutButton extends StatelessWidget {
         tooltip: 'Sign out',
         icon: const Icon(Icons.logout),
         onPressed: () {
-          _logger.i('Logout button pressed');
-          Provider.of<AuthProvider>(context, listen: false).logOut();
+          _confirmLogout(context, () {
+            _logger.i('Logout button pressed');
+            Provider.of<AuthProvider>(context, listen: false).logOut();
+          });
         },
       ),
+    );
+  }
+
+  void _confirmLogout(BuildContext context, VoidCallback onConfirm) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Log out?'),
+            content: const Text('Are you sure you want to log out?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  onConfirm();
+                },
+                child: const Text('Log out'),
+              ),
+            ],
+          ),
     );
   }
 }

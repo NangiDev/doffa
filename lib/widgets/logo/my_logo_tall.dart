@@ -38,7 +38,7 @@ class MyLogoTall extends StatelessWidget {
                 child: MyMontserrat(
                   maxWidth: 1000,
                   text: 'Track your fitness progress with precision',
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

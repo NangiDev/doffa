@@ -38,22 +38,22 @@ class MyDataCard extends StatelessWidget {
                   columns: [
                     MetricColumn(
                       header: startMetrics.dateAsString,
-                      values: [
-                        startMetrics.bmi,
-                        startMetrics.fatInPercentage,
-                        startMetrics.fatInKg,
-                        startMetrics.leanInKg,
-                        startMetrics.weightInKg,
+                      cells: [
+                        MetricCell(value: startMetrics.bmi),
+                        MetricCell(value: startMetrics.fatInPercentage),
+                        MetricCell(value: startMetrics.fatInKg),
+                        MetricCell(value: startMetrics.leanInKg),
+                        MetricCell(value: startMetrics.weightInKg),
                       ],
                     ),
                     MetricColumn(
                       header: endMetrics.dateAsString,
-                      values: [
-                        endMetrics.bmi,
-                        endMetrics.fatInPercentage,
-                        endMetrics.fatInKg,
-                        endMetrics.leanInKg,
-                        endMetrics.weightInKg,
+                      cells: [
+                        MetricCell(value: endMetrics.bmi),
+                        MetricCell(value: endMetrics.fatInPercentage),
+                        MetricCell(value: endMetrics.fatInKg),
+                        MetricCell(value: endMetrics.leanInKg),
+                        MetricCell(value: endMetrics.weightInKg),
                       ],
                     ),
                   ],

@@ -38,12 +38,27 @@ class MyProgressCard extends StatelessWidget {
                   columns: [
                     MetricColumn(
                       header: "Difference",
-                      values: [
-                        changeMetrics.bmi,
-                        changeMetrics.fatInPercentage,
-                        changeMetrics.fatInKg,
-                        changeMetrics.leanInKg,
-                        changeMetrics.weightInKg,
+                      cells: [
+                        MetricCell(
+                          value: changeMetrics.bmi,
+                          color: Colors.greenAccent,
+                        ),
+                        MetricCell(
+                          value: changeMetrics.fatInPercentage,
+                          color: Colors.greenAccent,
+                        ),
+                        MetricCell(
+                          value: changeMetrics.fatInKg,
+                          color: Colors.greenAccent,
+                        ),
+                        MetricCell(
+                          value: changeMetrics.leanInKg,
+                          color: Colors.redAccent,
+                        ),
+                        MetricCell(
+                          value: changeMetrics.weightInKg,
+                          color: Colors.redAccent,
+                        ),
                       ],
                     ),
                   ],

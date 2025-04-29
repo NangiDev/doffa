@@ -77,7 +77,7 @@ class MyLoginButton extends StatelessWidget {
             maxWidth: maxWidth,
             text: label,
             sizeFactor: 12,
-            fontWeight: FontWeight.w300,
+            fontWeight: FontWeight.w400,
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
