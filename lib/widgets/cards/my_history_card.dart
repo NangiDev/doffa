@@ -1,5 +1,6 @@
+import 'package:doffa/widgets/my_container.dart';
+import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyHistoryCard extends StatefulWidget {
   const MyHistoryCard({super.key});
@@ -17,17 +18,9 @@ class MyHistoryCardState extends State<MyHistoryCard> {
       builder: (context, constraints) {
         double maxWidth = constraints.maxWidth;
 
-        return Container(
-          width: maxWidth,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF3A3A3A), Color(0xFF222222)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            border: Border.all(color: Color(0xFF606060), width: 2),
-          ),
+        return MyContainer(
+          maxWidth: maxWidth,
+
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -42,27 +35,17 @@ class MyHistoryCardState extends State<MyHistoryCard> {
                       spacing: 8,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "HISTORY",
-                          style: GoogleFonts.montserrat(
-                            fontSize: maxWidth / 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            height: 1,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        MyMontserrat(
+                          text: "HISTORY",
+                          maxWidth: maxWidth,
+                          sizeFactor: 18,
+                          fontWeight: FontWeight.w500,
                         ),
-                        Text(
-                          "Ratio over time",
-                          style: GoogleFonts.montserrat(
-                            fontSize: maxWidth / 28,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w100,
-                            height: 1,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        MyMontserrat(
+                          text: "Ration over time",
+                          maxWidth: maxWidth,
+                          sizeFactor: 28,
+                          fontWeight: FontWeight.w100,
                         ),
                       ],
                     ),
@@ -98,25 +81,18 @@ class MyHistoryCardState extends State<MyHistoryCard> {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        Text(
-                          "100",
-                          style: GoogleFonts.montserrat(
-                            fontSize: maxWidth / 6,
-                            color: Color.fromARGB(255, 109, 255, 129),
-                            fontWeight: FontWeight.w900,
-                            height: 1,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        MyMontserrat(
+                          text: "100",
+                          maxWidth: maxWidth,
+                          sizeFactor: 6,
+                          fontWeight: FontWeight.w900,
+                          color: Color.fromARGB(255, 109, 255, 129),
                         ),
-                        Text(
-                          "Additional content displayed when expanded",
-                          style: GoogleFonts.montserrat(
-                            fontSize: maxWidth / 32,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w200,
-                            height: 1,
-                          ),
+                        MyMontserrat(
+                          text: "Additional content displayed when expanded",
+                          maxWidth: maxWidth,
+                          sizeFactor: 32,
+                          fontWeight: FontWeight.w200,
                         ),
                       ],
                     ),

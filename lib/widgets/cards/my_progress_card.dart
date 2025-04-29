@@ -1,3 +1,4 @@
+import 'package:doffa/widgets/my_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,17 +18,8 @@ class _MyProgressCardState extends State<MyProgressCard> {
       builder: (context, constraints) {
         final double maxWidth = constraints.maxWidth;
 
-        return Container(
-          width: maxWidth,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF3A3A3A), Color(0xFF222222)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Color(0xFF606060), width: 2),
-          ),
+        return MyContainer(
+          maxWidth: maxWidth,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

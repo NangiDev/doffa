@@ -1,5 +1,5 @@
+import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyAppInfo extends StatelessWidget {
   const MyAppInfo({super.key});
@@ -17,12 +17,7 @@ class MyAppInfo extends StatelessWidget {
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                style: GoogleFonts.montserrat(
-                  fontSize: 1000,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w100,
-                  height: 1.4,
-                ),
+                style: MyMontserrat.defaultStyle(),
                 children: [
                   TextSpan(
                     text:

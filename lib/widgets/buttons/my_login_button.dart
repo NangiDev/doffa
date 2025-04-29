@@ -1,5 +1,5 @@
+import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyLoginButton extends StatelessWidget {
   final IconData icon; // Use IconData instead of Widget
@@ -28,16 +28,11 @@ class MyLoginButton extends StatelessWidget {
             icon, // Directly use the IconData
             size: iconSize, // Set the icon size to scale with the width
           ),
-          label: Text(
-            label,
-            style: GoogleFonts.montserrat(
-              fontSize: maxWidth / 12, // Adjust text size based on width
-              color: Colors.white,
-              fontWeight: FontWeight.w300,
-              height: 1,
-            ),
-            maxLines: 1, // Prevent text from wrapping
-            overflow: TextOverflow.ellipsis, // Handle long text gracefully
+          label: MyMontserrat(
+            maxWidth: maxWidth,
+            text: label,
+            sizeFactor: 12,
+            fontWeight: FontWeight.w300,
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: color,

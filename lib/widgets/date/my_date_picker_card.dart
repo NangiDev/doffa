@@ -1,3 +1,5 @@
+import 'package:doffa/widgets/text/my_montserrat.dart';
+import 'package:doffa/widgets/my_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,17 +11,8 @@ class MyDatePickerCard extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         double maxWidth = constraints.maxWidth;
-        return Container(
-          width: maxWidth,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF3A3A3A), Color(0xFF222222)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            border: Border.all(color: Color(0xFF606060), width: 2),
-          ),
+        return MyContainer(
+          maxWidth: maxWidth,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -28,16 +21,11 @@ class MyDatePickerCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 16,
               children: [
-                Text(
-                  "INTERVAL - 50 DAYS",
-                  style: GoogleFonts.montserrat(
-                    fontSize: maxWidth / 24,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    height: 1,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                MyMontserrat(
+                  maxWidth: maxWidth,
+                  text: "INTERVAL - 50 DAYS",
+                  sizeFactor: 24,
+                  fontWeight: FontWeight.w600,
                 ),
                 Row(
                   spacing: 8,

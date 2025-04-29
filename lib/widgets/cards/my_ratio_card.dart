@@ -1,5 +1,6 @@
+import 'package:doffa/widgets/my_container.dart';
+import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyRatioCard extends StatelessWidget {
   const MyRatioCard({super.key});
@@ -9,44 +10,25 @@ class MyRatioCard extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         double maxWidth = constraints.maxWidth;
-        return Container(
-          width: maxWidth,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF3A3A3A), Color(0xFF222222)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            border: Border.all(color: Color(0xFF606060), width: 2),
-          ),
+        return MyContainer(
+          maxWidth: maxWidth,
           child: Padding(
             padding: const EdgeInsets.only(top: 16),
             child: Center(
               child: Column(
                 spacing: 8,
                 children: [
-                  Text(
-                    "RATIO",
-                    style: GoogleFonts.montserrat(
-                      fontSize: maxWidth / 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      height: 1,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  MyMontserrat(
+                    text: "RATIO",
+                    maxWidth: maxWidth,
+                    sizeFactor: 18,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Text(
-                    "Overall Progress Quality",
-                    style: GoogleFonts.montserrat(
-                      fontSize: maxWidth / 32,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w100,
-                      height: 1,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  MyMontserrat(
+                    text: "RATIO",
+                    maxWidth: maxWidth,
+                    sizeFactor: 32,
+                    fontWeight: FontWeight.w100,
                   ),
                   Container(
                     width: maxWidth,
@@ -62,42 +44,24 @@ class MyRatioCard extends StatelessWidget {
                       child: Column(
                         spacing: 8,
                         children: [
-                          Text(
-                            "100",
-                            style: GoogleFonts.montserrat(
-                              fontSize: maxWidth / 6,
-                              color: Color.fromARGB(255, 109, 255, 129),
-                              fontWeight: FontWeight.w900,
-                              height: 1,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          MyMontserrat(
+                            text: "100",
+                            maxWidth: maxWidth,
+                            sizeFactor: 6,
+                            fontWeight: FontWeight.w900,
+                            color: Color.fromARGB(255, 109, 255, 129),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Color(0xFF4AB358), Color(0xFF33723B)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(1000),
-                              ),
-                            ),
+                          MyContainer(
+                            maxWidth: maxWidth,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
-                                  Text(
-                                    "EXCELLENT",
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: maxWidth / 32,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                                  MyMontserrat(
+                                    text: "EXCELLENT",
+                                    maxWidth: maxWidth,
+                                    sizeFactor: 32,
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ],
                               ),

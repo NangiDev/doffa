@@ -1,3 +1,4 @@
+import 'package:doffa/widgets/text/my_russo_one.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,12 +12,10 @@ class MyLogoWide extends StatelessWidget {
       builder: (context, constraints) {
         double maxWidth = constraints.maxWidth;
         return Align(
-          alignment: Alignment.centerLeft, // Align Row to the left
+          alignment: Alignment.centerLeft,
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment:
-                MainAxisAlignment
-                    .start, // Ensure the content starts at the left
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SvgPicture.asset(
@@ -25,21 +24,12 @@ class MyLogoWide extends StatelessWidget {
                 width: maxWidth / 6,
                 height: maxWidth / 6,
               ),
-              SizedBox(width: 16), // Add some space between the logo and text
+              SizedBox(width: 16),
               Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment:
-                    CrossAxisAlignment.start, // Align text to the left
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'DOFFA',
-                    style: GoogleFonts.russoOne(
-                      fontSize:
-                          maxWidth / 8, // Adjust font size based on maxWidth
-                      color: Colors.white,
-                      height: 1,
-                    ),
-                  ),
+                  MyRussoOne(text: 'DOFFA', maxWidth: maxWidth, sizeFactor: 8),
                 ],
               ),
             ],

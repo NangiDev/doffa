@@ -1,3 +1,5 @@
+import 'package:doffa/widgets/text/my_montserrat.dart';
+import 'package:doffa/widgets/text/my_russo_one.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,30 +27,19 @@ class MyLogoTall extends StatelessWidget {
             ),
             SizedBox(height: 32),
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: FittedBox(
-                child: Text(
-                  'DOFFA',
-                  style: GoogleFonts.russoOne(
-                    fontSize: 1000,
-                    color: Colors.white,
-                    height: 1,
-                  ),
-                ),
+                child: MyRussoOne(text: 'DOFFA', maxWidth: 1000, sizeFactor: 1),
               ),
             ),
             SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: FittedBox(
-                child: Text(
-                  'Track your fitness progress with precision',
-                  style: GoogleFonts.montserrat(
-                    fontSize: 1000,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w300,
-                    height: 1,
-                  ),
+                child: MyMontserrat(
+                  maxWidth: 1000,
+                  text: 'Track your fitness progress with precision',
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             ),
