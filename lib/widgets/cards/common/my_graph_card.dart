@@ -1,22 +1,19 @@
 import 'package:doffa/providers/ui_state_provider.dart';
-import 'package:doffa/widgets/cards/common/my_expandable_table.dart';
 import 'package:doffa/widgets/cards/common/my_expandable_header.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MyMetricCard extends StatelessWidget {
+class MyGraphCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final ExpandableSection section;
-  final List<MetricColumn> columns;
 
-  const MyMetricCard({
+  const MyGraphCard({
     super.key,
     required this.title,
     required this.subtitle,
     required this.section,
-    required this.columns,
   });
 
   @override
@@ -39,10 +36,7 @@ class MyMetricCard extends StatelessWidget {
                 maxWidth: maxWidth,
                 isExpanded: isExpanded,
                 onToggle: () => uiState.toggleExpanded(section),
-                secondChild: MyExpandableTable(
-                  maxWidth: maxWidth,
-                  columns: columns,
-                ),
+                secondChild: Placeholder(fallbackHeight: maxWidth / 2),
               ),
             ],
           ),

@@ -1,4 +1,4 @@
-import 'package:doffa/widgets/cards/common/my_expandable_content.dart';
+import 'package:doffa/widgets/cards/common/my_expandable_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -6,21 +6,21 @@ void main() {
   group('getColorForValue', () {
     test('returns white for value 0 regardless of polarity', () {
       expect(
-        MyExpandableContent(
+        MyExpandableTable(
           maxWidth: 100,
           columns: [],
         ).getColorForValue(0, Polarity.positive),
         Colors.white,
       );
       expect(
-        MyExpandableContent(
+        MyExpandableTable(
           maxWidth: 100,
           columns: [],
         ).getColorForValue(0, Polarity.negative),
         Colors.white,
       );
       expect(
-        MyExpandableContent(
+        MyExpandableTable(
           maxWidth: 100,
           columns: [],
         ).getColorForValue(0, Polarity.neutral),
@@ -30,7 +30,7 @@ void main() {
 
     test('returns green for positive value with positive polarity', () {
       expect(
-        MyExpandableContent(
+        MyExpandableTable(
           maxWidth: 100,
           columns: [],
         ).getColorForValue(10, Polarity.positive),
@@ -40,7 +40,7 @@ void main() {
 
     test('returns red for positive value with negative polarity', () {
       expect(
-        MyExpandableContent(
+        MyExpandableTable(
           maxWidth: 100,
           columns: [],
         ).getColorForValue(10, Polarity.negative),
@@ -50,7 +50,7 @@ void main() {
 
     test('returns green for negative value with negative polarity', () {
       expect(
-        MyExpandableContent(
+        MyExpandableTable(
           maxWidth: 100,
           columns: [],
         ).getColorForValue(-10, Polarity.negative),
@@ -60,7 +60,7 @@ void main() {
 
     test('returns red for negative value with positive polarity', () {
       expect(
-        MyExpandableContent(
+        MyExpandableTable(
           maxWidth: 100,
           columns: [],
         ).getColorForValue(-10, Polarity.positive),
@@ -70,14 +70,14 @@ void main() {
 
     test('returns white for any value with neutral polarity', () {
       expect(
-        MyExpandableContent(
+        MyExpandableTable(
           maxWidth: 100,
           columns: [],
         ).getColorForValue(10, Polarity.neutral),
         Colors.white,
       );
       expect(
-        MyExpandableContent(
+        MyExpandableTable(
           maxWidth: 100,
           columns: [],
         ).getColorForValue(-10, Polarity.neutral),

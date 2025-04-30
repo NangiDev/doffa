@@ -1,6 +1,6 @@
 import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/providers/ui_state_provider.dart';
-import 'package:doffa/widgets/cards/common/my_expandable_content.dart';
+import 'package:doffa/widgets/cards/common/my_expandable_table.dart';
 import 'package:doffa/widgets/cards/common/my_metric_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

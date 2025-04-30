@@ -1,7 +1,7 @@
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
 
-class MyExpandableContent extends StatelessWidget {
+class MyExpandableTable extends StatelessWidget {
   final double maxWidth;
   final List<MetricColumn> columns;
 
@@ -13,7 +13,7 @@ class MyExpandableContent extends StatelessWidget {
     "Weight (kg)",
   ];
 
-  const MyExpandableContent({
+  const MyExpandableTable({
     super.key,
     required this.maxWidth,
     required this.columns,
