@@ -98,7 +98,7 @@ class MyExpandableContent extends StatelessWidget {
               column.cells[rowIndex].value.abs().toString(),
               column.cells[rowIndex].value,
               maxWidth: maxWidth,
-              color: column.cells[rowIndex].color,
+              polarity: column.cells[rowIndex].polarity,
               hasIcon: column.cells[rowIndex].hasIcon,
             ),
         ],
@@ -111,9 +111,12 @@ class MyExpandableContent extends StatelessWidget {
     double value, {
     required double maxWidth,
     Alignment alignment = Alignment.center,
-    Color color = Colors.white,
+    Polarity polarity = Polarity.neutral,
     bool hasIcon = false,
   }) {
+    Color color = getColorForValue(value, polarity);
+
+    // Always create the icon, but only show it if the value is not 0
     Icon icon = Icon(
       value < 0 ? Icons.arrow_downward : Icons.arrow_upward,
       color: value == 0.0 ? Colors.transparent : color,
@@ -128,18 +131,16 @@ class MyExpandableContent extends StatelessWidget {
               flex: 1,
               child: Align(alignment: Alignment.centerRight, child: icon),
             ),
-          if (hasIcon) SizedBox(width: 4),
-          if (hasIcon)
-            Expanded(
-              flex: 0,
-              child: MyMontserrat(
-                maxWidth: maxWidth,
-                text: '-',
-                sizeFactor: 24,
-                fontWeight: FontWeight.w400,
-                color: value < 0 ? color : Colors.transparent,
-              ),
+          Expanded(
+            flex: 0,
+            child: MyMontserrat(
+              maxWidth: maxWidth,
+              text: '-',
+              sizeFactor: 24,
+              fontWeight: FontWeight.w400,
+              color: value < 0 ? color : Colors.transparent,
             ),
+          ),
           Expanded(
             flex: 1,
             child: Align(
@@ -158,35 +159,64 @@ class MyExpandableContent extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderColumn(
-    String title,
-    double maxWidth,
-    Alignment alignment,
-  ) {
-    return Expanded(
-      flex: 1,
-      child: Align(
-        alignment: alignment,
-        child: MyMontserrat(
-          maxWidth: maxWidth,
-          text: title,
-          sizeFactor: 24,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
-    );
+  Color getColorForValue(double value, Polarity polarity) {
+    /*
+    If value is negative and polarity is positive, set color to red
+    If value is positive and polarity is negative, set color to red
+
+    If value is negative and polarity is negative, set color to green
+    If value is positive and polarity is positive, set color to green
+    
+    If value is 0 it will always be white
+    If polarity is neutral, color will always be white
+    */
+    if (value == 0 || polarity == Polarity.neutral) {
+      return Colors.white;
+    }
+
+    switch (polarity) {
+      case Polarity.positive:
+        return value > 0 ? Colors.green : Colors.red;
+      case Polarity.negative:
+        return value > 0 ? Colors.red : Colors.green;
+      case Polarity.neutral:
+        return Colors.white;
+    }
   }
 }
 
+Widget _buildHeaderColumn(String title, double maxWidth, Alignment alignment) {
+  return Expanded(
+    flex: 1,
+    child: Align(
+      alignment: alignment,
+      child: MyMontserrat(
+        maxWidth: maxWidth,
+        text: title,
+        sizeFactor: 24,
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+  );
+}
+
+/* 
+Polarity enum to represent the state of the metric
+If Polarity is positive, A positive value will be green
+If Polarity is negative, A positive value will be red
+If Polarity is neutral, Color will always be white
+*/
+enum Polarity { positive, negative, neutral }
+
 class MetricCell {
   final double value;
-  final Color color;
   final bool hasIcon;
+  final Polarity polarity;
 
   MetricCell({
     required this.value,
-    this.color = Colors.white,
     this.hasIcon = false,
+    this.polarity = Polarity.neutral,
   });
 }
 
