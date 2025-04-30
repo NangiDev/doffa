@@ -1,29 +1,19 @@
 import 'dart:math';
 
 import 'package:doffa/common/models.dart';
+import 'package:doffa/storage/storage_service.dart';
+import 'package:doffa/storage/storage_service_factory.dart';
 import 'package:flutter/material.dart';
 
 class MetricsProvider extends ChangeNotifier {
-  // TODO: Set start and end to default again
-  Metrics _startMetrics = Metrics(
-    date: DateTime.now().subtract(const Duration(days: 14)),
-    bmi: 21,
-    weightInKg: 80,
-    fatInPercentage: 15,
-    fatInKg: 20,
-    leanInKg: 60,
-  );
+  final StorageService _storageService = StorageServiceFactory.create();
+  StorageService get storageService => _storageService;
 
-  Metrics _endMetrics = Metrics(
-    date: DateTime.now(),
-    bmi: 22,
-    weightInKg: 81,
-    fatInPercentage: 16,
-    fatInKg: 21,
-    leanInKg: 58,
-  );
+  Metrics _startMetrics = Metrics.defaultMetrics();
+  Metrics _endMetrics = Metrics.defaultMetrics();
 
   late Metrics _changeMetrics;
+
   MetricsProvider() {
     _changeMetrics = _endMetrics.difference(_startMetrics);
   }

@@ -5,7 +5,9 @@
 * Calculate new Ratio
 * Push to web
 * Create release pipeline for APK and bundle
-* Release app on Google Play
 * Add Graph
+* Implement Kofi
+* Implement Ads
+* Release app on Google Play
 * Implement Withings login
 * Get values from Withings
