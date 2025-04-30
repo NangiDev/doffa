@@ -46,10 +46,20 @@ class AuthGate extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
 
-    return Scaffold(
-      body: SafeArea(
-        child: auth.isLoggedIn ? const HomeScreen() : const LoginScreen(),
-      ),
+    return FutureBuilder<bool>(
+      future: auth.apiService.isLoggedIn,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final loggedIn = snapshot.data!;
+        return Scaffold(
+          body: SafeArea(
+            child: loggedIn ? const HomeScreen() : const LoginScreen(),
+          ),
+        );
+      },
     );
   }
 }

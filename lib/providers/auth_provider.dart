@@ -1,17 +1,27 @@
-import 'package:flutter/foundation.dart';
+import 'package:doffa/api/api_service.dart';
+import 'package:doffa/api/demo_api_service.dart';
+import 'package:flutter/material.dart';
 
 class AuthProvider extends ChangeNotifier {
-  bool _isLoggedIn = kDebugMode;
+  ApiService _apiService = DemoApiService();
+  ApiService get apiService => _apiService;
 
-  bool get isLoggedIn => _isLoggedIn;
-
-  void logIn() {
-    _isLoggedIn = true;
+  set apiService(ApiService service) {
+    _apiService = service;
     notifyListeners();
   }
 
-  void logOut() {
-    _isLoggedIn = false;
+  Future<void> logIn() async {
+    await _apiService.login();
     notifyListeners();
+  }
+
+  Future<void> logOut() async {
+    await _apiService.logout();
+    notifyListeners();
+  }
+
+  Future<void> refreshLoginStatus() async {
+    notifyListeners(); // trigger rebuild after external login change
   }
 }

@@ -1,7 +1,8 @@
+* Date picker function
+* Fix Demo account
 * Implement Fitbit login
 * Get values from Fitbit
 * Calculate new Ratio
-* Fix Demo account
 * Push to web
 * Create release pipeline for APK and bundle
 * Release app on Google Play

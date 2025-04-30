@@ -1,11 +1,9 @@
 import 'package:doffa/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 class MySignOutButton extends StatelessWidget {
-  MySignOutButton({super.key});
-  final _logger = Logger(printer: SimplePrinter(colors: false));
+  const MySignOutButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +13,6 @@ class MySignOutButton extends StatelessWidget {
         icon: const Icon(Icons.logout),
         onPressed: () {
           _confirmLogout(context, () {
-            _logger.i('Logout button pressed');
             Provider.of<AuthProvider>(context, listen: false).logOut();
           });
         },
