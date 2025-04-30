@@ -1,4 +1,6 @@
 * Date picker function
+* Store Metrics
+* Store UI State
 * Fix Demo account
 * Implement Fitbit login
 * Get values from Fitbit

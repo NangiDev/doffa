@@ -1,3 +1,4 @@
+import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
@@ -27,38 +28,47 @@ class MyDatePickerCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 16,
               children: [
-                MyMontserrat(
-                  maxWidth: maxWidth,
-                  text: "INTERVAL - $days DAY(S)",
-                  sizeFactor: 24,
-                  fontWeight: FontWeight.w600,
-                ),
-                Row(
-                  spacing: 8,
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MyDatePicker(
-                      title: "Start Date",
-                      dateString: startMetrics.dateAsString,
-                    ),
-                    Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white70,
-                      size: maxWidth / 24, // You can adjust the size
-                    ),
-                    MyDatePicker(
-                      title: "End Date",
-                      dateString: endMetrics.dateAsString,
-                    ),
-                  ],
-                ),
+                _buildTitle(maxWidth, days),
+                _buildDatePickers(startMetrics, maxWidth, endMetrics),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Row _buildDatePickers(
+    Metrics startMetrics,
+    double maxWidth,
+    Metrics endMetrics,
+  ) {
+    return Row(
+      spacing: 8,
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        MyDatePicker(
+          title: "Start Date",
+          dateString: startMetrics.dateAsString,
+        ),
+        Icon(
+          Icons.arrow_forward,
+          color: Colors.white70,
+          size: maxWidth / 24, // You can adjust the size
+        ),
+        MyDatePicker(title: "End Date", dateString: endMetrics.dateAsString),
+      ],
+    );
+  }
+
+  MyMontserrat _buildTitle(double maxWidth, int days) {
+    return MyMontserrat(
+      maxWidth: maxWidth,
+      text: "INTERVAL - $days DAY(S)",
+      sizeFactor: 24,
+      fontWeight: FontWeight.w600,
     );
   }
 }
@@ -83,20 +93,27 @@ class MyDatePicker extends StatelessWidget {
           double maxWidth = constraints.maxWidth;
           return TextField(
             controller: controller,
+            onTap: _pickDate,
             readOnly: true,
             style: MyMontserrat.defaultStyle(
               maxWidth: maxWidth,
               sizeFactor: 12,
               fontWeight: FontWeight.w400,
             ),
-            decoration: inputDeco(maxWidth),
+            decoration: _inputDecoration(maxWidth),
           );
         },
       ),
     );
   }
 
-  InputDecoration inputDeco(double maxWidth) {
+  void _pickDate() {
+    // Implement the date picker logic here
+    // For example, you can use showDatePicker to select a date
+    // and then update the controller with the selected date.
+  }
+
+  InputDecoration _inputDecoration(double maxWidth) {
     return InputDecoration(
       labelText: title,
       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -108,18 +125,23 @@ class MyDatePicker extends StatelessWidget {
       prefixIcon: const Icon(Icons.calendar_today, color: Colors.white70),
       filled: true,
       fillColor: const Color.fromARGB(255, 55, 55, 55),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: const BorderSide(color: Colors.white24),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: const BorderSide(color: Colors.white24),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: const BorderSide(color: Colors.blueAccent),
-      ),
+      border: _outlineInputBorder(),
+      enabledBorder: _outlineInputBorder(),
+      focusedBorder: _focusedBorder(),
+    );
+  }
+
+  OutlineInputBorder _outlineInputBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4),
+      borderSide: const BorderSide(color: Colors.white24),
+    );
+  }
+
+  OutlineInputBorder _focusedBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4),
+      borderSide: const BorderSide(color: Colors.blueAccent),
     );
   }
 }
