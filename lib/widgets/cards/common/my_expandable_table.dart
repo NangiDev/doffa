@@ -95,7 +95,7 @@ class MyExpandableTable extends StatelessWidget {
           ),
           for (final column in columns)
             _buildMetricText(
-              column.cells[rowIndex].value.abs().toString(),
+              column.cells[rowIndex].value.abs().toStringAsFixed(1),
               column.cells[rowIndex].value,
               maxWidth: maxWidth,
               polarity: column.cells[rowIndex].polarity,

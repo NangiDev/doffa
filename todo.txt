@@ -1,7 +1,6 @@
-* Fix Demo account
+* Calculate new Ratio
 * Implement Fitbit login
 * Get values from Fitbit
-* Calculate new Ratio
 * Push to web
 * Create release pipeline for APK and bundle
 * Add Graph

@@ -142,8 +142,8 @@ class MyDatePicker extends StatelessWidget {
                           final provider = context.read<MetricsProvider>();
                           final updated =
                               isStart
-                                  ? provider.startMetrics.copyWith(date: date)
-                                  : provider.endMetrics.copyWith(date: date);
+                                  ? provider.startMetrics.setDate(date: date)
+                                  : provider.endMetrics.setDate(date: date);
 
                           isStart
                               ? provider.setStartMetrics(updated)

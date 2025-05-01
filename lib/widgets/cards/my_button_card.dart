@@ -1,5 +1,7 @@
 import 'package:doffa/api/demo_api_service.dart';
+import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/auth_provider.dart';
+import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,10 +29,7 @@ class MyButtonCard extends StatelessWidget {
                   label: "Login with Fitbit",
                   color: const Color(0xFF00B0B9),
                   onPressed: () async {
-                    final auth = Provider.of<AuthProvider>(
-                      context,
-                      listen: false,
-                    );
+                    final auth = context.read<AuthProvider>();
                     auth.apiService = DemoApiService();
                     auth.logIn();
                   },
@@ -40,10 +39,15 @@ class MyButtonCard extends StatelessWidget {
                   label: "Try Demo",
                   color: const Color(0xFF000000),
                   onPressed: () async {
-                    final auth = Provider.of<AuthProvider>(
-                      context,
-                      listen: false,
+                    final metric = context.read<MetricsProvider>();
+                    metric.setStartMetrics(
+                      Metrics.demo(
+                        date: DateTime.now().subtract(Duration(days: 30)),
+                      ),
                     );
+                    metric.setEndMetrics(Metrics.demo(date: DateTime.now()));
+
+                    final auth = context.read<AuthProvider>();
                     auth.apiService = DemoApiService();
                     auth.logIn();
                   },
