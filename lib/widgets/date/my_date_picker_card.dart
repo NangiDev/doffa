@@ -1,4 +1,3 @@
-import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
@@ -11,25 +10,38 @@ class MyDatePickerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final metricsProvider = context.watch<MetricsProvider>();
-    final startMetrics = metricsProvider.startMetrics;
-    final endMetrics = metricsProvider.endMetrics;
     final days = metricsProvider.getDays();
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        double maxWidth = constraints.maxWidth;
+        final maxWidth = constraints.maxWidth;
+
         return MyContainer(
           maxWidth: maxWidth,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 16,
               children: [
-                _buildTitle(maxWidth, days),
-                _buildDatePickers(startMetrics, maxWidth, endMetrics),
+                MyMontserrat(
+                  maxWidth: maxWidth,
+                  text: "INTERVAL - $days DAY(S)",
+                  sizeFactor: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const MyDatePicker(isStart: true),
+                    Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white70,
+                      size: maxWidth / 24,
+                    ),
+                    const MyDatePicker(isStart: false),
+                  ],
+                ),
               ],
             ),
           ),
@@ -37,111 +49,132 @@ class MyDatePickerCard extends StatelessWidget {
       },
     );
   }
-
-  Row _buildDatePickers(
-    Metrics startMetrics,
-    double maxWidth,
-    Metrics endMetrics,
-  ) {
-    return Row(
-      spacing: 8,
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        MyDatePicker(
-          title: "Start Date",
-          dateString: startMetrics.dateAsString,
-        ),
-        Icon(
-          Icons.arrow_forward,
-          color: Colors.white70,
-          size: maxWidth / 24, // You can adjust the size
-        ),
-        MyDatePicker(title: "End Date", dateString: endMetrics.dateAsString),
-      ],
-    );
-  }
-
-  MyMontserrat _buildTitle(double maxWidth, int days) {
-    return MyMontserrat(
-      maxWidth: maxWidth,
-      text: "INTERVAL - $days DAY(S)",
-      sizeFactor: 24,
-      fontWeight: FontWeight.w600,
-    );
-  }
 }
 
 class MyDatePicker extends StatelessWidget {
-  const MyDatePicker({
-    super.key,
-    required this.title,
-    required this.dateString,
-  });
-
-  final String title;
-  final String dateString;
+  const MyDatePicker({super.key, required this.isStart});
+  final bool isStart;
 
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController(text: dateString);
+    final metricsProvider = context.watch<MetricsProvider>();
+    final metric =
+        isStart ? metricsProvider.startMetrics : metricsProvider.endMetrics;
+    final title = isStart ? "Start Date" : "End Date";
 
     return Expanded(
       child: LayoutBuilder(
         builder: (context, constraints) {
-          double maxWidth = constraints.maxWidth;
-          return TextField(
-            controller: controller,
-            onTap: _pickDate,
-            readOnly: true,
-            style: MyMontserrat.defaultStyle(
-              maxWidth: maxWidth,
-              sizeFactor: 12,
-              fontWeight: FontWeight.w400,
+          final maxWidth = constraints.maxWidth;
+
+          return InkWell(
+            onTap: () => _pickDate(context, title, maxWidth),
+            borderRadius: BorderRadius.circular(4),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+              decoration: _boxDecoration(),
+              child: Row(
+                children: [
+                  const Icon(Icons.calendar_today, color: Colors.white70),
+                  const SizedBox(width: 12),
+                  Text(
+                    metric.dateAsString,
+                    style: MyMontserrat.defaultStyle(
+                      maxWidth: maxWidth,
+                      sizeFactor: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            decoration: _inputDecoration(maxWidth),
           );
         },
       ),
     );
   }
 
-  void _pickDate() {
-    // Implement the date picker logic here
-    // For example, you can use showDatePicker to select a date
-    // and then update the controller with the selected date.
+  BoxDecoration _boxDecoration() => BoxDecoration(
+    color: const Color.fromARGB(255, 55, 55, 55),
+    borderRadius: BorderRadius.circular(4),
+    border: Border.all(color: Colors.white24),
+  );
+
+  Future<void> _pickDate(
+    BuildContext context,
+    String title,
+    double maxWidth,
+  ) async {
+    await showDialog<DateTime>(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Material(
+            borderRadius: BorderRadius.circular(8),
+            color: const Color(0xFF1E1E1E),
+            child: Theme(
+              data: _themeOverride(context),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white70, width: 1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MyMontserrat(
+                      text: title,
+                      maxWidth: maxWidth,
+                      fontWeight: FontWeight.w600,
+                      sizeFactor: 8,
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: 300,
+                      child: CalendarDatePicker(
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                        onDateChanged: (date) {
+                          final provider = context.read<MetricsProvider>();
+                          final updated =
+                              isStart
+                                  ? provider.startMetrics.copyWith(date: date)
+                                  : provider.endMetrics.copyWith(date: date);
+
+                          isStart
+                              ? provider.setStartMetrics(updated)
+                              : provider.setEndMetrics(updated);
+
+                          Navigator.of(context).pop(date);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
-  InputDecoration _inputDecoration(double maxWidth) {
-    return InputDecoration(
-      labelText: title,
-      floatingLabelBehavior: FloatingLabelBehavior.always,
-      labelStyle: MyMontserrat.defaultStyle(
-        maxWidth: maxWidth,
-        sizeFactor: 10,
-        fontWeight: FontWeight.w400,
+  ThemeData _themeOverride(BuildContext context) {
+    return Theme.of(context).copyWith(
+      datePickerTheme: DatePickerThemeData(
+        dayForegroundColor: WidgetStateProperty.resolveWith<Color?>(
+          (states) =>
+              states.contains(WidgetState.selected)
+                  ? Colors.white
+                  : Colors.white70,
+        ),
+        todayBackgroundColor: WidgetStateProperty.all(Colors.blue),
+        todayBorder: BorderSide.none,
       ),
-      prefixIcon: const Icon(Icons.calendar_today, color: Colors.white70),
-      filled: true,
-      fillColor: const Color.fromARGB(255, 55, 55, 55),
-      border: _outlineInputBorder(),
-      enabledBorder: _outlineInputBorder(),
-      focusedBorder: _focusedBorder(),
-    );
-  }
-
-  OutlineInputBorder _outlineInputBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(4),
-      borderSide: const BorderSide(color: Colors.white24),
-    );
-  }
-
-  OutlineInputBorder _focusedBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(4),
-      borderSide: const BorderSide(color: Colors.blueAccent),
     );
   }
 }

@@ -32,6 +32,17 @@ class Metrics implements BodyMetrics {
 
   String get dateAsString => date.toIso8601String().split('T').first;
 
+  Metrics copyWith({DateTime? date}) {
+    return Metrics(
+      date: date ?? this.date,
+      bmi: bmi,
+      weightInKg: weightInKg,
+      fatInPercentage: fatInPercentage,
+      fatInKg: fatInKg,
+      leanInKg: leanInKg,
+    );
+  }
+
   const Metrics({
     required this.date,
     required this.bmi,

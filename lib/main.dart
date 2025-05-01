@@ -29,6 +29,8 @@ class MyApp extends StatelessWidget {
           colorScheme: const ColorScheme.dark(
             primary: Colors.blue,
             surface: Color.fromARGB(255, 16, 16, 16),
+            onPrimary: Colors.white, // selected day text color
+            onSurface: Colors.white70, // other text
           ),
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
