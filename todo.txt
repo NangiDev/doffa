@@ -1,4 +1,3 @@
-* Store UI State
 * Fix Demo account
 * Implement Fitbit login
 * Get values from Fitbit
