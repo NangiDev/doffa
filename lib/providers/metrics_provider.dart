@@ -24,7 +24,7 @@ class MetricsProvider extends ChangeNotifier {
 
   // Method to get days between two dates
   int getDays() {
-    return endMetrics.date.difference(startMetrics.date).inDays;
+    return max(endMetrics.date.difference(startMetrics.date).inDays, 0);
   }
 
   // Method to get the calulated ratio

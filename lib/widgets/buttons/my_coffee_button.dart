@@ -1,3 +1,4 @@
+import 'package:doffa/widgets/buttons/common/my_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -21,26 +22,12 @@ class MyCoffeeButton extends StatelessWidget {
   }
 
   void _confirmCoffee(BuildContext context, VoidCallback onConfirm) {
-    showDialog(
+    showConfirmationDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('You are awesome!'),
-            content: const Text('You will now be redirected to Kofi'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  onConfirm();
-                },
-                child: const Text('Lets go!'),
-              ),
-            ],
-          ),
+      title: 'You are awesome!',
+      message: 'You will now be redirected to Kofi',
+      confirmText: 'Let\'s go!',
+      onConfirm: onConfirm,
     );
   }
 }

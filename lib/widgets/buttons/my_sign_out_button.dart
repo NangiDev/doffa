@@ -1,4 +1,5 @@
 import 'package:doffa/providers/auth_provider.dart';
+import 'package:doffa/widgets/buttons/common/my_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,26 +22,12 @@ class MySignOutButton extends StatelessWidget {
   }
 
   void _confirmLogout(BuildContext context, VoidCallback onConfirm) {
-    showDialog(
+    showConfirmationDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Log out?'),
-            content: const Text('Are you sure you want to log out?'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  onConfirm();
-                },
-                child: const Text('Log out'),
-              ),
-            ],
-          ),
+      title: 'Log out?',
+      message: 'Are you sure you want to log out?',
+      confirmText: 'Log out',
+      onConfirm: onConfirm,
     );
   }
 }
