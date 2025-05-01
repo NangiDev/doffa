@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
@@ -66,21 +66,37 @@ class Metrics implements BodyMetrics {
   Metrics difference(Metrics other) {
     return Metrics(
       date: DateTime.now(),
-      bmi: -10.0 + Random().nextInt(20),
-      weightInKg: -10.0 + Random().nextInt(20),
-      fatInPercentage: -10.0 + Random().nextInt(20),
-      fatInKg: -10.0 + Random().nextInt(20),
-      leanInKg: -10.0 + Random().nextInt(20),
+      bmi: bmi - other.bmi,
+      weightInKg: weightInKg - other.weightInKg,
+      fatInPercentage: fatInPercentage - other.fatInPercentage,
+      fatInKg: fatInKg - other.fatInKg,
+      leanInKg: leanInKg - other.leanInKg,
     );
+  }
 
-    // return Metrics(
-    //   date: DateTime.now(),
-    //   bmi: bmi - other.bmi,
-    //   weightInKg: weightInKg - other.weightInKg,
-    //   fatInPercentage: fatInPercentage - other.fatInPercentage,
-    //   fatInKg: fatInKg - other.fatInKg,
-    //   leanInKg: leanInKg - other.leanInKg,
-    // );
+  // Convert the instance to a JSON string
+  String toJson() {
+    return jsonEncode({
+      'date': dateAsString,
+      'bmi': bmi,
+      'weightInKg': weightInKg,
+      'fatInPercentage': fatInPercentage,
+      'fatInKg': fatInKg,
+      'leanInKg': leanInKg,
+    });
+  }
+
+  // Create an instance from a JSON string
+  factory Metrics.fromJson(String jsonString) {
+    Map<String, dynamic> json = jsonDecode(jsonString);
+    return Metrics(
+      date: DateTime.parse(json['date']),
+      bmi: json['bmi'],
+      weightInKg: json['weightInKg'],
+      fatInPercentage: json['fatInPercentage'],
+      fatInKg: json['fatInKg'],
+      leanInKg: json['leanInKg'],
+    );
   }
 }
 

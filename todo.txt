@@ -1,4 +1,3 @@
-* Store Metrics
 * Store UI State
 * Fix Demo account
 * Implement Fitbit login
