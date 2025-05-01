@@ -51,17 +51,17 @@ class MetricsProvider extends ChangeNotifier {
   }
 
   // Method to set start metrics
-  void setStartMetrics(Metrics metrics) async {
+  Future<void> setStartMetrics(Metrics metrics) async {
     _startMetrics = metrics;
     await storage.write('startMetric', _startMetrics.toJson());
-    _setChangeMetrics(_startMetrics, endMetrics);
+    await _setChangeMetrics(_startMetrics, endMetrics);
   }
 
   // Method to set end metrics
-  void setEndMetrics(Metrics metrics) async {
+  Future<void> setEndMetrics(Metrics metrics) async {
     _endMetrics = metrics;
     await storage.write('endMetric', _endMetrics.toJson());
-    _setChangeMetrics(startMetrics, _endMetrics);
+    await _setChangeMetrics(startMetrics, _endMetrics);
   }
 
   // Method to initialize metrics from storage
@@ -80,19 +80,19 @@ class MetricsProvider extends ChangeNotifier {
     String? endJson = await storage.read('endMetric');
     if (endJson != null) {
       try {
-        _startMetrics = Metrics.fromJson(endJson);
+        _endMetrics = Metrics.fromJson(endJson);
       } catch (_) {
-        _startMetrics = Metrics.defaultMetrics();
+        _endMetrics = Metrics.defaultMetrics();
       }
     }
 
     // Recalculate change metrics after loading
-    _setChangeMetrics(_startMetrics, _endMetrics);
+    await _setChangeMetrics(_startMetrics, _endMetrics);
     notifyListeners();
   }
 
   // Helper method to set the change metrics and notify listeners
-  void _setChangeMetrics(Metrics start, Metrics end) {
+  Future<void> _setChangeMetrics(Metrics start, Metrics end) async {
     _changeMetrics = end.difference(start);
     notifyListeners();
   }

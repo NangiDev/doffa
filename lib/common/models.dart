@@ -46,6 +46,24 @@ class Metrics implements BodyMetrics {
 
   static double _round(double value) => (value * 10).round() / 10;
 
+  Metrics copyWith({
+    DateTime? date,
+    double? bmi,
+    double? weightInKg,
+    double? fatInPercentage,
+    double? fatInKg,
+    double? leanInKg,
+  }) {
+    return Metrics(
+      date: date ?? this.date,
+      bmi: bmi ?? this.bmi,
+      weightInKg: weightInKg ?? this.weightInKg,
+      fatInPercentage: fatInPercentage ?? this.fatInPercentage,
+      fatInKg: fatInKg ?? this.fatInKg,
+      leanInKg: leanInKg ?? this.leanInKg,
+    );
+  }
+
   Metrics({
     required this.date,
     required double bmi,

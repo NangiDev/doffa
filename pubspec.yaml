@@ -48,6 +48,7 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_launcher_icons: ^0.14.3
   flutter_secure_storage: ^9.2.4
+  build_runner: ^2.4.15
 
 dev_dependencies:
   mockito: ^5.4.6
