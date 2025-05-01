@@ -5,19 +5,19 @@ import 'package:doffa/storage/storage_service_factory.dart';
 import 'package:flutter/material.dart';
 
 class MetricsProvider extends ChangeNotifier {
-  final StorageService _storage = StorageServiceFactory.create();
-  StorageService get storage => _storage;
+  late final StorageService _storage;
 
   Metrics _startMetrics = Metrics.defaultMetrics();
   Metrics _endMetrics = Metrics.defaultMetrics();
 
-  late Metrics _changeMetrics;
+  Metrics _changeMetrics = Metrics.defaultMetrics();
 
-  MetricsProvider() {
+  MetricsProvider({StorageService? storage}) {
+    _storage = storage ?? StorageServiceFactory.create();
     _loadMetricsFromStorage(); // Load metrics from storage on init
-    _changeMetrics = _endMetrics.difference(_startMetrics);
   }
 
+  StorageService get storage => _storage;
   Metrics get startMetrics => _startMetrics;
   Metrics get endMetrics => _endMetrics;
   Metrics get changeMetrics => _changeMetrics;
@@ -27,13 +27,27 @@ class MetricsProvider extends ChangeNotifier {
     return max(endMetrics.date.difference(startMetrics.date).inDays, 0);
   }
 
-  // Method to get the calculated ratio
+  // Method to calculate the quality ratio of the weight change
   int getRatio() {
-    // TODO: Implement a better ratio calculation
+    // Calculate the change in fat and lean mass
+    final double deltaFat = _changeMetrics.fatInKg;
+    final double deltaLean = _changeMetrics.leanInKg;
 
-    // This is a placeholder for the actual ratio calculation
-    // Random integer between -100 and 100
-    return -100 + Random().nextInt(200);
+    // Total magnitude of change (sum of absolute fat and lean changes)
+    final double magnitude = deltaFat.abs() + deltaLean.abs();
+
+    // If there's no change, return neutral score
+    if (magnitude == 0) return 0;
+
+    // Quality formula:
+    // +100 means all lean gain or fat loss
+    // -100 means all fat gain or lean loss
+    // 0 means equal amount of fat and lean change (good or bad)
+    final double quality = (deltaLean - deltaFat) / magnitude;
+
+    // Convert from [-1, 1] range to [-100, 100], rounding to nearest int
+    final double score = quality.clamp(-1.0, 1.0) * 100;
+    return score.round();
   }
 
   // Method to set start metrics
@@ -55,13 +69,21 @@ class MetricsProvider extends ChangeNotifier {
     // Load startMetrics from storage
     String? startJson = await storage.read('startMetric');
     if (startJson != null) {
-      _startMetrics = Metrics.fromJson(startJson);
+      try {
+        _startMetrics = Metrics.fromJson(startJson);
+      } catch (_) {
+        _startMetrics = Metrics.defaultMetrics();
+      }
     }
 
     // Load endMetrics from storage
     String? endJson = await storage.read('endMetric');
     if (endJson != null) {
-      _endMetrics = Metrics.fromJson(endJson);
+      try {
+        _startMetrics = Metrics.fromJson(endJson);
+      } catch (_) {
+        _startMetrics = Metrics.defaultMetrics();
+      }
     }
 
     // Recalculate change metrics after loading
