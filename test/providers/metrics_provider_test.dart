@@ -7,18 +7,213 @@ import 'package:mockito/mockito.dart';
 
 import 'metrics_provider_test.mocks.dart';
 
+// | Expected Score | Notes                       | ΔWeight (kg) | ΔFat (kg) | ΔLean (kg) |
+// | -------------- | --------------------------- | ------------ | --------- | ---------- |
+// | +100           | Pure lean gain              | +10          | 0         | +10        |
+// | +100           | Pure fat loss               | -10          | -10       | 0          |
+// | -100           | Pure fat gain               | +10          | +10       | 0          |
+// | -100           | Pure lean loss              | -10          | 0         | -10        |
+
+// | 0              | Equal fat & lean gain       | +10          | +5        | +5         |
+// | 0              | Equal fat & lean loss       | -10          | -5        | -5         |
+// | 0              | No change                   | 0            | 0         | 0          |
+
+// | +50            | Mostly lean gain            | +4           | +1        | +3         |
+// | +50            | Mostly fat loss             | -4           | -3        | -1         |
+// | -50            | Mostly lean loss            | -4           | -1        | -3         |
+// | -50            | Mostly fat gain             | +4           | +3        | +1         |
+
+// | +67            | Great recomposition on bulk | +4           | +1        | +5         |
+// | -67            | Bad recomposition on bulk   | +4           | +5        | +1         |
+// | +67            | Great recomposition on cut  | -4           | -5        | -1         |
+// | -67            | Bad recomposition on cut    | -4           | -1        | -5         |
+
+// | +33            | Decent bulk                 | +6           | +2        | +4         |
+// | +33            | Decent cut                  | -6           | -4        | -2         |
+// | -33            | Bad bulk                    | +6           | +4        | +2         |
+// | -33            | Bad cut                     | -6           | -2        | -4         |
+
+// Test Data for Parameterization
+class TestCase {
+  final String description;
+  final double fatInKg;
+  final double leanInKg;
+  final int expectedScore;
+
+  TestCase({
+    required this.description,
+    required this.fatInKg,
+    required this.leanInKg,
+    required this.expectedScore,
+  });
+}
+
+final List<TestCase> testCases = [
+  // Pure lean gain
+  TestCase(
+    description: 'Pure lean gain = 100',
+    fatInKg: 0,
+    leanInKg: 10,
+    expectedScore: 100,
+  ),
+  // Pure fat loss
+  TestCase(
+    description: 'Pure fat loss = 100',
+    fatInKg: -10,
+    leanInKg: 0,
+    expectedScore: 100,
+  ),
+  // Pure fat gain
+  TestCase(
+    description: 'Pure fat gain = -100',
+    fatInKg: 10,
+    leanInKg: 0,
+    expectedScore: -100,
+  ),
+  // Pure lean loss
+  TestCase(
+    description: 'Pure lean loss = -100',
+    fatInKg: 0,
+    leanInKg: -10,
+    expectedScore: -100,
+  ),
+  // Equal fat & lean gain
+  TestCase(
+    description: 'Equal fat & lean gain = 0',
+    fatInKg: 5,
+    leanInKg: 5,
+    expectedScore: 0,
+  ),
+  // Equal fat & lean loss
+  TestCase(
+    description: 'Equal fat & lean loss = 0',
+    fatInKg: -5,
+    leanInKg: -5,
+    expectedScore: 0,
+  ),
+  // No change
+  TestCase(
+    description: 'No change = 0',
+    fatInKg: 0,
+    leanInKg: 0,
+    expectedScore: 0,
+  ),
+  // Mostly lean gain
+  TestCase(
+    description: 'Mostly lean gain = 50',
+    fatInKg: 1,
+    leanInKg: 3,
+    expectedScore: 50,
+  ),
+  // Mostly fat loss
+  TestCase(
+    description: 'Mostly fat loss = 50',
+    fatInKg: -3,
+    leanInKg: -1,
+    expectedScore: 50,
+  ),
+  // Mostly lean loss
+  TestCase(
+    description: 'Mostly lean loss = -50',
+    fatInKg: -1,
+    leanInKg: -3,
+    expectedScore: -50,
+  ),
+  // Mostly fat gain
+  TestCase(
+    description: 'Mostly fat gain = -50',
+    fatInKg: 3,
+    leanInKg: 1,
+    expectedScore: -50,
+  ),
+  // Great recomposition on bulk
+  TestCase(
+    description: 'Great recomposition on bulk = 67',
+    fatInKg: 1,
+    leanInKg: 5,
+    expectedScore: 67,
+  ),
+  // Bad recomposition on bulk
+  TestCase(
+    description: 'Bad recomposition on bulk = -67',
+    fatInKg: 5,
+    leanInKg: 1,
+    expectedScore: -67,
+  ),
+  // Great recomposition on cut
+  TestCase(
+    description: 'Great recomposition on cut = 67',
+    fatInKg: -5,
+    leanInKg: -1,
+    expectedScore: 67,
+  ),
+  // Bad recomposition on cut
+  TestCase(
+    description: 'Bad recomposition on cut = -67',
+    fatInKg: -1,
+    leanInKg: -5,
+    expectedScore: -67,
+  ),
+  // Decent bulk
+  TestCase(
+    description: 'Decent bulk = 33',
+    fatInKg: 2,
+    leanInKg: 4,
+    expectedScore: 33,
+  ),
+  // Decent cut
+  TestCase(
+    description: 'Decent cut = 33',
+    fatInKg: -4,
+    leanInKg: -2,
+    expectedScore: 33,
+  ),
+  // Bad bulk
+  TestCase(
+    description: 'Bad bulk = -33',
+    fatInKg: 4,
+    leanInKg: 2,
+    expectedScore: -33,
+  ),
+  // Bad cut
+  TestCase(
+    description: 'Bad cut = -33',
+    fatInKg: -2,
+    leanInKg: -4,
+    expectedScore: -33,
+  ),
+  // Near 100, should clamp to 100
+  TestCase(
+    description: 'Near 100 boundary (clamped)',
+    fatInKg: 0,
+    leanInKg: 10,
+    expectedScore: 100, // Should be clamped at 100
+  ),
+  // Near -100, should clamp to -100
+  TestCase(
+    description: 'Near -100 boundary (clamped)',
+    fatInKg: 10,
+    leanInKg: 0,
+    expectedScore: -100, // Should be clamped at -100
+  ),
+  // Mixed case with fat and lean change but not pure
+  TestCase(
+    description: 'Mixed fat and lean gain (not purely lean or fat)',
+    fatInKg: 3,
+    leanInKg: 7,
+    expectedScore: 40, // Example value, depends on your logic
+  ),
+];
+
 @GenerateMocks([StorageService])
 void main() {
   late MockStorageService mockStorage;
   late MetricsProvider provider;
-  late Metrics start;
-  late Metrics end;
+  Metrics start = Metrics.defaultMetrics();
+  Metrics end = Metrics.defaultMetrics();
 
   setUp(() {
     mockStorage = MockStorageService();
-
-    start = Metrics.defaultMetrics();
-    end = Metrics.defaultMetrics();
 
     when(
       mockStorage.read('startMetric'),
@@ -31,64 +226,17 @@ void main() {
     provider = MetricsProvider(storage: mockStorage);
   });
 
-  test('Pure fat gain = -100', () async {
-    start = Metrics.defaultMetrics();
-    end = start.copyWith(weightInKg: 80 + 10, fatInKg: 10, leanInKg: 0);
-
-    await provider.setStartMetrics(start);
-    await provider.setEndMetrics(end);
-
-    expect(provider.getRatio(), -100);
-  });
-
-  test('Pure lean gain = 100', () async {
-    start = Metrics.defaultMetrics();
-    end = start.copyWith(weightInKg: 80 + 10, fatInKg: 0, leanInKg: 10);
-
-    await provider.setStartMetrics(start);
-    await provider.setEndMetrics(end);
-
-    expect(provider.getRatio(), 100);
-  });
-
-  test('Okay weight change = 23', () async {
-    start = Metrics(
-      date: DateTime.now(),
-      bmi: 19.6,
-      weightInKg: 78.1,
-      fatInPercentage: 17.8,
-      fatInKg: 13.9,
-      leanInKg: 64.2,
-    );
-
-    end = Metrics(
-      date: DateTime.now(),
-      bmi: 20.4,
-      weightInKg: 87.5,
-      fatInPercentage: 20.0,
-      fatInKg: 17.5,
-      leanInKg: 70,
-    );
-
-    await provider.setStartMetrics(start);
-    await provider.setEndMetrics(end);
-
-    expect(provider.getRatio(), 23);
-  });
+  // Run parameterized tests
+  for (var testCase in testCases) {
+    test(testCase.description, () async {
+      start = Metrics.defaultMetrics();
+      end = start.copyWith(
+        fatInKg: testCase.fatInKg,
+        leanInKg: testCase.leanInKg,
+      );
+      await provider.setStartMetrics(start);
+      await provider.setEndMetrics(end);
+      expect(provider.getRatio(), testCase.expectedScore);
+    });
+  }
 }
-
-// | Case | ΔWeight (kg) | ΔFat (kg) | ΔLean (kg) | Expected Score | Notes                          |
-// |------|--------------|-----------|------------|----------------|--------------------------------|
-// | 1    | +10          | +10       | 0          | -100           | Pure fat gain                  |
-// | 2    | +10          | 0         | +10        | +100           | Pure lean gain                 |
-// | 3    | +10          | +5        | +5         | 0              | Equal fat & lean gain          |
-// | 4    | -10          | -10       | 0          | +100           | Pure fat loss                  |
-// | 5    | -10          | 0         | -10        | -100           | Pure lean loss                 |
-// | 6    | -10          | -5        | -5         | 0              | Equal fat & lean loss          |
-// | 7    | -2           | -3        | +1         | +67            | Great recomposition on cut     |
-// | 8    | +2           | +3        | -1         | -67            | Bad recomposition on bulk      |
-// | 9    | +4           | +1        | +3         | +50            | Mostly lean gain               |
-// | 10   | -4           | -3        | -1         | +33            | Mostly fat loss                |
-// | 11   | +6           | +2        | +4         | +33            | Decent bulk                    |
-// | 12   | -6           | -4        | -2         | +33            | Decent cut                     |
-// | 13   | 0            | 0         | 0          | 0              | No change                      |

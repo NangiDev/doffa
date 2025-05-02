@@ -1,4 +1,3 @@
-* Write mroe tests for the ratio
 * Implement Fitbit login
 * Get values from Fitbit
 * Push to web

@@ -27,27 +27,18 @@ class MetricsProvider extends ChangeNotifier {
     return max(endMetrics.date.difference(startMetrics.date).inDays, 0);
   }
 
-  // Method to calculate the quality ratio of the weight change
   int getRatio() {
-    // Calculate the change in fat and lean mass
     final double deltaFat = _changeMetrics.fatInKg;
     final double deltaLean = _changeMetrics.leanInKg;
 
-    // Total magnitude of change (sum of absolute fat and lean changes)
-    final double magnitude = deltaFat.abs() + deltaLean.abs();
+    // Calculate the total absolute change in fat and lean mass
+    final double totalChange = max((deltaFat.abs() + deltaLean.abs()), 1);
 
-    // If there's no change, return neutral score
-    if (magnitude == 0) return 0;
+    // Calculate the ratio of lean mass gain vs fat loss (favor lean gain more)
+    final double score = ((deltaLean - deltaFat) / totalChange) * 100;
 
-    // Quality formula:
-    // +100 means all lean gain or fat loss
-    // -100 means all fat gain or lean loss
-    // 0 means equal amount of fat and lean change (good or bad)
-    final double quality = (deltaLean - deltaFat) / magnitude;
-
-    // Convert from [-1, 1] range to [-100, 100], rounding to nearest int
-    final double score = quality.clamp(-1.0, 1.0) * 100;
-    return score.round();
+    // Return the score rounded and clamped to the range [-100, 100]
+    return score.round().clamp(-100, 100);
   }
 
   // Method to set start metrics
