@@ -28,23 +28,26 @@ class MyMetricCard extends StatelessWidget {
       builder: (context, constraints) {
         final double maxWidth = constraints.maxWidth;
 
-        return MyContainer(
-          maxWidth: maxWidth,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              MyExpandableHeader(
-                title: title,
-                subtitle: subtitle,
-                maxWidth: maxWidth,
-                isExpanded: isExpanded,
-                onToggle: () => uiState.toggleExpanded(section),
-                secondChild: MyExpandableTable(
+        return GestureDetector(
+          onTap: () => uiState.toggleExpanded(section),
+          child: MyContainer(
+            maxWidth: maxWidth,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MyExpandableHeader(
+                  title: title,
+                  subtitle: subtitle,
                   maxWidth: maxWidth,
-                  columns: columns,
+                  isExpanded: isExpanded,
+                  onToggle: () => uiState.toggleExpanded(section),
+                  secondChild: MyExpandableTable(
+                    maxWidth: maxWidth,
+                    columns: columns,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

@@ -1,7 +1,9 @@
 import 'package:doffa/providers/metrics_provider.dart';
+import 'package:doffa/widgets/buttons/common/my_confirmation_dialog.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'utils/motivational_scale.dart';
 
@@ -13,69 +15,83 @@ class MyRatioCard extends StatelessWidget {
     final metricsProvider = context.watch<MetricsProvider>();
     final ratio = metricsProvider.getRatio();
     final wordColor = getWordColor(ratio);
+    final _logger = Logger(printer: SimplePrinter(colors: false));
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final double maxWidth = constraints.maxWidth;
 
-        return MyContainer(
-          maxWidth: maxWidth,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Center(
-              child: Column(
-                spacing: 8,
-                children: [
-                  MyMontserrat(
-                    text: "RATIO",
-                    maxWidth: maxWidth,
-                    sizeFactor: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  MyMontserrat(
-                    text: "Overall Progress Quality",
-                    maxWidth: maxWidth,
-                    sizeFactor: 32,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  Container(
-                    width: maxWidth,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF373737),
-                      borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(8),
-                      ),
+        return GestureDetector(
+          onTap: () {
+            showConfirmationDialog(
+              context: context,
+              title: 'You are awesome!',
+              message: 'Some descriptino of ratio here',
+              confirmText: 'Go Back!',
+              onConfirm: () {
+                _logger.i('Ratio description button pressed');
+              },
+            );
+          },
+          child: MyContainer(
+            maxWidth: maxWidth,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Center(
+                child: Column(
+                  spacing: 8,
+                  children: [
+                    MyMontserrat(
+                      text: "RATIO",
+                      maxWidth: maxWidth,
+                      sizeFactor: 18,
+                      fontWeight: FontWeight.w500,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        spacing: 8,
-                        children: [
-                          MyMontserrat(
-                            text: ratio.toString(),
-                            maxWidth: maxWidth,
-                            sizeFactor: 6,
-                            fontWeight: FontWeight.w900,
-                            color: wordColor.color,
-                          ),
-                          BadgeContainer(
-                            color: wordColor.color,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: MyMontserrat(
-                                text: wordColor.word,
-                                maxWidth: maxWidth,
-                                sizeFactor: 32,
-                                fontWeight: FontWeight.w600,
-                                color: readableTextColor(wordColor.color),
+                    MyMontserrat(
+                      text: "Overall Progress Quality",
+                      maxWidth: maxWidth,
+                      sizeFactor: 32,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    Container(
+                      width: maxWidth,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF373737),
+                        borderRadius: const BorderRadius.vertical(
+                          bottom: Radius.circular(8),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          spacing: 8,
+                          children: [
+                            MyMontserrat(
+                              text: ratio.toString(),
+                              maxWidth: maxWidth,
+                              sizeFactor: 6,
+                              fontWeight: FontWeight.w900,
+                              color: wordColor.color,
+                            ),
+                            BadgeContainer(
+                              color: wordColor.color,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: MyMontserrat(
+                                  text: wordColor.word,
+                                  maxWidth: maxWidth,
+                                  sizeFactor: 32,
+                                  fontWeight: FontWeight.w600,
+                                  color: readableTextColor(wordColor.color),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
