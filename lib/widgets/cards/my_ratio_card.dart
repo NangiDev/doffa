@@ -5,6 +5,7 @@ import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+
 import 'utils/motivational_scale.dart';
 
 class MyRatioCard extends StatelessWidget {
@@ -15,7 +16,7 @@ class MyRatioCard extends StatelessWidget {
     final metricsProvider = context.watch<MetricsProvider>();
     final ratio = metricsProvider.getRatio();
     final wordColor = getWordColor(ratio);
-    final _logger = Logger(printer: SimplePrinter(colors: false));
+    final logger = Logger(printer: SimplePrinter(colors: false));
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -26,10 +27,10 @@ class MyRatioCard extends StatelessWidget {
             showConfirmationDialog(
               context: context,
               title: 'You are awesome!',
-              message: 'Some descriptino of ratio here',
+              message: 'Some description of ratio here',
               confirmText: 'Go Back!',
               onConfirm: () {
-                _logger.i('Ratio description button pressed');
+                logger.i('Ratio description button pressed');
               },
             );
           },

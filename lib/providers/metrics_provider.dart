@@ -45,6 +45,12 @@ class MetricsProvider extends ChangeNotifier {
   Future<void> setStartMetrics(Metrics metrics) async {
     _startMetrics = metrics;
     await storage.write('startMetric', _startMetrics.toJson());
+
+    if (_startMetrics.date.isAfter(_endMetrics.date)) {
+      await setEndMetrics(metrics);
+      return;
+    }
+
     await _setChangeMetrics(_startMetrics, endMetrics);
   }
 
