@@ -1,4 +1,5 @@
 import 'package:doffa/providers/metrics_provider.dart';
+import 'package:doffa/widgets/cards/utils/ratio_calculator.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +138,12 @@ void showInformationDialog({
               children: [
                 _buildCalculationExplanation(context, maxWidth),
                 const SizedBox(height: 8),
-                _buildRatioCalulator(),
+                Divider(),
+                const SizedBox(height: 8),
+                // _buildRatioCalulator(),
+                RatioCalculator(),
+                const SizedBox(height: 8),
+                Divider(),
                 const SizedBox(height: 8),
                 ...motivationScale.entries.map((entry) {
                   final ratio = entry.key;
@@ -167,25 +173,117 @@ void showInformationDialog({
   );
 }
 
-Widget _buildRatioCalulator() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      MyMontserrat(
-        text: "Try it out yourself!",
-        maxWidth: 14,
-        fontWeight: FontWeight.w600,
-      ),
-      const SizedBox(height: 8),
-      MyMontserrat(
-        text: "Lean mass change (kg):",
-        maxWidth: 14,
-        fontWeight: FontWeight.w400,
-      ),
-    ],
-  );
-}
+// Widget _buildRatioCalulator() {
+//   final TextStyle textStyle = MyMontserrat.defaultStyle().copyWith(
+//     fontSize: 12,
+//     color: Colors.white70,
+//     height: 1.2,
+//     fontWeight: FontWeight.w400,
+//   );
+
+//   final testProvider = MetricsProvider();
+
+//   return Container(
+//     padding: const EdgeInsets.all(8),
+//     decoration: BoxDecoration(
+//       color: const Color(0xFF373737),
+//       borderRadius: BorderRadius.circular(8),
+//     ),
+//     child: Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       mainAxisSize: MainAxisSize.min,
+//       children: [
+//         MyMontserrat(
+//           text: "Try it out yourself!",
+//           maxWidth: 14,
+//           fontWeight: FontWeight.w600,
+//         ),
+//         const SizedBox(height: 8),
+//         // Text fields for input
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             Expanded(
+//               child: TextField(
+//                 controller: TextEditingController(
+//                   text: testProvider.endMetrics.fatInKg.toString(),
+//                 ),
+//                 decoration: InputDecoration(
+//                   labelText: 'ΔLean (kg)',
+//                   labelStyle: textStyle,
+//                   filled: true,
+//                   fillColor: const Color(0xFF1E1E1E),
+//                   border: OutlineInputBorder(
+//                     borderRadius: BorderRadius.circular(8),
+//                     borderSide: BorderSide.none,
+//                   ),
+//                 ),
+//                 style: textStyle,
+//                 onChanged: (value) {
+//                   testProvider.endMetrics.copyWith(
+//                     leanInKg: double.tryParse(value) ?? 0.0,
+//                   );
+//                   // metricsProvider.setEndMetrics(metricsProvider.endMetrics);
+//                 },
+//               ),
+//             ),
+//             const SizedBox(width: 8),
+//             Expanded(
+//               child: TextField(
+//                 controller: TextEditingController(
+//                   text: testProvider.endMetrics.fatInKg.toString(),
+//                 ),
+//                 decoration: InputDecoration(
+//                   labelText: 'ΔFat (kg)',
+//                   labelStyle: textStyle,
+//                   filled: true,
+//                   fillColor: const Color(0xFF1E1E1E),
+//                   border: OutlineInputBorder(
+//                     borderRadius: BorderRadius.circular(8),
+//                     borderSide: BorderSide.none,
+//                   ),
+//                 ),
+//                 style: textStyle,
+//                 onChanged: (value) {
+//                   testProvider.endMetrics.copyWith(
+//                     fatInKg: double.tryParse(value) ?? 0.0,
+//                   );
+//                   // metricsProvider.setEndMetrics(metricsProvider.endMetrics);
+//                 },
+//               ),
+//             ),
+//           ],
+//         ),
+//         // Button to calculate the ratio
+//         const SizedBox(height: 8),
+//         ElevatedButton(
+//           onPressed: () {
+//             print('Ratio: ${testProvider.getRatio()}');
+//           },
+//           style: ElevatedButton.styleFrom(
+//             backgroundColor: const Color(0xFF1E1E1E),
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(8),
+//             ),
+//           ),
+//           child: const MyMontserrat(
+//             text: 'Calculate',
+//             maxWidth: 14,
+//             fontWeight: FontWeight.w400,
+//           ),
+//         ),
+//         const SizedBox(height: 12),
+//         // Display the result
+//         MyMontserrat(
+//           text: 'Result: ${testProvider.getRatio()}',
+//           maxWidth: 14,
+//           fontWeight: FontWeight.w400,
+//         ),
+//         const SizedBox(height: 4),
+//       ],
+//     ),
+//   );
+// }
 
 Widget _buildCalculationExplanation(BuildContext context, double maxWidth) {
   final TextStyle textStyle = MyMontserrat.defaultStyle().copyWith(

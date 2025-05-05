@@ -1,4 +1,3 @@
-* Add a ratio test and description prompt
 * Implement Fitbit login
 * Get values from Fitbit
 * Push to web

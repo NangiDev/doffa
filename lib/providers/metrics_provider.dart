@@ -61,6 +61,16 @@ class MetricsProvider extends ChangeNotifier {
     await _setChangeMetrics(startMetrics, _endMetrics);
   }
 
+  void setEndMetricsSync(Metrics metrics) {
+    _endMetrics = metrics;
+    _setChangeMetricsSync(_startMetrics, _endMetrics);
+  }
+
+  void _setChangeMetricsSync(Metrics start, Metrics end) {
+    _changeMetrics = end.difference(start);
+    notifyListeners();
+  }
+
   // Method to initialize metrics from storage
   Future<void> _loadMetricsFromStorage() async {
     // Load startMetrics from storage
