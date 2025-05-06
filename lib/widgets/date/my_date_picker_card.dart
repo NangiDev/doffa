@@ -1,3 +1,4 @@
+import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
@@ -68,7 +69,7 @@ class MyDatePicker extends StatelessWidget {
           final maxWidth = constraints.maxWidth;
 
           return InkWell(
-            onTap: () => _pickDate(context, title, maxWidth),
+            onTap: () => _pickDate(context, title, maxWidth, metric),
             borderRadius: BorderRadius.circular(4),
             child: Container(
               width: double.infinity,
@@ -105,6 +106,7 @@ class MyDatePicker extends StatelessWidget {
     BuildContext context,
     String title,
     double maxWidth,
+    Metrics metric,
   ) async {
     await showDialog<DateTime>(
       context: context,
@@ -135,7 +137,7 @@ class MyDatePicker extends StatelessWidget {
                     SizedBox(
                       width: 300,
                       child: CalendarDatePicker(
-                        initialDate: DateTime.now(),
+                        initialDate: metric.date,
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2100),
                         onDateChanged: (date) {
@@ -172,7 +174,16 @@ class MyDatePicker extends StatelessWidget {
                   ? Colors.white
                   : Colors.white70,
         ),
-        todayBackgroundColor: WidgetStateProperty.all(Colors.blue),
+        todayForegroundColor: WidgetStateProperty.all(Colors.white70),
+        dayStyle: MyMontserrat.defaultStyle(
+          maxWidth: 16,
+          fontWeight: FontWeight.w400,
+        ),
+        yearStyle: MyMontserrat.defaultStyle(
+          maxWidth: 16,
+          fontWeight: FontWeight.w400,
+        ),
+        todayBackgroundColor: WidgetStateProperty.all(Colors.transparent),
         todayBorder: BorderSide.none,
       ),
     );
