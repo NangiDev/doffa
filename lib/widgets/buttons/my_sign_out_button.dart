@@ -1,4 +1,4 @@
-import 'package:doffa/providers/auth_provider.dart';
+import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/widgets/buttons/common/my_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +14,7 @@ class MySignOutButton extends StatelessWidget {
         icon: const Icon(Icons.logout),
         onPressed: () {
           _confirmLogout(context, () {
-            Provider.of<AuthProvider>(context, listen: false).logOut();
+            context.read<GodProvider>().logOut();
           });
         },
       ),

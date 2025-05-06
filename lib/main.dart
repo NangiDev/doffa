@@ -1,8 +1,8 @@
+import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/providers/ui_state_provider.dart';
 import 'package:doffa/screens/home_screen.dart';
 import 'package:doffa/screens/login_screen.dart';
-import 'package:doffa/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => GodProvider()),
         ChangeNotifierProvider(create: (_) => UiStateProvider()),
         ChangeNotifierProvider(create: (_) => MetricsProvider()),
       ],
@@ -46,7 +46,7 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
+    final auth = context.watch<GodProvider>();
 
     return FutureBuilder<bool>(
       future: auth.apiService.isLoggedIn,

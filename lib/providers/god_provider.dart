@@ -2,7 +2,8 @@ import 'package:doffa/api/api_service.dart';
 import 'package:doffa/api/demo_api_service.dart';
 import 'package:flutter/material.dart';
 
-class AuthProvider extends ChangeNotifier {
+// One provider to rule them all
+class GodProvider extends ChangeNotifier {
   ApiService _apiService = DemoApiService();
   ApiService get apiService => _apiService;
 
