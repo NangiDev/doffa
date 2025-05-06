@@ -28,9 +28,9 @@ class MyButtonCard extends StatelessWidget {
                   label: "Login with Fitbit",
                   color: const Color(0xFF00B0B9),
                   onPressed: () async {
-                    final auth = context.read<GodProvider>();
-                    auth.service = DemoService();
-                    auth.logIn();
+                    final provider = context.read<GodProvider>();
+                    provider.service = DemoService();
+                    provider.logIn();
                   },
                 ),
                 MyLoginButton(
@@ -38,17 +38,17 @@ class MyButtonCard extends StatelessWidget {
                   label: "Try Demo",
                   color: const Color(0xFF000000),
                   onPressed: () async {
-                    final metric = context.read<GodProvider>();
-                    metric.setStartMetrics(
+                    final provider = context.read<GodProvider>();
+                    provider.service = DemoService();
+
+                    provider.setStartMetrics(
                       Metrics.demo(
                         date: DateTime.now().subtract(Duration(days: 30)),
                       ),
                     );
-                    metric.setEndMetrics(Metrics.demo(date: DateTime.now()));
+                    provider.setEndMetrics(Metrics.demo(date: DateTime.now()));
 
-                    final auth = context.read<GodProvider>();
-                    auth.service = DemoService();
-                    auth.logIn();
+                    provider.logIn();
                   },
                 ),
               ],
