@@ -1,4 +1,4 @@
-import 'package:doffa/api/demo_api_service.dart';
+import 'package:doffa/api/demo_service.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/providers/metrics_provider.dart';
@@ -30,7 +30,7 @@ class MyButtonCard extends StatelessWidget {
                   color: const Color(0xFF00B0B9),
                   onPressed: () async {
                     final auth = context.read<GodProvider>();
-                    auth.apiService = DemoApiService();
+                    auth.service = DemoService();
                     auth.logIn();
                   },
                 ),
@@ -48,7 +48,7 @@ class MyButtonCard extends StatelessWidget {
                     metric.setEndMetrics(Metrics.demo(date: DateTime.now()));
 
                     final auth = context.read<GodProvider>();
-                    auth.apiService = DemoApiService();
+                    auth.service = DemoService();
                     auth.logIn();
                   },
                 ),

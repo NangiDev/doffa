@@ -3,8 +3,8 @@ import 'package:doffa/storage/secure_storage_service.dart';
 import 'package:doffa/storage/storage_service.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class StorageServiceFactory {
-  static StorageService create() {
+class StorageFactory {
+  static Storage create() {
     if (kIsWeb) {
       return PrefsStorageService();
     } else {

@@ -1,6 +1,6 @@
-import 'package:doffa/providers/ui_state_provider.dart';
-import 'package:doffa/widgets/cards/common/my_expandable_table.dart';
+import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/widgets/cards/common/my_expandable_header.dart';
+import 'package:doffa/widgets/cards/common/my_expandable_table.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,15 +21,15 @@ class MyMetricCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uiState = context.watch<UiStateProvider>();
-    final isExpanded = uiState.isExpanded(section);
+    final provider = context.watch<GodProvider>();
+    final isExpanded = provider.isExpanded(section);
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final double maxWidth = constraints.maxWidth;
 
         return GestureDetector(
-          onTap: () => uiState.toggleExpanded(section),
+          onTap: () => provider.toggleExpanded(section),
           child: MyContainer(
             maxWidth: maxWidth,
             child: Column(
@@ -40,7 +40,7 @@ class MyMetricCard extends StatelessWidget {
                   subtitle: subtitle,
                   maxWidth: maxWidth,
                   isExpanded: isExpanded,
-                  onToggle: () => uiState.toggleExpanded(section),
+                  onToggle: () => provider.toggleExpanded(section),
                   secondChild: MyExpandableTable(
                     maxWidth: maxWidth,
                     columns: columns,

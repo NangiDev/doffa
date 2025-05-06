@@ -5,19 +5,19 @@ import 'package:doffa/storage/storage_service_factory.dart';
 import 'package:flutter/material.dart';
 
 class MetricsProvider extends ChangeNotifier {
-  late final StorageService _storage;
+  late final Storage _storage;
 
   Metrics _startMetrics = Metrics.defaultMetrics();
   Metrics _endMetrics = Metrics.defaultMetrics();
 
   Metrics _changeMetrics = Metrics.defaultMetrics();
 
-  MetricsProvider({StorageService? storage}) {
-    _storage = storage ?? StorageServiceFactory.create();
+  MetricsProvider({Storage? storage}) {
+    _storage = storage ?? StorageFactory.create();
     _loadMetricsFromStorage(); // Load metrics from storage on init
   }
 
-  StorageService get storage => _storage;
+  Storage get storage => _storage;
   Metrics get startMetrics => _startMetrics;
   Metrics get endMetrics => _endMetrics;
   Metrics get changeMetrics => _changeMetrics;

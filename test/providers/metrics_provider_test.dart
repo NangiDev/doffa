@@ -205,7 +205,7 @@ final List<TestCase> testCases = [
   ),
 ];
 
-@GenerateMocks([StorageService])
+@GenerateMocks([Storage])
 void main() {
   late MockStorageService mockStorage;
   late MetricsProvider provider;

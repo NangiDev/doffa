@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'storage_service.dart';
 
-class PrefsStorageService implements StorageService {
+class PrefsStorageService implements Storage {
   @override
   Future<void> write(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();

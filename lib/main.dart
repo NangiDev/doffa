@@ -1,6 +1,5 @@
 import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/providers/metrics_provider.dart';
-import 'package:doffa/providers/ui_state_provider.dart';
 import 'package:doffa/screens/home_screen.dart';
 import 'package:doffa/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => GodProvider()),
-        ChangeNotifierProvider(create: (_) => UiStateProvider()),
         ChangeNotifierProvider(create: (_) => MetricsProvider()),
       ],
       child: MaterialApp(
@@ -49,7 +47,7 @@ class AuthGate extends StatelessWidget {
     final auth = context.watch<GodProvider>();
 
     return FutureBuilder<bool>(
-      future: auth.apiService.isLoggedIn,
+      future: auth.service.isLoggedIn,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

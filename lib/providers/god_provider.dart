@@ -1,28 +1,51 @@
-import 'package:doffa/api/api_service.dart';
-import 'package:doffa/api/demo_api_service.dart';
+import 'package:doffa/api/demo_service.dart';
+import 'package:doffa/api/service.dart';
 import 'package:flutter/material.dart';
+
+enum ExpandableSection { history, data, progress }
 
 // One provider to rule them all
 class GodProvider extends ChangeNotifier {
-  ApiService _apiService = DemoApiService();
-  ApiService get apiService => _apiService;
+  IService _service = DemoService();
+  IService get service => _service;
 
-  set apiService(ApiService service) {
-    _apiService = service;
+  final Map<ExpandableSection, bool> _expandedStates = {
+    ExpandableSection.history: true,
+    ExpandableSection.data: true,
+    ExpandableSection.progress: true,
+  };
+
+  set service(IService service) {
+    _service = service;
+    _loadExpandedStates();
     notifyListeners();
   }
 
   Future<void> logIn() async {
-    await _apiService.login();
+    await _service.login();
     notifyListeners();
   }
 
   Future<void> logOut() async {
-    await _apiService.logout();
+    await _service.logout();
     notifyListeners();
   }
 
-  Future<void> refreshLoginStatus() async {
-    notifyListeners(); // trigger rebuild after external login change
+  Future<void> _loadExpandedStates() async {
+    for (var section in ExpandableSection.values) {
+      bool state = await _service.isExpanded(section);
+      _expandedStates[section] = state;
+    }
+    notifyListeners();
+  }
+
+  isExpanded(ExpandableSection section) {
+    return _expandedStates[section] ?? false;
+  }
+
+  void toggleExpanded(ExpandableSection section) {
+    _expandedStates[section] = !(_expandedStates[section] ?? false);
+    _service.setExpanded(section, _expandedStates[section]!);
+    notifyListeners();
   }
 }

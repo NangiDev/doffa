@@ -1,11 +1,11 @@
-import 'package:doffa/api/api_service.dart';
+import 'package:doffa/api/service.dart';
 import 'package:doffa/storage/storage_service_factory.dart';
 import 'package:logger/logger.dart';
 
-class DemoApiService extends ApiService {
+class DemoService extends IService {
   final _logger = Logger(printer: SimplePrinter(colors: false));
 
-  DemoApiService() : super(StorageServiceFactory.create());
+  DemoService() : super(StorageFactory.create());
 
   @override
   Future<void> login() async {
