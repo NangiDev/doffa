@@ -1,7 +1,6 @@
 import 'package:doffa/api/demo_service.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/god_provider.dart';
-import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,7 +38,7 @@ class MyButtonCard extends StatelessWidget {
                   label: "Try Demo",
                   color: const Color(0xFF000000),
                   onPressed: () async {
-                    final metric = context.read<MetricsProvider>();
+                    final metric = context.read<GodProvider>();
                     metric.setStartMetrics(
                       Metrics.demo(
                         date: DateTime.now().subtract(Duration(days: 30)),

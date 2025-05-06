@@ -1,4 +1,4 @@
-import 'package:doffa/providers/metrics_provider.dart';
+import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/widgets/cards/utils/ratio_calculator.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
@@ -12,8 +12,8 @@ class MyRatioCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final metricsProvider = context.watch<MetricsProvider>();
-    final ratio = metricsProvider.getRatio();
+    final provider = context.watch<GodProvider>();
+    final ratio = provider.getRatio();
     final wordColor = getWordColor(ratio);
 
     return LayoutBuilder(

@@ -1,5 +1,5 @@
 import 'package:doffa/common/models.dart';
-import 'package:doffa/providers/metrics_provider.dart';
+import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/storage/storage_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -208,7 +208,7 @@ final List<TestCase> testCases = [
 @GenerateMocks([Storage])
 void main() {
   late MockStorageService mockStorage;
-  late MetricsProvider provider;
+  late GodProvider provider;
   Metrics start = Metrics.defaultMetrics();
   Metrics end = Metrics.defaultMetrics();
 
@@ -223,7 +223,8 @@ void main() {
       mockStorage.read('endMetric'),
     ).thenAnswer((_) => Future.value(end.toJson()));
 
-    provider = MetricsProvider(storage: mockStorage);
+    provider = GodProvider();
+    provider.storage = mockStorage;
   });
 
   // Run parameterized tests

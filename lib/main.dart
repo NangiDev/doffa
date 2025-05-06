@@ -1,5 +1,4 @@
 import 'package:doffa/providers/god_provider.dart';
-import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/screens/home_screen.dart';
 import 'package:doffa/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => GodProvider()),
-        ChangeNotifierProvider(create: (_) => MetricsProvider()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => GodProvider())],
       child: MaterialApp(
         title: title,
         theme: ThemeData(
@@ -44,10 +40,10 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<GodProvider>();
+    final provider = context.watch<GodProvider>();
 
     return FutureBuilder<bool>(
-      future: auth.service.isLoggedIn,
+      future: provider.isLoggedIn,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

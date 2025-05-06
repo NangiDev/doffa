@@ -1,5 +1,4 @@
 import 'package:doffa/providers/god_provider.dart';
-import 'package:doffa/providers/metrics_provider.dart';
 import 'package:doffa/widgets/cards/common/my_expandable_table.dart';
 import 'package:doffa/widgets/cards/common/my_metric_card.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ class MyProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final metrics = context.watch<MetricsProvider>().changeMetrics;
+    final metrics = context.watch<GodProvider>().changeMetrics;
 
     return MyMetricCard(
       title: "PROGRESS",

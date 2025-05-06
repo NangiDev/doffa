@@ -1,4 +1,4 @@
-import 'package:doffa/providers/metrics_provider.dart';
+import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class _RatioCalculatorState extends State<RatioCalculator> {
   String leanInKg = "0.0";
   String fatInKg = "0.0";
 
-  final MetricsProvider testProvider = MetricsProvider();
+  final GodProvider testProvider = GodProvider();
   late final TextEditingController leanController;
   late final TextEditingController fatController;
 

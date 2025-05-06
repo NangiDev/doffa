@@ -1,5 +1,5 @@
 import 'package:doffa/common/models.dart';
-import 'package:doffa/providers/metrics_provider.dart';
+import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +10,8 @@ class MyDatePickerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final metricsProvider = context.watch<MetricsProvider>();
-    final days = metricsProvider.getDays();
+    final provider = context.watch<GodProvider>();
+    final days = provider.getDays();
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -58,9 +58,8 @@ class MyDatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final metricsProvider = context.watch<MetricsProvider>();
-    final metric =
-        isStart ? metricsProvider.startMetrics : metricsProvider.endMetrics;
+    final provider = context.watch<GodProvider>();
+    final metric = isStart ? provider.startMetrics : provider.endMetrics;
     final title = isStart ? "Start Date" : "End Date";
 
     return Expanded(
@@ -141,7 +140,7 @@ class MyDatePicker extends StatelessWidget {
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2100),
                         onDateChanged: (date) {
-                          final provider = context.read<MetricsProvider>();
+                          final provider = context.read<GodProvider>();
                           final updated =
                               isStart
                                   ? provider.startMetrics.setDate(date: date)
