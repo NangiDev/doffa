@@ -1,4 +1,3 @@
-* Tests should mock service instead of storage
 * Implement Fitbit login
 * Get values from Fitbit
 * Push to web

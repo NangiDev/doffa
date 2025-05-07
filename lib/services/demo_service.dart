@@ -1,10 +1,10 @@
-import 'package:doffa/api/service.dart';
+import 'package:doffa/services/service.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/expandable_section.dart';
-import 'package:doffa/storage/storage_service_factory.dart';
+import 'package:doffa/storage/storage_factory.dart';
 
-class TestService extends IService {
-  TestService() : super(StorageFactory.create());
+class DemoService extends IService {
+  DemoService() : super(StorageFactory.create());
 
   bool _isLoggedIn = false;
 
@@ -14,8 +14,8 @@ class TestService extends IService {
     ExpandableSection.progress: true,
   };
 
-  Metrics _startMetrics = Metrics.defaultMetrics();
-  Metrics _endMetrics = Metrics.defaultMetrics();
+  Metrics _start = Metrics.demo();
+  Metrics _end = Metrics.demo();
 
   @override
   Future<bool> isLoggedIn() async => _isLoggedIn;
@@ -44,27 +44,34 @@ class TestService extends IService {
   }
 
   @override
-  Future<Metrics> getEndMetrics() async {
-    return _endMetrics;
+  Future<Metrics> getEnd() async {
+    return _end;
   }
 
   @override
-  Future<Metrics> getStartMetrics() async {
-    return _startMetrics;
+  Future<Metrics> getStart() async {
+    return _start;
   }
 
   @override
-  Future<Metrics> setEndMetrics(Metrics metrics) async {
-    _endMetrics = metrics;
-    return _endMetrics;
+  Future<Metrics> setEnd(Metrics metrics) async {
+    _end = Metrics.demo().copyWith(date: metrics.date);
+    return _end;
   }
 
   @override
-  Future<Metrics> setStartMetrics(Metrics metrics) async {
-    _startMetrics = metrics;
-    return _startMetrics;
+  Future<Metrics> setStart(Metrics metrics) async {
+    _start = Metrics.demo().copyWith(date: metrics.date);
+    return _start;
   }
 
   @override
-  Future<void> init() async {}
+  Future<void> init() async {
+    await setStart(
+      Metrics.demo().copyWith(
+        date: DateTime.now().subtract(const Duration(days: 7)),
+      ),
+    );
+    await setEnd(Metrics.demo());
+  }
 }

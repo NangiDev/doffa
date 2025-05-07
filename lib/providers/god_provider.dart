@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:doffa/api/service.dart';
-import 'package:doffa/api/test_service.dart';
+import 'package:doffa/services/service.dart';
+import 'package:doffa/services/test_service.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/expandable_section.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +16,10 @@ class GodProvider extends ChangeNotifier {
 
   Future<void> _initializeService() async {
     await _service.init();
-    await setStartMetrics(
+    await setStart(
       Metrics.demo().copyWith(date: DateTime.now().subtract(Duration(days: 7))),
     );
-    await setEndMetrics(Metrics.demo());
+    await setEnd(Metrics.demo());
     notifyListeners();
   }
 
@@ -55,38 +55,38 @@ class GodProvider extends ChangeNotifier {
   }
 
   // ==== METRICS ====
-  Metrics _startMetrics = Metrics.defaultMetrics();
-  Metrics _endMetrics = Metrics.defaultMetrics();
-  Metrics _changeMetrics = Metrics.defaultMetrics();
+  Metrics _start = Metrics.defaultMetrics();
+  Metrics _end = Metrics.defaultMetrics();
+  Metrics _change = Metrics.defaultMetrics();
 
-  Metrics get startMetrics => _startMetrics;
-  Metrics get endMetrics => _endMetrics;
-  Metrics get changeMetrics => _changeMetrics;
+  Metrics get start => _start;
+  Metrics get end => _end;
+  Metrics get change => _change;
 
-  Future<void> setStartMetrics(Metrics metrics) async {
-    _startMetrics = await _service.setStartMetrics(metrics);
-    _setChangeMetrics();
+  Future<void> setStart(Metrics metrics) async {
+    _start = await _service.setStart(metrics);
+    _setChange();
     notifyListeners();
   }
 
-  Future<void> setEndMetrics(Metrics metrics) async {
-    _endMetrics = await _service.setEndMetrics(metrics);
-    _setChangeMetrics();
+  Future<void> setEnd(Metrics metrics) async {
+    _end = await _service.setEnd(metrics);
+    _setChange();
     notifyListeners();
   }
 
-  Future<void> _setChangeMetrics() async {
-    _changeMetrics = _endMetrics.difference(_startMetrics);
+  Future<void> _setChange() async {
+    _change = _end.difference(_start);
   }
 
   // Method to get days between two dates
   int getDays() {
-    return max(endMetrics.date.difference(startMetrics.date).inDays, 0);
+    return max(end.date.difference(start.date).inDays, 0);
   }
 
   int getRatio() {
-    final double deltaFat = _changeMetrics.fatInKg;
-    final double deltaLean = _changeMetrics.leanInKg;
+    final double deltaFat = _change.fatInKg;
+    final double deltaLean = _change.leanInKg;
 
     // Calculate the total absolute change in fat and lean mass
     final double totalChange = max((deltaFat.abs() + deltaLean.abs()), 1);

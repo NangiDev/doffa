@@ -59,7 +59,7 @@ class MyDatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<GodProvider>();
-    final metric = isStart ? provider.startMetrics : provider.endMetrics;
+    final metric = isStart ? provider.start : provider.end;
     final title = isStart ? "Start Date" : "End Date";
 
     return Expanded(
@@ -143,12 +143,12 @@ class MyDatePicker extends StatelessWidget {
                           final provider = context.read<GodProvider>();
                           final updated =
                               isStart
-                                  ? provider.startMetrics.copyWith(date: date)
-                                  : provider.endMetrics.copyWith(date: date);
+                                  ? provider.start.copyWith(date: date)
+                                  : provider.end.copyWith(date: date);
 
                           isStart
-                              ? provider.setStartMetrics(updated)
-                              : provider.setEndMetrics(updated);
+                              ? provider.setStart(updated)
+                              : provider.setEnd(updated);
 
                           Navigator.of(context).pop(date);
                         },

@@ -10,7 +10,7 @@ class MyProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final metrics = context.watch<GodProvider>().changeMetrics;
+    final metrics = context.watch<GodProvider>().change;
 
     return MyMetricCard(
       title: "PROGRESS",

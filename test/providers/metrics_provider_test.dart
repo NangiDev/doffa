@@ -1,7 +1,6 @@
-import 'package:doffa/api/test_service.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/god_provider.dart';
-import 'package:doffa/storage/storage_service.dart';
+import 'package:doffa/services/service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -206,26 +205,23 @@ final List<TestCase> testCases = [
   ),
 ];
 
-@GenerateMocks([Storage])
+@GenerateMocks([IService])
 void main() {
-  late MockStorageService mockStorage;
+  late MockIService mockService;
   late GodProvider provider;
   Metrics start = Metrics.defaultMetrics();
   Metrics end = Metrics.defaultMetrics();
 
   setUp(() {
-    mockStorage = MockStorageService();
+    mockService = MockIService();
 
-    when(
-      mockStorage.read('startMetric'),
-    ).thenAnswer((_) => Future.value(start.toJson()));
-
-    when(
-      mockStorage.read('endMetric'),
-    ).thenAnswer((_) => Future.value(end.toJson()));
+    when(mockService.setStart(any)).thenAnswer((_) => Future.value(start));
+    when(mockService.getEnd()).thenAnswer((_) => Future.value(end));
+    when(mockService.getStart()).thenAnswer((_) => Future.value(start));
+    when(mockService.setEnd(any)).thenAnswer((_) => Future.value(end));
 
     provider = GodProvider();
-    provider.service = TestService();
+    provider.service = mockService;
   });
 
   // Run parameterized tests
@@ -236,8 +232,8 @@ void main() {
         fatInKg: testCase.fatInKg,
         leanInKg: testCase.leanInKg,
       );
-      await provider.setStartMetrics(start);
-      await provider.setEndMetrics(end);
+      await provider.setStart(start);
+      await provider.setEnd(end);
       expect(provider.getRatio(), testCase.expectedScore);
     });
   }

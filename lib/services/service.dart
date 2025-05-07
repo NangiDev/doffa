@@ -1,6 +1,6 @@
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/expandable_section.dart';
-import 'package:doffa/storage/storage_service.dart';
+import 'package:doffa/storage/storage.dart';
 
 abstract class IService {
   final Storage storage;
@@ -13,11 +13,11 @@ abstract class IService {
   Future<bool> logout();
   Future<bool> toggleExpanded(ExpandableSection section);
 
-  Future<Metrics> getStartMetrics();
-  Future<Metrics> setStartMetrics(Metrics metrics);
+  Future<Metrics> getStart();
+  Future<Metrics> setStart(Metrics metrics);
 
-  Future<Metrics> getEndMetrics();
-  Future<Metrics> setEndMetrics(Metrics metrics);
+  Future<Metrics> getEnd();
+  Future<Metrics> setEnd(Metrics metrics);
 
   Future<void> init();
 

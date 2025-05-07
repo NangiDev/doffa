@@ -3,9 +3,12 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i5;
 
-import 'package:doffa/storage/storage_service.dart' as _i2;
+import 'package:doffa/common/models.dart' as _i3;
+import 'package:doffa/providers/expandable_section.dart' as _i6;
+import 'package:doffa/services/service.dart' as _i4;
+import 'package:doffa/storage/storage.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -22,37 +25,118 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-/// A class which mocks [StorageService].
+class _FakeStorage_0 extends _i1.SmartFake implements _i2.Storage {
+  _FakeStorage_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeMetrics_1 extends _i1.SmartFake implements _i3.Metrics {
+  _FakeMetrics_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+/// A class which mocks [IService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStorageService extends _i1.Mock implements _i2.Storage {
-  MockStorageService() {
+class MockIService extends _i1.Mock implements _i4.IService {
+  MockIService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<void> write(String? key, String? value) =>
+  _i2.Storage get storage =>
       (super.noSuchMethod(
-            Invocation.method(#write, [key, value]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            Invocation.getter(#storage),
+            returnValue: _FakeStorage_0(this, Invocation.getter(#storage)),
           )
-          as _i3.Future<void>);
+          as _i2.Storage);
 
   @override
-  _i3.Future<String?> read(String? key) =>
+  _i5.Future<bool> isLoggedIn() =>
       (super.noSuchMethod(
-            Invocation.method(#read, [key]),
-            returnValue: _i3.Future<String?>.value(),
+            Invocation.method(#isLoggedIn, []),
+            returnValue: _i5.Future<bool>.value(false),
           )
-          as _i3.Future<String?>);
+          as _i5.Future<bool>);
 
   @override
-  _i3.Future<void> delete(String? key) =>
+  _i5.Future<bool> login() =>
       (super.noSuchMethod(
-            Invocation.method(#delete, [key]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            Invocation.method(#login, []),
+            returnValue: _i5.Future<bool>.value(false),
           )
-          as _i3.Future<void>);
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<bool> logout() =>
+      (super.noSuchMethod(
+            Invocation.method(#logout, []),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<bool> toggleExpanded(_i6.ExpandableSection? section) =>
+      (super.noSuchMethod(
+            Invocation.method(#toggleExpanded, [section]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<_i3.Metrics> getStart() =>
+      (super.noSuchMethod(
+            Invocation.method(#getStart, []),
+            returnValue: _i5.Future<_i3.Metrics>.value(
+              _FakeMetrics_1(this, Invocation.method(#getStart, [])),
+            ),
+          )
+          as _i5.Future<_i3.Metrics>);
+
+  @override
+  _i5.Future<_i3.Metrics> setStart(_i3.Metrics? metrics) =>
+      (super.noSuchMethod(
+            Invocation.method(#setStart, [metrics]),
+            returnValue: _i5.Future<_i3.Metrics>.value(
+              _FakeMetrics_1(this, Invocation.method(#setStart, [metrics])),
+            ),
+          )
+          as _i5.Future<_i3.Metrics>);
+
+  @override
+  _i5.Future<_i3.Metrics> getEnd() =>
+      (super.noSuchMethod(
+            Invocation.method(#getEnd, []),
+            returnValue: _i5.Future<_i3.Metrics>.value(
+              _FakeMetrics_1(this, Invocation.method(#getEnd, [])),
+            ),
+          )
+          as _i5.Future<_i3.Metrics>);
+
+  @override
+  _i5.Future<_i3.Metrics> setEnd(_i3.Metrics? metrics) =>
+      (super.noSuchMethod(
+            Invocation.method(#setEnd, [metrics]),
+            returnValue: _i5.Future<_i3.Metrics>.value(
+              _FakeMetrics_1(this, Invocation.method(#setEnd, [metrics])),
+            ),
+          )
+          as _i5.Future<_i3.Metrics>);
+
+  @override
+  _i5.Future<void> init() =>
+      (super.noSuchMethod(
+            Invocation.method(#init, []),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  bool isExpanded(_i6.ExpandableSection? section) =>
+      (super.noSuchMethod(
+            Invocation.method(#isExpanded, [section]),
+            returnValue: false,
+          )
+          as bool);
 }

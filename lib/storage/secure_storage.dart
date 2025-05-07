@@ -1,7 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'storage_service.dart';
+import 'storage.dart';
 
-class SecureStorageService implements Storage {
+class SecureStorage implements Storage {
   final _storage = const FlutterSecureStorage();
 
   @override

@@ -25,8 +25,8 @@ class _RatioCalculatorState extends State<RatioCalculator> {
     leanController = TextEditingController(text: leanInKg);
     fatController = TextEditingController(text: fatInKg);
 
-    testProvider.setStartMetrics(
-      testProvider.startMetrics.copyWith(leanInKg: 0.0, fatInKg: 0.0),
+    testProvider.setStart(
+      testProvider.start.copyWith(leanInKg: 0.0, fatInKg: 0.0),
     );
   }
 
@@ -88,11 +88,8 @@ class _RatioCalculatorState extends State<RatioCalculator> {
               final lean = double.tryParse(leanController.text) ?? 0.0;
               final fat = double.tryParse(fatController.text) ?? 0.0;
 
-              await testProvider.setEndMetrics(
-                testProvider.startMetrics.copyWith(
-                  leanInKg: lean,
-                  fatInKg: fat,
-                ),
+              await testProvider.setEnd(
+                testProvider.start.copyWith(leanInKg: lean, fatInKg: fat),
               );
 
               setState(() {

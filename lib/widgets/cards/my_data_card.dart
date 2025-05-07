@@ -11,8 +11,8 @@ class MyDataCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<GodProvider>();
-    final start = provider.startMetrics;
-    final end = provider.endMetrics;
+    final start = provider.start;
+    final end = provider.end;
 
     return MyMetricCard(
       title: "DATA",

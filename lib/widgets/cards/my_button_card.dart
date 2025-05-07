@@ -1,4 +1,4 @@
-import 'package:doffa/api/demo_service.dart';
+import 'package:doffa/services/demo_service.dart';
 import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
