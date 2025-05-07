@@ -49,9 +49,6 @@ class FitbitService extends IService {
     try {
       return Metrics.fromJson(jsonString);
     } catch (_) {
-      // If the JSON is invalid, return default metrics
-      // This can happen if the app is updated and the format changes
-      // or if the user clears the app data
       return Metrics.defaultMetrics();
     }
   }
