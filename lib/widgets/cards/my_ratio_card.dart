@@ -162,128 +162,22 @@ void showInformationDialog({
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: Colors.black),
+                backgroundColor: Colors.greenAccent,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+              ),
               child: const MyMontserrat(
-                text: 'Ok',
+                text: 'Take me back!',
                 maxWidth: 14,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
               ),
             ),
           ],
         ),
   );
 }
-
-// Widget _buildRatioCalulator() {
-//   final TextStyle textStyle = MyMontserrat.defaultStyle().copyWith(
-//     fontSize: 12,
-//     color: Colors.white70,
-//     height: 1.2,
-//     fontWeight: FontWeight.w400,
-//   );
-
-//   final testProvider = MetricsProvider();
-
-//   return Container(
-//     padding: const EdgeInsets.all(8),
-//     decoration: BoxDecoration(
-//       color: const Color(0xFF373737),
-//       borderRadius: BorderRadius.circular(8),
-//     ),
-//     child: Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       mainAxisSize: MainAxisSize.min,
-//       children: [
-//         MyMontserrat(
-//           text: "Try it out yourself!",
-//           maxWidth: 14,
-//           fontWeight: FontWeight.w600,
-//         ),
-//         const SizedBox(height: 8),
-//         // Text fields for input
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             Expanded(
-//               child: TextField(
-//                 controller: TextEditingController(
-//                   text: testProvider.endMetrics.fatInKg.toString(),
-//                 ),
-//                 decoration: InputDecoration(
-//                   labelText: 'ΔLean (kg)',
-//                   labelStyle: textStyle,
-//                   filled: true,
-//                   fillColor: const Color(0xFF1E1E1E),
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(8),
-//                     borderSide: BorderSide.none,
-//                   ),
-//                 ),
-//                 style: textStyle,
-//                 onChanged: (value) {
-//                   testProvider.endMetrics.copyWith(
-//                     leanInKg: double.tryParse(value) ?? 0.0,
-//                   );
-//                   // metricsProvider.setEndMetrics(metricsProvider.endMetrics);
-//                 },
-//               ),
-//             ),
-//             const SizedBox(width: 8),
-//             Expanded(
-//               child: TextField(
-//                 controller: TextEditingController(
-//                   text: testProvider.endMetrics.fatInKg.toString(),
-//                 ),
-//                 decoration: InputDecoration(
-//                   labelText: 'ΔFat (kg)',
-//                   labelStyle: textStyle,
-//                   filled: true,
-//                   fillColor: const Color(0xFF1E1E1E),
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(8),
-//                     borderSide: BorderSide.none,
-//                   ),
-//                 ),
-//                 style: textStyle,
-//                 onChanged: (value) {
-//                   testProvider.endMetrics.copyWith(
-//                     fatInKg: double.tryParse(value) ?? 0.0,
-//                   );
-//                   // metricsProvider.setEndMetrics(metricsProvider.endMetrics);
-//                 },
-//               ),
-//             ),
-//           ],
-//         ),
-//         // Button to calculate the ratio
-//         const SizedBox(height: 8),
-//         ElevatedButton(
-//           onPressed: () {
-//             print('Ratio: ${testProvider.getRatio()}');
-//           },
-//           style: ElevatedButton.styleFrom(
-//             backgroundColor: const Color(0xFF1E1E1E),
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(8),
-//             ),
-//           ),
-//           child: const MyMontserrat(
-//             text: 'Calculate',
-//             maxWidth: 14,
-//             fontWeight: FontWeight.w400,
-//           ),
-//         ),
-//         const SizedBox(height: 12),
-//         // Display the result
-//         MyMontserrat(
-//           text: 'Result: ${testProvider.getRatio()}',
-//           maxWidth: 14,
-//           fontWeight: FontWeight.w400,
-//         ),
-//         const SizedBox(height: 4),
-//       ],
-//     ),
-//   );
-// }
 
 Widget _buildCalculationExplanation(BuildContext context, double maxWidth) {
   final TextStyle textStyle = MyMontserrat.defaultStyle().copyWith(

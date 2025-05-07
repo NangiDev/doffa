@@ -27,10 +27,16 @@ void showConfirmationDialog({
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: Colors.black),
+                backgroundColor: Colors.redAccent,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+              ),
               child: const MyMontserrat(
                 text: 'Cancel',
                 maxWidth: 14,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
               ),
             ),
             OutlinedButton(
@@ -39,14 +45,15 @@ void showConfirmationDialog({
                 onConfirm();
               },
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Colors.white70),
-                foregroundColor: Colors.white,
+                side: const BorderSide(color: Colors.black),
+                backgroundColor: Colors.greenAccent,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
               ),
               child: MyMontserrat(
                 text: confirmText,
                 maxWidth: 14,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
               ),
             ),
           ],
