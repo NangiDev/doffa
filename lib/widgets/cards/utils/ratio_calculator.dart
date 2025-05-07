@@ -93,7 +93,7 @@ class _RatioCalculatorState extends State<RatioCalculator> {
                 fatInKg: fat,
               );
 
-              testProvider.setEndMetricsSync(newEnd); // <-- WAIT for this
+              testProvider.setEndMetrics(newEnd); // <-- WAIT for this
 
               setState(() {
                 result =

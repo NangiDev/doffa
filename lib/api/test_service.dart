@@ -3,8 +3,8 @@ import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/expandable_section.dart';
 import 'package:doffa/storage/storage_service_factory.dart';
 
-class DemoService extends IService {
-  DemoService() : super(StorageFactory.create());
+class TestService extends IService {
+  TestService() : super(StorageFactory.create());
 
   bool _isLoggedIn = false;
 
@@ -55,13 +55,13 @@ class DemoService extends IService {
 
   @override
   Future<Metrics> setEndMetrics(Metrics metrics) async {
-    _endMetrics = Metrics.demo().copyWith(date: metrics.date);
+    _endMetrics = metrics;
     return _endMetrics;
   }
 
   @override
   Future<Metrics> setStartMetrics(Metrics metrics) async {
-    _startMetrics = Metrics.demo().copyWith(date: metrics.date);
+    _startMetrics = metrics;
     return _startMetrics;
   }
 }

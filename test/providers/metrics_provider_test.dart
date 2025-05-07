@@ -1,3 +1,4 @@
+import 'package:doffa/api/test_service.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/storage/storage_service.dart';
@@ -224,7 +225,7 @@ void main() {
     ).thenAnswer((_) => Future.value(end.toJson()));
 
     provider = GodProvider();
-    provider.storage = mockStorage;
+    provider.service = TestService();
   });
 
   // Run parameterized tests

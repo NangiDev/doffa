@@ -1,3 +1,5 @@
+* Add red and green to colors on buttons on popups
+* Tests should mock service instead of storage
 * Implement Fitbit login
 * Get values from Fitbit
 * Push to web

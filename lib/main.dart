@@ -15,22 +15,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => GodProvider())],
+    return ChangeNotifierProvider(
+      create: (_) => GodProvider(),
       child: MaterialApp(
         title: title,
-        theme: ThemeData(
-          colorScheme: const ColorScheme.dark(
-            primary: Colors.blue,
-            surface: Color.fromARGB(255, 16, 16, 16),
-            onPrimary: Colors.white, // selected day text color
-            onSurface: Colors.white70, // other text
-          ),
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+        theme: _buildThemeData(),
         home: const AuthGate(),
       ),
+    );
+  }
+
+  ThemeData _buildThemeData() {
+    return ThemeData(
+      colorScheme: const ColorScheme.dark(
+        primary: Colors.blue,
+        surface: Color.fromARGB(255, 16, 16, 16),
+        onPrimary: Colors.white, // selected day text color
+        onSurface: Colors.white70, // other text
+      ),
+      primarySwatch: Colors.blue,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }
 }
@@ -43,9 +47,7 @@ class AuthGate extends StatelessWidget {
     final provider = context.watch<GodProvider>();
 
     return Scaffold(
-      body: SafeArea(
-        child: provider.isLoggedIn ? const HomeScreen() : const LoginScreen(),
-      ),
+      body: provider.isLoggedIn ? const HomeScreen() : const LoginScreen(),
     );
   }
 }

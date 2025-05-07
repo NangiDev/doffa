@@ -1,32 +1,24 @@
+import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/expandable_section.dart';
 import 'package:doffa/storage/storage_service.dart';
-import 'package:flutter/foundation.dart';
 
 abstract class IService {
-  final Storage _storage;
+  final Storage storage;
 
-  @protected
-  Storage get storage => _storage;
+  IService(this.storage);
 
-  IService(this._storage);
+  // Methods that is reading from the storage needs to be async
+  Future<bool> isLoggedIn();
+  Future<bool> login();
+  Future<bool> logout();
+  Future<bool> toggleExpanded(ExpandableSection section);
 
-  Future<bool> get isLoggedIn async {
-    throw UnimplementedError();
-  }
+  Future<Metrics> getStartMetrics();
+  Future<Metrics> setStartMetrics(Metrics metrics);
 
-  Future<bool> login() async {
-    throw UnimplementedError();
-  }
+  Future<Metrics> getEndMetrics();
+  Future<Metrics> setEndMetrics(Metrics metrics);
 
-  Future<bool> logout() async {
-    throw UnimplementedError();
-  }
-
-  Future<bool> isExpanded(ExpandableSection key) async {
-    throw UnimplementedError();
-  }
-
-  Future<void> toggleExpanded(ExpandableSection section) async {
-    throw UnimplementedError();
-  }
+  // Methods that only returns provider state can be sync
+  bool isExpanded(ExpandableSection section);
 }
