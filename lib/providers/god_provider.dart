@@ -16,11 +16,8 @@ class GodProvider extends ChangeNotifier {
 
   Future<void> _initializeService() async {
     await _service.init();
-    await isLoggedIn();
-    await setStart(
-      Metrics.demo().copyWith(date: DateTime.now().subtract(Duration(days: 7))),
-    );
-    await setEnd(Metrics.demo());
+    await setStart(await _service.getStart());
+    await setEnd(await _service.getEnd());
     notifyListeners();
   }
 

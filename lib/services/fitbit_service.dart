@@ -6,9 +6,6 @@ import 'package:doffa/storage/storage_factory.dart';
 class FitbitService extends IService {
   FitbitService() : super(StorageFactory.create());
 
-  Metrics _start = Metrics.demo();
-  Metrics _end = Metrics.demo();
-
   @override
   Future<bool> isLoggedIn() async {
     bool value = await storage.readBool(StorageKeys.isLoggedIn);
@@ -48,24 +45,37 @@ class FitbitService extends IService {
 
   @override
   Future<Metrics> getEnd() async {
-    return _end;
+    String jsonString = await storage.read(StorageKeys.end);
+    try {
+      return Metrics.fromJson(jsonString);
+    } catch (_) {
+      // If the JSON is invalid, return default metrics
+      // This can happen if the app is updated and the format changes
+      // or if the user clears the app data
+      return Metrics.defaultMetrics();
+    }
   }
 
   @override
   Future<Metrics> getStart() async {
-    return _start;
+    String jsonString = await storage.read(StorageKeys.start);
+    try {
+      return Metrics.fromJson(jsonString);
+    } catch (_) {
+      return Metrics.defaultMetrics();
+    }
   }
 
   @override
   Future<Metrics> setEnd(Metrics metrics) async {
-    _end = Metrics.demo().copyWith(date: metrics.date);
-    return _end;
+    await storage.write(StorageKeys.end, metrics.toJson());
+    return metrics;
   }
 
   @override
   Future<Metrics> setStart(Metrics metrics) async {
-    _start = Metrics.demo().copyWith(date: metrics.date);
-    return _start;
+    await storage.write(StorageKeys.start, metrics.toJson());
+    return metrics;
   }
 
   @override
@@ -73,5 +83,8 @@ class FitbitService extends IService {
     await setExpanded(StorageKeys.expandedData, true);
     await setExpanded(StorageKeys.expandedHistory, true);
     await setExpanded(StorageKeys.expandedProgress, true);
+
+    await setStart(await getStart());
+    await setEnd(await getStart());
   }
 }

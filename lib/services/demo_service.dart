@@ -73,11 +73,16 @@ class DemoService extends IService {
 
   @override
   Future<void> init() async {
+    await setExpanded(StorageKeys.expandedData, true);
+    await setExpanded(StorageKeys.expandedHistory, true);
+    await setExpanded(StorageKeys.expandedProgress, true);
+
     await setStart(
       Metrics.demo().copyWith(
         date: DateTime.now().subtract(const Duration(days: 7)),
       ),
     );
+
     await setEnd(Metrics.demo());
   }
 }
