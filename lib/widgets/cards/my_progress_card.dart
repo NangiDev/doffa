@@ -1,5 +1,5 @@
-import 'package:doffa/providers/expandable_section.dart';
 import 'package:doffa/providers/god_provider.dart';
+import 'package:doffa/storage/storage.dart';
 import 'package:doffa/widgets/cards/common/my_expandable_table.dart';
 import 'package:doffa/widgets/cards/common/my_metric_card.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class MyProgressCard extends StatelessWidget {
     return MyMetricCard(
       title: "PROGRESS",
       subtitle: "Changes between start and end date",
-      section: ExpandableSection.progress,
+      section: StorageKeys.expandedProgress,
       columns: [
         MetricColumn(
           header: "Difference",

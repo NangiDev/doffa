@@ -1,5 +1,6 @@
 import 'package:doffa/services/demo_service.dart';
 import 'package:doffa/providers/god_provider.dart';
+import 'package:doffa/services/fitbit_service.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,7 @@ class MyButtonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<GodProvider>();
     return LayoutBuilder(
       builder: (context, constraints) {
         double maxWidth = constraints.maxWidth;
@@ -26,14 +28,16 @@ class MyButtonCard extends StatelessWidget {
                   icon: CupertinoIcons.bolt_fill,
                   label: "Login with Fitbit",
                   color: const Color(0xFF00B0B9),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    provider.service = FitbitService();
+                    provider.logIn();
+                  },
                 ),
                 MyLoginButton(
                   icon: CupertinoIcons.play_circle_fill,
                   label: "Try Demo",
                   color: const Color(0xFF000000),
                   onPressed: () async {
-                    final provider = context.read<GodProvider>();
                     provider.service = DemoService();
                     provider.logIn();
                   },

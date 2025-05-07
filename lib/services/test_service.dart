@@ -1,6 +1,6 @@
 import 'package:doffa/services/service.dart';
 import 'package:doffa/common/models.dart';
-import 'package:doffa/providers/expandable_section.dart';
+import 'package:doffa/storage/storage.dart';
 import 'package:doffa/storage/storage_factory.dart';
 
 class TestService extends IService {
@@ -8,10 +8,10 @@ class TestService extends IService {
 
   bool _isLoggedIn = false;
 
-  final Map<ExpandableSection, bool> _expandedStates = {
-    ExpandableSection.history: true,
-    ExpandableSection.data: true,
-    ExpandableSection.progress: true,
+  final Map<StorageKeys, bool> _expandedStates = {
+    StorageKeys.expandedHistory: true,
+    StorageKeys.expandedData: true,
+    StorageKeys.expandedProgress: true,
   };
 
   Metrics _start = Metrics.defaultMetrics();
@@ -33,13 +33,19 @@ class TestService extends IService {
   }
 
   @override
-  bool isExpanded(ExpandableSection section) {
+  Future<bool> isExpanded(StorageKeys section) async {
     return _expandedStates[section] ?? true;
   }
 
   @override
-  Future<bool> toggleExpanded(ExpandableSection section) async {
+  Future<bool> toggleExpanded(StorageKeys section) async {
     _expandedStates[section] = !(_expandedStates[section] ?? false);
+    return _expandedStates[section] ?? false;
+  }
+
+  @override
+  Future<bool> setExpanded(StorageKeys section, bool value) async {
+    _expandedStates[section] = value;
     return _expandedStates[section] ?? false;
   }
 

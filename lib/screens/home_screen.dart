@@ -12,38 +12,40 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 400),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              spacing: 8,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: MyLogoWide(),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 400),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                spacing: 8,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: MyLogoWide(),
+                        ),
                       ),
-                    ),
-                    // Expanded(flex: 2, child: MyCoffeeButton()),
-                    Expanded(flex: 2, child: MySignOutButton()),
-                  ],
-                ),
-                MyDatePickerCard(),
-                // MyAds(),
-                MyRatioCard(),
-                // MyHistoryCard(),
-                MyDataCard(),
-                MyProgressCard(),
-                // MyAds(),
-                // MyAds(),
-                MyAppInfo(),
-              ],
+                      // Expanded(flex: 2, child: MyCoffeeButton()),
+                      Expanded(flex: 2, child: MySignOutButton()),
+                    ],
+                  ),
+                  MyDatePickerCard(),
+                  // MyAds(),
+                  MyRatioCard(),
+                  // MyHistoryCard(),
+                  MyDataCard(),
+                  MyProgressCard(),
+                  // MyAds(),
+                  // MyAds(),
+                  MyAppInfo(),
+                ],
+              ),
             ),
           ),
         ),

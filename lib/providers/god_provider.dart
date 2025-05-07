@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:doffa/common/models.dart';
 import 'package:doffa/services/service.dart';
 import 'package:doffa/services/test_service.dart';
-import 'package:doffa/common/models.dart';
-import 'package:doffa/providers/expandable_section.dart';
+import 'package:doffa/storage/storage.dart';
 import 'package:flutter/material.dart';
 
 // One provider to rule them all
@@ -16,6 +16,7 @@ class GodProvider extends ChangeNotifier {
 
   Future<void> _initializeService() async {
     await _service.init();
+    await isLoggedIn();
     await setStart(
       Metrics.demo().copyWith(date: DateTime.now().subtract(Duration(days: 7))),
     );
@@ -25,7 +26,10 @@ class GodProvider extends ChangeNotifier {
 
   // ==== LOGIN ====
   bool _isLoggedIn = false;
-  bool get isLoggedIn => _isLoggedIn;
+  Future<bool> isLoggedIn() async {
+    _isLoggedIn = await _service.isLoggedIn();
+    return _isLoggedIn;
+  }
 
   Future<void> logIn() async {
     _isLoggedIn = await _service.login();
@@ -38,18 +42,18 @@ class GodProvider extends ChangeNotifier {
   }
 
   // ==== UI STATE ====
-  final Map<ExpandableSection, bool> _expandedStates = {
-    ExpandableSection.history: true,
-    ExpandableSection.data: true,
-    ExpandableSection.progress: true,
+  final Map<StorageKeys, bool> _expandedStates = {
+    StorageKeys.expandedHistory: true,
+    StorageKeys.expandedData: true,
+    StorageKeys.expandedProgress: true,
   };
 
-  bool isExpanded(ExpandableSection section) {
-    _expandedStates[section] = _service.isExpanded(section);
+  Future<bool> isExpanded(StorageKeys section) async {
+    _expandedStates[section] = await _service.isExpanded(section);
     return _expandedStates[section] ?? true;
   }
 
-  Future<void> toggleExpanded(ExpandableSection section) async {
+  Future<void> toggleExpanded(StorageKeys section) async {
     _expandedStates[section] = await _service.toggleExpanded(section);
     notifyListeners();
   }

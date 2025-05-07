@@ -6,7 +6,6 @@
 import 'dart:async' as _i5;
 
 import 'package:doffa/common/models.dart' as _i3;
-import 'package:doffa/providers/expandable_section.dart' as _i6;
 import 'package:doffa/services/service.dart' as _i4;
 import 'package:doffa/storage/storage.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
@@ -52,6 +51,15 @@ class MockIService extends _i1.Mock implements _i4.IService {
           as _i2.Storage);
 
   @override
+  _i5.Future<void> init() =>
+      (super.noSuchMethod(
+            Invocation.method(#init, []),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
   _i5.Future<bool> isLoggedIn() =>
       (super.noSuchMethod(
             Invocation.method(#isLoggedIn, []),
@@ -76,9 +84,25 @@ class MockIService extends _i1.Mock implements _i4.IService {
           as _i5.Future<bool>);
 
   @override
-  _i5.Future<bool> toggleExpanded(_i6.ExpandableSection? section) =>
+  _i5.Future<bool> toggleExpanded(_i2.StorageKeys? key) =>
       (super.noSuchMethod(
-            Invocation.method(#toggleExpanded, [section]),
+            Invocation.method(#toggleExpanded, [key]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<bool> isExpanded(_i2.StorageKeys? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#isExpanded, [key]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<bool> setExpanded(_i2.StorageKeys? key, bool? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#setExpanded, [key, value]),
             returnValue: _i5.Future<bool>.value(false),
           )
           as _i5.Future<bool>);
@@ -122,21 +146,4 @@ class MockIService extends _i1.Mock implements _i4.IService {
             ),
           )
           as _i5.Future<_i3.Metrics>);
-
-  @override
-  _i5.Future<void> init() =>
-      (super.noSuchMethod(
-            Invocation.method(#init, []),
-            returnValue: _i5.Future<void>.value(),
-            returnValueForMissingStub: _i5.Future<void>.value(),
-          )
-          as _i5.Future<void>);
-
-  @override
-  bool isExpanded(_i6.ExpandableSection? section) =>
-      (super.noSuchMethod(
-            Invocation.method(#isExpanded, [section]),
-            returnValue: false,
-          )
-          as bool);
 }

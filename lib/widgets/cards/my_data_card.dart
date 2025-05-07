@@ -1,5 +1,5 @@
-import 'package:doffa/providers/expandable_section.dart';
 import 'package:doffa/providers/god_provider.dart';
+import 'package:doffa/storage/storage.dart';
 import 'package:doffa/widgets/cards/common/my_expandable_table.dart';
 import 'package:doffa/widgets/cards/common/my_metric_card.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class MyDataCard extends StatelessWidget {
     return MyMetricCard(
       title: "DATA",
       subtitle: "Measurements",
-      section: ExpandableSection.data,
+      section: StorageKeys.expandedData,
       columns: [
         MetricColumn(
           header: start.dateAsString,

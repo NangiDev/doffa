@@ -44,10 +44,15 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<GodProvider>();
-
-    return Scaffold(
-      body: provider.isLoggedIn ? const HomeScreen() : const LoginScreen(),
+    return FutureBuilder<bool>(
+      future: context.watch<GodProvider>().isLoggedIn(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data == true) {
+          return const HomeScreen();
+        } else {
+          return const LoginScreen();
+        }
+      },
     );
   }
 }

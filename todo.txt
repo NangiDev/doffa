@@ -1,4 +1,5 @@
-* Implement Fitbit login
+* Implement Storage Fitbit login
+* Implement API integration Fitbit
 * Get values from Fitbit
 * Push to web
 * Create release pipeline for APK and bundle
@@ -6,5 +7,5 @@
 * Implement Kofi
 * Implement Ads
 * Release app on Google Play
-* Implement Withings login
-* Get values from Withings
+* Implement Storage Withings login
+* Implement API integration Withings

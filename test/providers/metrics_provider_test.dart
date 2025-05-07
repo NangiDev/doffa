@@ -205,6 +205,9 @@ final List<TestCase> testCases = [
   ),
 ];
 
+final _true = Future.value(true);
+final _false = Future.value(false);
+
 @GenerateMocks([IService])
 void main() {
   late MockIService mockService;
@@ -215,6 +218,13 @@ void main() {
   setUp(() {
     mockService = MockIService();
 
+    // Mock the methods of the service
+    when(mockService.isLoggedIn()).thenAnswer((_) => _true);
+    when(mockService.login()).thenAnswer((_) => _true);
+    when(mockService.logout()).thenAnswer((_) => _true);
+    when(mockService.isExpanded(any)).thenAnswer((_) => _false);
+    when(mockService.toggleExpanded(any)).thenAnswer((_) => _false);
+    when(mockService.setExpanded(any, any)).thenAnswer((_) => _false);
     when(mockService.setStart(any)).thenAnswer((_) => Future.value(start));
     when(mockService.getEnd()).thenAnswer((_) => Future.value(end));
     when(mockService.getStart()).thenAnswer((_) => Future.value(start));

@@ -1,5 +1,4 @@
 import 'package:doffa/common/models.dart';
-import 'package:doffa/providers/expandable_section.dart';
 import 'package:doffa/storage/storage.dart';
 
 abstract class IService {
@@ -7,20 +6,19 @@ abstract class IService {
 
   IService(this.storage);
 
-  // Methods that is reading from the storage needs to be async
+  Future<void> init();
+
   Future<bool> isLoggedIn();
   Future<bool> login();
   Future<bool> logout();
-  Future<bool> toggleExpanded(ExpandableSection section);
+
+  Future<bool> toggleExpanded(StorageKeys key);
+  Future<bool> isExpanded(StorageKeys key);
+  Future<bool> setExpanded(StorageKeys key, bool value);
 
   Future<Metrics> getStart();
   Future<Metrics> setStart(Metrics metrics);
 
   Future<Metrics> getEnd();
   Future<Metrics> setEnd(Metrics metrics);
-
-  Future<void> init();
-
-  // Methods that only returns provider state can be sync
-  bool isExpanded(ExpandableSection section);
 }
