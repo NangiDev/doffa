@@ -1,5 +1,4 @@
 import 'package:doffa/api/demo_service.dart';
-import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
@@ -27,11 +26,7 @@ class MyButtonCard extends StatelessWidget {
                   icon: CupertinoIcons.bolt_fill,
                   label: "Login with Fitbit",
                   color: const Color(0xFF00B0B9),
-                  onPressed: () async {
-                    final provider = context.read<GodProvider>();
-                    provider.service = DemoService();
-                    provider.logIn();
-                  },
+                  onPressed: () async {},
                 ),
                 MyLoginButton(
                   icon: CupertinoIcons.play_circle_fill,
@@ -40,14 +35,6 @@ class MyButtonCard extends StatelessWidget {
                   onPressed: () async {
                     final provider = context.read<GodProvider>();
                     provider.service = DemoService();
-
-                    provider.setStartMetrics(
-                      Metrics.demo(
-                        date: DateTime.now().subtract(Duration(days: 30)),
-                      ),
-                    );
-                    provider.setEndMetrics(Metrics.demo(date: DateTime.now()));
-
                     provider.logIn();
                   },
                 ),

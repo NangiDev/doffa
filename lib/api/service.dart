@@ -7,8 +7,8 @@ abstract class IService {
   IService(this.storage);
 
   Future<bool> get isLoggedIn;
-  Future<void> login();
-  Future<void> logout();
+  Future<bool> login();
+  Future<bool> logout();
 
   Future<bool> isExpanded(ExpandableSection key) {
     return storage.read(key.toString()).then((value) {

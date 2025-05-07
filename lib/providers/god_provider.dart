@@ -10,12 +10,13 @@ enum ExpandableSection { history, data, progress }
 
 // One provider to rule them all
 class GodProvider extends ChangeNotifier {
+  bool _isLoggedIn = false;
+  bool get isLoggedIn => _isLoggedIn;
+
   IService _service = DemoService();
   IService get service => _service;
 
   late final Storage _storage;
-
-  Future<bool> get isLoggedIn => _service.isLoggedIn;
 
   final Map<ExpandableSection, bool> _expandedStates = {
     ExpandableSection.history: true,
@@ -126,12 +127,12 @@ class GodProvider extends ChangeNotifier {
   }
 
   Future<void> logIn() async {
-    await _service.login();
+    _isLoggedIn = await _service.login();
     notifyListeners();
   }
 
   Future<void> logOut() async {
-    await _service.logout();
+    _isLoggedIn = await _service.logout();
     notifyListeners();
   }
 
