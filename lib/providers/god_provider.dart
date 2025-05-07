@@ -1,16 +1,26 @@
 import 'dart:math';
 
-import 'package:doffa/api/demo_service.dart';
 import 'package:doffa/api/service.dart';
+import 'package:doffa/api/test_service.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/expandable_section.dart';
 import 'package:flutter/material.dart';
 
 // One provider to rule them all
 class GodProvider extends ChangeNotifier {
-  IService _service = DemoService();
+  IService _service = TestService();
   set service(IService service) {
     _service = service;
+    _initializeService();
+  }
+
+  Future<void> _initializeService() async {
+    await _service.init();
+    await setStartMetrics(
+      Metrics.demo().copyWith(date: DateTime.now().subtract(Duration(days: 7))),
+    );
+    await setEndMetrics(Metrics.demo());
+    notifyListeners();
   }
 
   // ==== LOGIN ====

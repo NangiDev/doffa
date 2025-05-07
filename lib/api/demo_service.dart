@@ -14,8 +14,8 @@ class DemoService extends IService {
     ExpandableSection.progress: true,
   };
 
-  Metrics _startMetrics = Metrics.defaultMetrics();
-  Metrics _endMetrics = Metrics.defaultMetrics();
+  Metrics _startMetrics = Metrics.demo();
+  Metrics _endMetrics = Metrics.demo();
 
   @override
   Future<bool> isLoggedIn() async => _isLoggedIn;
@@ -63,5 +63,15 @@ class DemoService extends IService {
   Future<Metrics> setStartMetrics(Metrics metrics) async {
     _startMetrics = Metrics.demo().copyWith(date: metrics.date);
     return _startMetrics;
+  }
+
+  @override
+  Future<void> init() async {
+    await setStartMetrics(
+      Metrics.demo().copyWith(
+        date: DateTime.now().subtract(const Duration(days: 7)),
+      ),
+    );
+    await setEndMetrics(Metrics.demo());
   }
 }

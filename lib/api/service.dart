@@ -19,6 +19,8 @@ abstract class IService {
   Future<Metrics> getEndMetrics();
   Future<Metrics> setEndMetrics(Metrics metrics);
 
+  Future<void> init();
+
   // Methods that only returns provider state can be sync
   bool isExpanded(ExpandableSection section);
 }

@@ -64,4 +64,7 @@ class TestService extends IService {
     _startMetrics = metrics;
     return _startMetrics;
   }
+
+  @override
+  Future<void> init() async {}
 }

@@ -84,16 +84,16 @@ class _RatioCalculatorState extends State<RatioCalculator> {
             ],
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               final lean = double.tryParse(leanController.text) ?? 0.0;
               final fat = double.tryParse(fatController.text) ?? 0.0;
 
-              final newEnd = testProvider.startMetrics.copyWith(
-                leanInKg: lean,
-                fatInKg: fat,
+              await testProvider.setEndMetrics(
+                testProvider.startMetrics.copyWith(
+                  leanInKg: lean,
+                  fatInKg: fat,
+                ),
               );
-
-              testProvider.setEndMetrics(newEnd); // <-- WAIT for this
 
               setState(() {
                 result =
