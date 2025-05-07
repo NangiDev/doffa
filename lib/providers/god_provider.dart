@@ -3,26 +3,79 @@ import 'dart:math';
 import 'package:doffa/api/demo_service.dart';
 import 'package:doffa/api/service.dart';
 import 'package:doffa/common/models.dart';
+import 'package:doffa/providers/expandable_section.dart';
 import 'package:doffa/storage/storage_service.dart';
 import 'package:flutter/material.dart';
-
-enum ExpandableSection { history, data, progress }
+import 'package:logger/logger.dart';
 
 // One provider to rule them all
 class GodProvider extends ChangeNotifier {
+  final _logger = Logger(printer: SimplePrinter(colors: false));
+
+  GodProvider() {
+    _loadExpandedStates();
+  }
+
+  // ==== LOGIN ====
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
-  IService _service = DemoService();
-  IService get service => _service;
+  Future<void> logIn() async {
+    try {
+      _isLoggedIn = await _service.login();
+    } catch (e) {
+      _logger.e('Error logging in: $e');
+    }
+    notifyListeners();
+  }
 
-  late final Storage _storage;
+  Future<void> logOut() async {
+    try {
+      _isLoggedIn = await _service.logout();
+    } catch (_) {
+      _logger.e('Error logging in: $e');
+    }
+    notifyListeners();
+  }
 
+  // ==== UI STATE ====
   final Map<ExpandableSection, bool> _expandedStates = {
     ExpandableSection.history: true,
     ExpandableSection.data: true,
     ExpandableSection.progress: true,
   };
+
+  bool isExpanded(ExpandableSection section) {
+    return _expandedStates[section] ?? false;
+  }
+
+  Future<void> toggleExpanded(ExpandableSection section) async {
+    try {
+      await _service.toggleExpanded(section);
+      await _loadExpandedStates();
+    } catch (e) {
+      _logger.e('Error toggling expanded state for $section: $e');
+      _expandedStates[section] = !_expandedStates[section]!;
+    }
+    notifyListeners();
+  }
+
+  Future<void> _loadExpandedStates() async {
+    for (var section in ExpandableSection.values) {
+      try {
+        _expandedStates[section] = await _service.isExpanded(section);
+      } catch (e) {
+        _logger.e('Error loading expanded state for $section: $e');
+      }
+    }
+    notifyListeners();
+  }
+
+  // Everything underneath this need to be refactored
+  IService _service = DemoService();
+  IService get service => _service;
+
+  late final Storage _storage;
 
   Metrics _startMetrics = Metrics.defaultMetrics();
   Metrics _endMetrics = Metrics.defaultMetrics();
@@ -123,34 +176,6 @@ class GodProvider extends ChangeNotifier {
   // Helper method to set the change metrics and notify listeners
   Future<void> _setChangeMetrics(Metrics start, Metrics end) async {
     _changeMetrics = end.difference(start);
-    notifyListeners();
-  }
-
-  Future<void> logIn() async {
-    _isLoggedIn = await _service.login();
-    notifyListeners();
-  }
-
-  Future<void> logOut() async {
-    _isLoggedIn = await _service.logout();
-    notifyListeners();
-  }
-
-  Future<void> _loadExpandedStates() async {
-    for (var section in ExpandableSection.values) {
-      bool state = await _service.isExpanded(section);
-      _expandedStates[section] = state;
-    }
-    notifyListeners();
-  }
-
-  isExpanded(ExpandableSection section) {
-    return _expandedStates[section] ?? false;
-  }
-
-  void toggleExpanded(ExpandableSection section) {
-    _expandedStates[section] = !(_expandedStates[section] ?? false);
-    _service.setExpanded(section, _expandedStates[section]!);
     notifyListeners();
   }
 }

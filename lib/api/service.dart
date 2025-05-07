@@ -1,29 +1,32 @@
-import 'package:doffa/providers/god_provider.dart';
+import 'package:doffa/providers/expandable_section.dart';
 import 'package:doffa/storage/storage_service.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class IService {
-  final Storage storage;
+  final Storage _storage;
 
-  IService(this.storage);
+  @protected
+  Storage get storage => _storage;
 
-  Future<bool> get isLoggedIn;
-  Future<bool> login();
-  Future<bool> logout();
+  IService(this._storage);
 
-  Future<bool> isExpanded(ExpandableSection key) {
-    return storage.read(key.toString()).then((value) {
-      return value == 'true';
-    });
+  Future<bool> get isLoggedIn async {
+    throw UnimplementedError();
   }
 
-  Future<void> toggleExpanded(ExpandableSection key) {
-    return storage.read(key.toString()).then((value) {
-      bool newValue = value != 'true';
-      storage.write(key.toString(), newValue.toString());
-    });
+  Future<bool> login() async {
+    throw UnimplementedError();
   }
 
-  Future<void> setExpanded(ExpandableSection section, bool bool) {
-    return storage.write(section.toString(), bool.toString());
+  Future<bool> logout() async {
+    throw UnimplementedError();
+  }
+
+  Future<bool> isExpanded(ExpandableSection key) async {
+    throw UnimplementedError();
+  }
+
+  Future<void> toggleExpanded(ExpandableSection section) async {
+    throw UnimplementedError();
   }
 }
