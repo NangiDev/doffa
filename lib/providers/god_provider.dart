@@ -66,12 +66,22 @@ class GodProvider extends ChangeNotifier {
 
   Future<void> setStart(Metrics metrics) async {
     _start = await _service.setStart(metrics);
+
+    if (_start.date.isAfter(_end.date)) {
+      _end = await _service.setEnd(_start);
+    }
+
     _setChange();
     notifyListeners();
   }
 
   Future<void> setEnd(Metrics metrics) async {
     _end = await _service.setEnd(metrics);
+
+    if (_start.date.isAfter(_end.date)) {
+      _start = await _service.setStart(_end);
+    }
+
     _setChange();
     notifyListeners();
   }
