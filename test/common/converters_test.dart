@@ -37,12 +37,15 @@ void main() {
       expect(result.bmi, equals(expected.bmi));
 
       expect(result.metrics, isA<Metrics>());
-      expect(result.metrics.date, equals(expected.date));
-      expect(result.metrics.weightInKg, equals(expected.weightInKg));
-      expect(result.metrics.fatInKg, equals(expected.fatInKg));
-      expect(result.metrics.leanInKg, equals(expected.leanInKg));
-      expect(result.metrics.fatInPercentage, equals(expected.fatInPercentage));
-      expect(result.metrics.bmi, equals(expected.bmi));
+      expect(result.metrics.date, equals(expected.metrics.date));
+      expect(result.metrics.weightInKg, equals(expected.metrics.weightInKg));
+      expect(result.metrics.fatInKg, equals(expected.metrics.fatInKg));
+      expect(result.metrics.leanInKg, equals(expected.metrics.leanInKg));
+      expect(
+        result.metrics.fatInPercentage,
+        equals(expected.metrics.fatInPercentage),
+      );
+      expect(result.metrics.bmi, equals(expected.metrics.bmi));
     });
 
     test('should throw an exception if a required measurement is missing', () {
@@ -86,16 +89,25 @@ void main() {
       expect(result.bmi, equals(expected.bmi));
 
       expect(result.metrics, isA<Metrics>());
-      expect(result.metrics.date, equals(expected.date));
-      expect(result.metrics.weightInKg, equals(expected.weightInKg));
-      expect(result.metrics.fatInPercentage, equals(expected.fatInPercentage));
+      expect(result.metrics.date, equals(expected.metrics.date));
+      expect(result.metrics.weightInKg, equals(expected.metrics.weightInKg));
+      expect(
+        result.metrics.fatInPercentage,
+        equals(expected.metrics.fatInPercentage),
+      );
       expect(
         result.metrics.fatInKg,
-        equals(expected.weightInKg * (expected.fatInPercentage / 100)),
+        equals(
+          expected.metrics.weightInKg *
+              (expected.metrics.fatInPercentage / 100),
+        ),
       );
       expect(
         result.metrics.leanInKg,
-        equals(expected.weightInKg * (1 - (expected.fatInPercentage / 100))),
+        equals(
+          expected.metrics.weightInKg *
+              (1 - (expected.metrics.fatInPercentage / 100)),
+        ),
       );
     });
   });

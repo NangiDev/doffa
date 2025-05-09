@@ -1,0 +1,8 @@
+* Push to web
+* Create release pipeline for APK and bundle
+* Add Graph
+* Implement Kofi
+* Implement Ads
+* Release app on Google Play
+* Implement Storage Withings login
+* Implement API integration Withings

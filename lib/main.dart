@@ -1,33 +1,59 @@
-import 'package:doffa/api/api_provider.dart';
-import 'package:doffa/auth/auth_provider.dart';
-import 'package:doffa/auth/auth_wrapper.dart';
+import 'package:doffa/providers/god_provider.dart';
+import 'package:doffa/screens/home_screen.dart';
+import 'package:doffa/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final GodProvider godProvider = GodProvider();
+  await godProvider.init();
+
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => ApiProvider()),
-      ],
-      child: MyApp(),
-    ),
+    ChangeNotifierProvider.value(value: godProvider, child: const MyApp()),
   );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  final title = 'Doffa - Fitness Tracker';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.from(
-        colorScheme: ColorScheme.light().copyWith(primary: Color(0xff4288f5)),
-      ),
-      debugShowCheckedModeBanner: true,
-      title: 'Doffa - Fitness Tracker',
-      home: AuthWrapper(),
+      title: title,
+      theme: _buildThemeData(),
+      home: const AuthGate(),
     );
+  }
+
+  ThemeData _buildThemeData() {
+    return ThemeData(
+      colorScheme: const ColorScheme.dark(
+        primary: Colors.blue,
+        surface: Color.fromARGB(255, 16, 16, 16),
+        onPrimary: Colors.white, // selected day text color
+        onSurface: Colors.white70, // other text
+      ),
+      primarySwatch: Colors.blue,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+    );
+  }
+}
+
+class AuthGate extends StatelessWidget {
+  const AuthGate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = context.watch<GodProvider>();
+
+    if (!provider.isInitialized) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    return provider.isLoggedIn ? const HomeScreen() : const LoginScreen();
   }
 }
