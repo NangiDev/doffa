@@ -9,6 +9,7 @@ import 'package:doffa/common/models.dart' as _i3;
 import 'package:doffa/services/service.dart' as _i4;
 import 'package:doffa/storage/storage.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -146,4 +147,67 @@ class MockIService extends _i1.Mock implements _i4.IService {
             ),
           )
           as _i5.Future<_i3.Metrics>);
+}
+
+/// A class which mocks [Storage].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockStorage extends _i1.Mock implements _i2.Storage {
+  MockStorage() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<void> write(_i2.StorageKeys? key, String? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#write, [key, value]),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> writeBool(_i2.StorageKeys? key, bool? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#writeBool, [key, value]),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<String> read(_i2.StorageKeys? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#read, [key]),
+            returnValue: _i5.Future<String>.value(
+              _i6.dummyValue<String>(this, Invocation.method(#read, [key])),
+            ),
+          )
+          as _i5.Future<String>);
+
+  @override
+  _i5.Future<bool> readBool(_i2.StorageKeys? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#readBool, [key]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<void> delete(_i2.StorageKeys? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#delete, [key]),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> clear() =>
+      (super.noSuchMethod(
+            Invocation.method(#clear, []),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
 }

@@ -13,8 +13,8 @@ class MySignOutButton extends StatelessWidget {
         tooltip: 'Sign out',
         icon: const Icon(Icons.logout),
         onPressed: () {
-          _confirmLogout(context, () {
-            context.read<GodProvider>().logOut();
+          _confirmLogout(context, () async {
+            await context.read<GodProvider>().logOut();
           });
         },
       ),

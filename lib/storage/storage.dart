@@ -5,6 +5,7 @@ enum StorageKeys {
   expandedData,
   expandedHistory,
   expandedProgress,
+  platformProvider,
 }
 
 abstract class Storage {

@@ -13,7 +13,7 @@ class MyCoffeeButton extends StatelessWidget {
         tooltip: 'Buy me a coffee',
         icon: Icon(Icons.coffee),
         onPressed: () {
-          _confirmCoffee(context, () {
+          _confirmCoffee(context, () async {
             _logger.i('Buy me a coffee button pressed');
           });
         },

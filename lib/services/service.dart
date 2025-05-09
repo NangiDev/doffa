@@ -1,6 +1,8 @@
 import 'package:doffa/common/models.dart';
 import 'package:doffa/storage/storage.dart';
 
+enum PlatformProvider { none, demo, fitbit }
+
 abstract class IService {
   final Storage storage;
 

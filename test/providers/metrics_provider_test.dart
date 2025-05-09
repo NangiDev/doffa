@@ -1,6 +1,7 @@
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/services/service.dart';
+import 'package:doffa/storage/storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -208,15 +209,26 @@ final List<TestCase> testCases = [
 final _true = Future.value(true);
 final _false = Future.value(false);
 
-@GenerateMocks([IService])
+@GenerateMocks([IService, Storage])
 void main() {
   late MockIService mockService;
+  late MockStorage mockStorage;
   late GodProvider provider;
   Metrics start = Metrics.defaultMetrics();
   Metrics end = Metrics.defaultMetrics();
 
-  setUp(() {
+  setUp(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
     mockService = MockIService();
+    mockStorage = MockStorage();
+
+    // Mock the storage methods
+    when(mockStorage.readBool(any)).thenAnswer((_) => _false);
+    when(mockStorage.writeBool(any, any)).thenAnswer((_) => _true);
+    when(mockStorage.read(any)).thenAnswer((_) => Future.value(""));
+    when(mockStorage.write(any, any)).thenAnswer((_) => _true);
+    when(mockStorage.clear()).thenAnswer((_) => _true);
 
     // Mock the methods of the service
     when(mockService.isLoggedIn()).thenAnswer((_) => _true);
@@ -230,8 +242,7 @@ void main() {
     when(mockService.getStart()).thenAnswer((_) => Future.value(start));
     when(mockService.setEnd(any)).thenAnswer((_) => Future.value(end));
 
-    provider = GodProvider();
-    provider.service = mockService;
+    provider = GodProvider(service: mockService, storage: mockStorage);
   });
 
   // Run parameterized tests

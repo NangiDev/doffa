@@ -1,10 +1,9 @@
-import 'package:doffa/services/service.dart';
 import 'package:doffa/common/models.dart';
+import 'package:doffa/services/service.dart';
 import 'package:doffa/storage/storage.dart';
-import 'package:doffa/storage/storage_factory.dart';
 
 class TestService extends IService {
-  TestService() : super(StorageFactory.create());
+  TestService(super.storage);
 
   bool _isLoggedIn = false;
 

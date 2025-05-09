@@ -1,10 +1,9 @@
-import 'package:doffa/services/service.dart';
 import 'package:doffa/common/models.dart';
+import 'package:doffa/services/service.dart';
 import 'package:doffa/storage/storage.dart';
-import 'package:doffa/storage/storage_factory.dart';
 
 class FitbitService extends IService {
-  FitbitService() : super(StorageFactory.create());
+  FitbitService(super.storage);
 
   @override
   Future<bool> isLoggedIn() async {
@@ -82,6 +81,6 @@ class FitbitService extends IService {
     await setExpanded(StorageKeys.expandedProgress, true);
 
     await setStart(await getStart());
-    await setEnd(await getStart());
+    await setEnd(await getEnd());
   }
 }

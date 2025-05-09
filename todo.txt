@@ -1,4 +1,4 @@
-* Stay logged in on refresh and reboot (Except for demo account)
+
 * Implement API integration Fitbit
 * Get values from Fitbit
 * Push to web

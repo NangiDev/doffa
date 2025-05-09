@@ -1,6 +1,5 @@
-import 'package:doffa/services/demo_service.dart';
 import 'package:doffa/providers/god_provider.dart';
-import 'package:doffa/services/fitbit_service.dart';
+import 'package:doffa/services/service.dart';
 import 'package:doffa/widgets/my_container.dart';
 import 'package:doffa/widgets/text/my_montserrat.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,8 +28,8 @@ class MyButtonCard extends StatelessWidget {
                   label: "Login with Fitbit",
                   color: const Color(0xFF00B0B9),
                   onPressed: () async {
-                    provider.service = FitbitService();
-                    provider.logIn();
+                    await provider.selectPlatform(PlatformProvider.fitbit);
+                    await provider.logIn();
                   },
                 ),
                 MyLoginButton(
@@ -38,8 +37,8 @@ class MyButtonCard extends StatelessWidget {
                   label: "Try Demo",
                   color: const Color(0xFF000000),
                   onPressed: () async {
-                    provider.service = DemoService();
-                    provider.logIn();
+                    await provider.selectPlatform(PlatformProvider.demo);
+                    await provider.logIn();
                   },
                 ),
               ],

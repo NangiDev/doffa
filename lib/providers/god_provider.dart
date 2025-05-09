@@ -1,40 +1,91 @@
 import 'dart:math';
 
 import 'package:doffa/common/models.dart';
+import 'package:doffa/services/demo_service.dart';
+import 'package:doffa/services/fitbit_service.dart';
 import 'package:doffa/services/service.dart';
 import 'package:doffa/services/test_service.dart';
 import 'package:doffa/storage/storage.dart';
+import 'package:doffa/storage/storage_factory.dart';
 import 'package:flutter/material.dart';
 
 // One provider to rule them all
 class GodProvider extends ChangeNotifier {
-  IService _service = TestService();
-  set service(IService service) {
-    _service = service;
-    _initializeService();
+  final Storage _storage;
+  late IService _service;
+
+  GodProvider({IService? service, Storage? storage})
+    : _storage = storage ?? StorageFactory.create(),
+      _service = service ?? TestService(storage ?? StorageFactory.create());
+
+  // ==== INIT ====
+  bool _isInitialized = false;
+  bool get isInitialized => _isInitialized;
+
+  Future<void> init() async {
+    final platformStr = await _storage.read(StorageKeys.platformProvider);
+    final platform = PlatformProvider.values.firstWhere(
+      (e) => e.name == platformStr,
+      orElse: () => PlatformProvider.none,
+    );
+
+    _service = await _makeService(platform);
+
+    // Initialize the login state
+    await _service.init();
+    _isLoggedIn = await _service.isLoggedIn();
+
+    _loadUiState();
+    _loadMetrics();
+
+    _isInitialized = true;
+
+    notifyListeners();
   }
 
-  Future<void> _initializeService() async {
-    await _service.init();
-    await setStart(await _service.getStart());
-    await setEnd(await _service.getEnd());
+  Future<void> _loadUiState() async {
+    for (var key in StorageKeys.values) {
+      if (key == StorageKeys.platformProvider) continue;
+      _expandedStates[key] = await _service.isExpanded(key);
+    }
+  }
+
+  Future<void> _loadMetrics() async {
+    _start = await _service.getStart();
+    _end = await _service.getEnd();
+  }
+
+  Future<IService> _makeService(PlatformProvider platform) async {
+    switch (platform) {
+      case PlatformProvider.fitbit:
+        return FitbitService(_storage);
+      case PlatformProvider.demo:
+        return DemoService(_storage);
+      default:
+        return TestService(_storage);
+    }
+  }
+
+  Future<void> selectPlatform(PlatformProvider platform) async {
+    await _storage.write(StorageKeys.platformProvider, platform.name);
+    _service = await _makeService(platform);
+    await init();
     notifyListeners();
   }
 
   // ==== LOGIN ====
   bool _isLoggedIn = false;
-  Future<bool> isLoggedIn() async {
-    _isLoggedIn = await _service.isLoggedIn();
-    return _isLoggedIn;
-  }
+  bool get isLoggedIn => _isLoggedIn;
 
   Future<void> logIn() async {
-    _isLoggedIn = await _service.login();
+    await _service.login();
+    _isLoggedIn = true;
     notifyListeners();
   }
 
   Future<void> logOut() async {
-    _isLoggedIn = await _service.logout();
+    await _service.logout();
+    _isLoggedIn = false;
     notifyListeners();
   }
 

@@ -4,8 +4,15 @@ import 'package:doffa/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final GodProvider godProvider = GodProvider();
+  await godProvider.init();
+
+  runApp(
+    ChangeNotifierProvider.value(value: godProvider, child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,13 +22,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => GodProvider(),
-      child: MaterialApp(
-        title: title,
-        theme: _buildThemeData(),
-        home: const AuthGate(),
-      ),
+    return MaterialApp(
+      title: title,
+      theme: _buildThemeData(),
+      home: const AuthGate(),
     );
   }
 
@@ -44,15 +48,12 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: context.watch<GodProvider>().isLoggedIn(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data == true) {
-          return const HomeScreen();
-        } else {
-          return const LoginScreen();
-        }
-      },
-    );
+    final provider = context.watch<GodProvider>();
+
+    if (!provider.isInitialized) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    return provider.isLoggedIn ? const HomeScreen() : const LoginScreen();
   }
 }
