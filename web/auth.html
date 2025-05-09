@@ -7,7 +7,11 @@
 </head>
 
 <body>
+    <!--Update paragraph depending on what happends in the script
+    I cant read the console.log messages-->
+
     <p>Authentication is complete. If this does not happen automatically, please close the window.</p>
+    <p id="log"></p>
     <script>
         (function () {
             const hash = window.location.hash.substring(1);
@@ -15,7 +19,7 @@
             const query = params.toString(); // Reserialize as query
 
             console.log('Authentication complete:', query);
-
+            document.getElementById('log').innerText = 'Authentication complete: ' + query;
 
             // Check if it's in a mobile context (Flutter WebView / app)
             const isMobile = navigator.userAgent.includes('wv') ||
@@ -24,10 +28,13 @@
                 window.location.search.includes('mobile=true');
 
             console.log('Is mobile:', isMobile);
+            document.getElementById('log').innerText.append('\nIs mobile: ' + isMobile);
 
             if (isMobile) {
                 // Redirect back to the mobile app via custom URI scheme
                 const redirectUri = `com.nangidev.doffa://fitbit_auth?${query}`;
+
+                document.getElementById('log').innerText.append('\nRedirecting to mobile app: ' + redirectUri);
                 window.location.href = redirectUri;
             } else {
                 // Fallback to web (use postMessage or localStorage for Flutter web)
