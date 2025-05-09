@@ -84,4 +84,9 @@ class DemoService extends IService {
 
     await setEnd(Metrics.demo());
   }
+
+  @override
+  Future<Metrics> fetchMetrics(Metrics metrics) async {
+    return metrics;
+  }
 }

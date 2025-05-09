@@ -53,6 +53,7 @@ class GodProvider extends ChangeNotifier {
   Future<void> _loadMetrics() async {
     _start = await _service.getStart();
     _end = await _service.getEnd();
+    _change = _end.difference(_start);
   }
 
   Future<IService> _makeService(PlatformProvider platform) async {
@@ -84,6 +85,8 @@ class GodProvider extends ChangeNotifier {
   Future<void> logIn() async {
     await _service.login();
     _isLoggedIn = await _service.isLoggedIn();
+
+    _service.init();
     notifyListeners();
   }
 

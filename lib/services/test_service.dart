@@ -72,4 +72,9 @@ class TestService extends IService {
 
   @override
   Future<void> init() async {}
+
+  @override
+  Future<Metrics> fetchMetrics(Metrics metrics) async {
+    return metrics;
+  }
 }

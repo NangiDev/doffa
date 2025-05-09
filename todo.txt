@@ -1,4 +1,3 @@
-* Get values from Fitbit
 * Push to web
 * Create release pipeline for APK and bundle
 * Add Graph

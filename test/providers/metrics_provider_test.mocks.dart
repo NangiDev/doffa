@@ -149,6 +149,16 @@ class MockIService extends _i1.Mock implements _i4.IService {
           as _i5.Future<_i3.Metrics>);
 
   @override
+  _i5.Future<_i3.Metrics> fetchMetrics(_i3.Metrics? metrics) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchMetrics, [metrics]),
+            returnValue: _i5.Future<_i3.Metrics>.value(
+              _FakeMetrics_1(this, Invocation.method(#fetchMetrics, [metrics])),
+            ),
+          )
+          as _i5.Future<_i3.Metrics>);
+
+  @override
   String extractAccessToken(String? fragment) =>
       (super.noSuchMethod(
             Invocation.method(#extractAccessToken, [fragment]),

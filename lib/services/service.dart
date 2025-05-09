@@ -25,6 +25,8 @@ abstract class IService {
   Future<Metrics> getEnd();
   Future<Metrics> setEnd(Metrics metrics);
 
+  Future<Metrics> fetchMetrics(Metrics metrics);
+
   @protected
   String extractAccessToken(String fragment) {
     final parameters = fragment.split('&');

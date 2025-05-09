@@ -241,6 +241,7 @@ void main() {
     when(mockService.getEnd()).thenAnswer((_) => Future.value(end));
     when(mockService.getStart()).thenAnswer((_) => Future.value(start));
     when(mockService.setEnd(any)).thenAnswer((_) => Future.value(end));
+    when(mockService.fetchMetrics(any)).thenAnswer((_) => Future.value(start));
 
     provider = GodProvider(service: mockService, storage: mockStorage);
   });
