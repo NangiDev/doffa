@@ -23,16 +23,35 @@
 
             console.log('Authentication complete:', query);
 
+            // Debugging different checks for isMobile
+            let debugMessage = '';
+
             // Check if it's in a mobile context (Flutter WebView / app)
-            const isMobile = navigator.userAgent.includes('wv') ||
-                navigator.userAgent.includes('Flutter') ||
-                /doffa/i.test(document.referrer) ||
-                window.location.search.includes('mobile=true');
+            const userAgent = navigator.userAgent;
+            debugMessage += 'User-Agent: ' + userAgent + '\n';
+            const isWebView = userAgent.includes('wv');
+            debugMessage += 'Is WebView: ' + isWebView + '\n';
+
+            const isFlutter = userAgent.includes('Flutter');
+            debugMessage += 'Is Flutter: ' + isFlutter + '\n';
+
+            const isMobi = /Mobi|Android/i.test(userAgent);
+            debugMessage += 'Is Mobi or Android: ' + isMobi + '\n';
+
+            const referrerCheck = /doffa/i.test(document.referrer);
+            debugMessage += 'Referrer contains "doffa": ' + referrerCheck + '\n';
+
+            const searchParamMobile = window.location.search.includes('mobile=true');
+            debugMessage += 'Search parameter includes "mobile=true": ' + searchParamMobile + '\n';
+
+            // Log all debug information for isMobile
+            logElement.innerText += 'Debugging isMobile check:\n' + debugMessage + '\n';
+
+            // Final check for mobile context
+            const isMobile = isWebView || isFlutter || isMobi || referrerCheck || searchParamMobile;
 
             console.log('Is mobile:', isMobile);
-
-            // Append the result of the mobile check to the log
-            logElement.innerText += 'Is mobile: ' + isMobile + '\n';
+            logElement.innerText += 'Final isMobile result: ' + isMobile + '\n';
 
             if (isMobile) {
                 // Redirect back to the mobile app via custom URI scheme
