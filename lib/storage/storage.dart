@@ -1,5 +1,5 @@
 enum StorageKeys {
-  isLoggedIn,
+  accessToken,
   start,
   end,
   expandedData,

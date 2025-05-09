@@ -69,12 +69,12 @@ class MockIService extends _i1.Mock implements _i4.IService {
           as _i5.Future<bool>);
 
   @override
-  _i5.Future<bool> login() =>
+  _i5.Future<String?> login() =>
       (super.noSuchMethod(
             Invocation.method(#login, []),
-            returnValue: _i5.Future<bool>.value(false),
+            returnValue: _i5.Future<String?>.value(),
           )
-          as _i5.Future<bool>);
+          as _i5.Future<String?>);
 
   @override
   _i5.Future<bool> logout() =>
@@ -147,6 +147,17 @@ class MockIService extends _i1.Mock implements _i4.IService {
             ),
           )
           as _i5.Future<_i3.Metrics>);
+
+  @override
+  String extractAccessToken(String? fragment) =>
+      (super.noSuchMethod(
+            Invocation.method(#extractAccessToken, [fragment]),
+            returnValue: _i6.dummyValue<String>(
+              this,
+              Invocation.method(#extractAccessToken, [fragment]),
+            ),
+          )
+          as String);
 }
 
 /// A class which mocks [Storage].

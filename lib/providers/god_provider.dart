@@ -74,18 +74,21 @@ class GodProvider extends ChangeNotifier {
   }
 
   // ==== LOGIN ====
+
+  String? _accessToken;
+  String? get accessToken => _accessToken;
+
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
   Future<void> logIn() async {
     await _service.login();
-    _isLoggedIn = true;
+    _isLoggedIn = await _service.isLoggedIn();
     notifyListeners();
   }
 
   Future<void> logOut() async {
-    await _service.logout();
-    _isLoggedIn = false;
+    _isLoggedIn = await _service.logout();
     notifyListeners();
   }
 

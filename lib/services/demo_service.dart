@@ -20,9 +20,9 @@ class DemoService extends IService {
   Future<bool> isLoggedIn() async => _isLoggedIn;
 
   @override
-  Future<bool> login() async {
+  Future<String> login() async {
     _isLoggedIn = true;
-    return _isLoggedIn;
+    return "DummyAccessToken";
   }
 
   @override

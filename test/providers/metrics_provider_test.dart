@@ -232,7 +232,7 @@ void main() {
 
     // Mock the methods of the service
     when(mockService.isLoggedIn()).thenAnswer((_) => _true);
-    when(mockService.login()).thenAnswer((_) => _true);
+    when(mockService.login()).thenAnswer((_) => Future.value("Token"));
     when(mockService.logout()).thenAnswer((_) => _true);
     when(mockService.isExpanded(any)).thenAnswer((_) => _false);
     when(mockService.toggleExpanded(any)).thenAnswer((_) => _false);

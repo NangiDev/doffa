@@ -1,20 +1,35 @@
 import 'package:doffa/common/models.dart';
+import 'package:doffa/services/constants/fitbit_constants.dart';
 import 'package:doffa/services/service.dart';
 import 'package:doffa/storage/storage.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 
 class FitbitService extends IService {
   FitbitService(super.storage);
 
   @override
   Future<bool> isLoggedIn() async {
-    bool value = await storage.readBool(StorageKeys.isLoggedIn);
-    return value;
+    String value = await storage.read(StorageKeys.accessToken);
+    //TODO check if token is expired
+    return value.isNotEmpty;
   }
 
   @override
-  Future<bool> login() async {
-    await storage.writeBool(StorageKeys.isLoggedIn, true);
-    return await isLoggedIn();
+  Future<String> login() async {
+    try {
+      final result = await FlutterWebAuth2.authenticate(
+        url: FitbitConstants.getFitbitOAuthUrl(),
+        callbackUrlScheme: FitbitConstants.callbackUrlScheme,
+      );
+
+      final Uri uri = Uri.parse(result);
+      final String fragment = uri.fragment;
+      final String accessToken = extractAccessToken(fragment);
+      await storage.write(StorageKeys.accessToken, accessToken);
+      return accessToken;
+    } catch (_) {
+      return "";
+    }
   }
 
   @override
