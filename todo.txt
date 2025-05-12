@@ -11,3 +11,4 @@
 * Create release pipeline for APK and bundle
 * Release app on Google Play
 * Caching to reduce calls?
+* Wide page design
