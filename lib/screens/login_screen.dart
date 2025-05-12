@@ -21,6 +21,7 @@ class LoginScreen extends StatelessWidget {
                 spacing: 64,
                 children: [
                   // MyAds(),
+                  SizedBox(height: 0),
                   MyLogoTall(),
                   MyButtonCard(),
                   // Column(
