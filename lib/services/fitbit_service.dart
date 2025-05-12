@@ -24,21 +24,14 @@ class FitbitService extends IService {
   @override
   Future<String> login() async {
     try {
-      _logger.d("Logging in to Fitbit");
-      _logger.d("Redirect URI: ${FitbitConstants.redirectUri}");
-      _logger.d("Callback URL Scheme: ${FitbitConstants.callbackUrlScheme}");
-      _logger.d("OAuth URL: ${FitbitConstants.getFitbitOAuthUrl()}");
-
       final result = await FlutterWebAuth2.authenticate(
         url: FitbitConstants.getFitbitOAuthUrl(),
         callbackUrlScheme: FitbitConstants.callbackUrlScheme,
       );
-      _logger.d("Authentication result: $result");
+
       // Extract token from the URL fragment
       final fragment = Uri.parse(result).fragment;
-      _logger.d("Fragment: $fragment");
       final accessToken = Uri.splitQueryString(fragment)["access_token"];
-      _logger.d("Android: Access Token: $accessToken");
       if (accessToken == null) throw Exception("No access token returned");
 
       await storage.write(StorageKeys.accessToken, accessToken);

@@ -1,9 +1,11 @@
-* Push to web
-* Create release pipeline for APK and bundle
+* Update ratio algorithm 
 * Add Graph
 * Implement Kofi
 * Implement Ads
-* Release app on Google Play
-* Make Android callback go through backend
-* Implement Storage Withings login
+* Move full auth flow to Firebase
+* Make Fitbit auth go through Firebase
+* Implement Storage Withings
 * Implement API integration Withings
+* Make Android auth go through backend
+* Create release pipeline for APK and bundle
+* Release app on Google Play
