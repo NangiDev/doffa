@@ -157,17 +157,6 @@ class MockIService extends _i1.Mock implements _i4.IService {
             ),
           )
           as _i5.Future<_i3.Metrics>);
-
-  @override
-  String extractAccessToken(String? fragment) =>
-      (super.noSuchMethod(
-            Invocation.method(#extractAccessToken, [fragment]),
-            returnValue: _i6.dummyValue<String>(
-              this,
-              Invocation.method(#extractAccessToken, [fragment]),
-            ),
-          )
-          as String);
 }
 
 /// A class which mocks [Storage].
