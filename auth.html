@@ -16,32 +16,29 @@
             padding: 10px;
             border-radius: 5px;
         }
-
-        #redirectButton {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
     </style>
 </head>
 
 <body>
-    <p>Authentication is complete. If this does not happen automatically, please tap the button below.</p>
+    <p>Authentication is complete. If this does not happen automatically, please return to the app.</p>
     <p id="log"></p>
-    <button id="redirectButton" style="display: none;">Tap to continue to the app</button>
 
     <script>
         (function () {
+            const DEBUG = false; // Enable for development logging
             const logElement = document.getElementById('log');
             const log = (msg) => {
-                logElement.innerText += msg + "\n";
-                console.log(msg);
+                if (DEBUG) {
+                    logElement.innerText += msg + "\n";
+                    console.log(msg);
+                }
             };
 
             const hash = window.location.hash.substring(1);
             const params = new URLSearchParams(hash);
             const query = params.toString();
-            log("Authentication complete: " + query);
+
+            log("Authentication complete. Token redacted.");
 
             const userAgent = navigator.userAgent;
             const referrer = document.referrer;
@@ -55,37 +52,29 @@
 
             const isMobile = isWebView || isFlutter || isMobileUA || isReferrerMatch || isSearchMatch;
 
-            log("Debugging isMobile check:");
+            log("isMobile checks:");
             log("- User-Agent: " + userAgent);
-            log("- Is WebView: " + isWebView);
-            log("- Is Flutter: " + isFlutter);
-            log("- Is Mobi or Android: " + isMobileUA);
-            log("- Referrer contains \"doffa\": " + isReferrerMatch);
-            log("- Search includes \"mobile=true\": " + isSearchMatch);
-            log("Final isMobile result: " + isMobile);
+            log("- WebView: " + isWebView);
+            log("- Flutter: " + isFlutter);
+            log("- Mobi/Android: " + isMobileUA);
+            log("- Referrer has 'doffa': " + isReferrerMatch);
+            log("- Search has mobile=true: " + isSearchMatch);
+            log("Result: " + isMobile);
 
             const redirectUri = `com.nangidev.doffa://fitbit_auth?${query}`;
 
             if (isMobile) {
-                log("Attempting automatic redirect to: " + redirectUri);
-
-                // Try auto redirect
+                log("Redirecting to: " + redirectUri);
                 setTimeout(() => {
                     try {
                         window.location.href = redirectUri;
-                        // Show button in case the redirect fails
-                        setTimeout(() => {
-                            document.getElementById('redirectButton').style.display = 'inline-block';
-                        }, 1500); // allow time for redirect before fallback
                     } catch (err) {
                         log("Redirect failed: " + err);
-                        document.getElementById('redirectButton').style.display = 'inline-block';
                     }
                 }, 100);
             } else {
-                // Web fallback for postMessage/localStorage
                 const message = { 'flutter-web-auth-2': window.location.href };
-                log("Not mobile, using fallback for Flutter Web.");
+                log("Using postMessage/localStorage fallback.");
 
                 if (window.opener) {
                     window.opener.postMessage(message, '*');
@@ -97,12 +86,6 @@
                     window.close();
                 }
             }
-
-            // Manual fallback button
-            document.getElementById('redirectButton').addEventListener('click', () => {
-                log("User tapped manual redirect button.");
-                window.location.href = redirectUri;
-            });
         })();
     </script>
 </body>
