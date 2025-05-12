@@ -1,4 +1,5 @@
-* Update ratio algorithm 
+* Figure out why metrics aint updated on login
+* Update ratio algorithm
 * Add Graph
 * Implement Kofi
 * Implement Ads
@@ -9,3 +10,4 @@
 * Make Android auth go through backend
 * Create release pipeline for APK and bundle
 * Release app on Google Play
+* Caching to reduce calls?
