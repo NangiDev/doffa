@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:doffa/common/models.dart';
 import 'package:doffa/services/service.dart';
 import 'package:doffa/storage/storage.dart';
+import 'package:doffa/widgets/cards/common/my_graph_card.dart';
 
 class DemoService extends IService {
   DemoService(super.storage);
@@ -88,5 +91,29 @@ class DemoService extends IService {
   @override
   Future<Metrics> fetchMetrics(Metrics metrics) async {
     return metrics;
+  }
+
+  @override
+  Future<List<RatioPoint>> fetchRatioOneMonth() async {
+    final random = Random();
+
+    final startDate = DateTime.now().subtract(const Duration(days: 30));
+    final data = List.generate(30, (index) {
+      final date = startDate.add(Duration(days: index));
+      final ratio = random.nextInt(201) - 100; // Random between -100 and 100
+      return RatioPoint(date, ratio);
+    });
+
+    return data;
+  }
+
+  @override
+  Future<List<RatioPoint>> fetchRatioThreeMonth() {
+    return fetchRatioOneMonth();
+  }
+
+  @override
+  Future<List<RatioPoint>> fetchRatioTwoMonth() {
+    return fetchRatioOneMonth();
   }
 }

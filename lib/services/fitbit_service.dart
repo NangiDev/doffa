@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:doffa/calculator/bfp_calculator.dart';
 import 'package:doffa/common/converters.dart';
 import 'package:doffa/common/mappers.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/services/constants/fitbit_constants.dart';
 import 'package:doffa/services/service.dart';
 import 'package:doffa/storage/storage.dart';
+import 'package:doffa/widgets/cards/common/my_graph_card.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -150,5 +152,73 @@ class FitbitService extends IService {
       _logger.e("Error fetching metrics: $e");
     }
     return Metrics.defaultMetrics().copyWith(date: DateTime.parse(date));
+  }
+
+  @override
+  Future<List<RatioPoint>> fetchRatioOneMonth() async {
+    return [];
+    if (!await isLoggedIn()) {
+      return [];
+    }
+
+    BfpCalculator calculator = BfpCalculator();
+
+    try {
+      final Metrics now = Metrics.defaultMetrics().copyWith(
+        date: DateTime.now(),
+      );
+      final String url =
+          "https://api.fitbit.com/1/user/-/body/log/weight/date/${now.dateAsString}/1m.json";
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Authorization":
+              "Bearer ${await storage.read(StorageKeys.accessToken)}",
+          "Accept": "application/json",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+
+        if (data.containsKey("weight") && data["weight"].isNotEmpty) {
+          final List<RatioPoint> points =
+              (data['weight'] as List<dynamic>)
+                  .where((ret) => ret != null)
+                  .map<RatioPoint?>((ret) {
+                    try {
+                      final FitBitObject obj = toFitBitObject(ret);
+                      Metrics change = now.difference(obj.metrics);
+                      int ratio = calculator.getRatio(change);
+                      return RatioPoint(obj.metrics.date, ratio);
+                    } catch (_) {
+                      return null;
+                    }
+                  })
+                  .where((ret) => ret != null)
+                  .map((ret) => ret!)
+                  .toList();
+
+          return points;
+        }
+      } // Else if token is expired
+      else if (response.statusCode == 401) {
+        await logout();
+      }
+    } catch (e) {
+      // Handle any exceptions that occur during the HTTP request
+      _logger.e("Error fetching metrics: $e");
+    }
+    return [];
+  }
+
+  @override
+  Future<List<RatioPoint>> fetchRatioThreeMonth() {
+    return fetchRatioOneMonth();
+  }
+
+  @override
+  Future<List<RatioPoint>> fetchRatioTwoMonth() {
+    return fetchRatioOneMonth();
   }
 }
