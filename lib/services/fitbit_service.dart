@@ -104,9 +104,9 @@ class FitbitService extends IService {
 
   @override
   Future<void> init() async {
-    await setExpanded(StorageKeys.expandedData, true);
-    await setExpanded(StorageKeys.expandedHistory, true);
-    await setExpanded(StorageKeys.expandedProgress, true);
+    await setExpanded(StorageKeys.expandedData, false);
+    await setExpanded(StorageKeys.expandedHistory, false);
+    await setExpanded(StorageKeys.expandedProgress, false);
 
     await setStart(await getStart());
     await setEnd(await getEnd());
