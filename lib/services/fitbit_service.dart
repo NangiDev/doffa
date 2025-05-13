@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:doffa/calculator/bfp_calculator.dart';
 import 'package:doffa/common/converters.dart';
 import 'package:doffa/common/mappers.dart';
 import 'package:doffa/common/models.dart';
@@ -47,7 +46,7 @@ class FitbitService extends IService {
 
   @override
   Future<bool> logout() async {
-    await storage.delete(StorageKeys.accessToken);
+    await storage.clear();
     return await isLoggedIn();
   }
 
@@ -74,7 +73,7 @@ class FitbitService extends IService {
   Future<Metrics> getEnd() async {
     String jsonString = await storage.read(StorageKeys.end);
     try {
-      return Metrics.fromJson(jsonString);
+      return Metrics.fromString(jsonString);
     } catch (_) {
       return Metrics.defaultMetrics();
     }
@@ -84,7 +83,7 @@ class FitbitService extends IService {
   Future<Metrics> getStart() async {
     String jsonString = await storage.read(StorageKeys.start);
     try {
-      return Metrics.fromJson(jsonString);
+      return Metrics.fromString(jsonString);
     } catch (_) {
       return Metrics.defaultMetrics();
     }
@@ -93,22 +92,22 @@ class FitbitService extends IService {
   @override
   Future<Metrics> setEnd(Metrics metrics) async {
     metrics = await fetchMetrics(metrics);
-    await storage.write(StorageKeys.end, metrics.toJson());
+    await storage.write(StorageKeys.end, metrics.toStr());
     return metrics;
   }
 
   @override
   Future<Metrics> setStart(Metrics metrics) async {
     metrics = await fetchMetrics(metrics);
-    await storage.write(StorageKeys.start, metrics.toJson());
+    await storage.write(StorageKeys.start, metrics.toStr());
     return metrics;
   }
 
   @override
   Future<void> init() async {
-    await setExpanded(StorageKeys.expandedData, false);
-    await setExpanded(StorageKeys.expandedHistory, false);
-    await setExpanded(StorageKeys.expandedProgress, false);
+    await setExpanded(StorageKeys.expandedData, true);
+    await setExpanded(StorageKeys.expandedHistory, true);
+    await setExpanded(StorageKeys.expandedProgress, true);
 
     await setStart(await getStart());
     await setEnd(await getEnd());
@@ -121,6 +120,20 @@ class FitbitService extends IService {
     }
 
     final String date = metrics.dateAsString;
+    Map<String, Metrics> cacheMap = {};
+
+    try {
+      cacheMap = await storage.readCache(StorageKeys.cache);
+      if (cacheMap.containsKey(date)) {
+        _logger.d("Cache hit for date: $date");
+        return cacheMap[date]!;
+      }
+    } catch (e) {
+      _logger.e("Error reading cache: $e");
+    }
+
+    _logger.d("Cache miss for date: $date");
+
     try {
       final String url =
           "https://api.fitbit.com/1/user/-/body/log/weight/date/$date/1m.json";
@@ -137,11 +150,30 @@ class FitbitService extends IService {
         final Map<String, dynamic> data = jsonDecode(response.body);
 
         if (data.containsKey("weight") && data["weight"].isNotEmpty) {
+          final List<Metrics> metricsList =
+              (data['weight'] as List<dynamic>)
+                  .where((ret) => ret != null)
+                  .map<Metrics?>((ret) {
+                    try {
+                      final FitBitObject obj = toFitBitObject(ret);
+                      return obj.metrics;
+                    } catch (_) {
+                      return null;
+                    }
+                  })
+                  .where((ret) => ret != null)
+                  .map((ret) => ret!)
+                  .toList();
+
+          final Map<String, Metrics> metricsMap = {
+            for (var metric in metricsList) metric.dateAsString: metric,
+          };
+
+          cacheMap.addEntries(metricsMap.entries);
+          await storage.writeCache(StorageKeys.cache, cacheMap);
+
           // Weight data: {bmi: 21.95, date: 2025-03-10, fat: 15.17300033569336, logId: 1741594747000, source: Aria, time: 08:19:07, weight: 80.9}
-          var last = data['weight'].last;
-          FitBitObject obj = toFitBitObject(last);
-          // _logger.d("Fitbit Object: ${obj.metrics.toJson()}");
-          return obj.metrics;
+          return metricsList.last;
         }
       } // Else if token is expired
       else if (response.statusCode == 401) {
@@ -157,68 +189,15 @@ class FitbitService extends IService {
   @override
   Future<List<RatioPoint>> fetchRatioOneMonth() async {
     return [];
-    if (!await isLoggedIn()) {
-      return [];
-    }
+  }
 
-    BfpCalculator calculator = BfpCalculator();
-
-    try {
-      final Metrics now = Metrics.defaultMetrics().copyWith(
-        date: DateTime.now(),
-      );
-      final String url =
-          "https://api.fitbit.com/1/user/-/body/log/weight/date/${now.dateAsString}/1m.json";
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {
-          "Authorization":
-              "Bearer ${await storage.read(StorageKeys.accessToken)}",
-          "Accept": "application/json",
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-
-        if (data.containsKey("weight") && data["weight"].isNotEmpty) {
-          final List<RatioPoint> points =
-              (data['weight'] as List<dynamic>)
-                  .where((ret) => ret != null)
-                  .map<RatioPoint?>((ret) {
-                    try {
-                      final FitBitObject obj = toFitBitObject(ret);
-                      Metrics change = now.difference(obj.metrics);
-                      int ratio = calculator.getRatio(change);
-                      return RatioPoint(obj.metrics.date, ratio);
-                    } catch (_) {
-                      return null;
-                    }
-                  })
-                  .where((ret) => ret != null)
-                  .map((ret) => ret!)
-                  .toList();
-
-          return points;
-        }
-      } // Else if token is expired
-      else if (response.statusCode == 401) {
-        await logout();
-      }
-    } catch (e) {
-      // Handle any exceptions that occur during the HTTP request
-      _logger.e("Error fetching metrics: $e");
-    }
+  @override
+  Future<List<RatioPoint>> fetchRatioTwoMonth() async {
     return [];
   }
 
   @override
-  Future<List<RatioPoint>> fetchRatioThreeMonth() {
-    return fetchRatioOneMonth();
-  }
-
-  @override
-  Future<List<RatioPoint>> fetchRatioTwoMonth() {
-    return fetchRatioOneMonth();
+  Future<List<RatioPoint>> fetchRatioThreeMonth() async {
+    return [];
   }
 }

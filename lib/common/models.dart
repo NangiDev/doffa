@@ -109,8 +109,29 @@ class Metrics implements BodyMetrics {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+    'date': date.toIso8601String().split('T').first,
+    'bmi': bmi,
+    'weightInKg': weightInKg,
+    'fatInPercentage': fatInPercentage,
+    'fatInKg': fatInKg,
+    'leanInKg': leanInKg,
+  };
+
+  // Create an instance from a JSON string
+  factory Metrics.fromJson(Map<String, dynamic> jsonString) {
+    return Metrics(
+      date: DateTime.parse(jsonString['date']),
+      bmi: double.parse(jsonString['bmi'].toString()),
+      weightInKg: double.parse(jsonString['weightInKg'].toString()),
+      fatInPercentage: double.parse(jsonString['fatInPercentage'].toString()),
+      fatInKg: double.parse(jsonString['fatInKg'].toString()),
+      leanInKg: double.parse(jsonString['leanInKg'].toString()),
+    );
+  }
+
   // Convert the instance to a JSON string
-  String toJson() {
+  String toStr() {
     return jsonEncode({
       'date': dateAsString,
       'bmi': bmi.toStringAsFixed(1),
@@ -122,7 +143,7 @@ class Metrics implements BodyMetrics {
   }
 
   // Create an instance from a JSON string
-  factory Metrics.fromJson(String jsonString) {
+  factory Metrics.fromString(String jsonString) {
     Map<String, dynamic> json = jsonDecode(jsonString);
     return Metrics(
       date: DateTime.parse(json['date']),
