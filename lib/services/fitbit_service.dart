@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:doffa/calculator/bfp_calculator.dart';
 import 'package:doffa/common/converters.dart';
 import 'package:doffa/common/mappers.dart';
 import 'package:doffa/common/models.dart';
+import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/services/constants/fitbit_constants.dart';
 import 'package:doffa/services/service.dart';
 import 'package:doffa/storage/storage.dart';
@@ -188,16 +190,68 @@ class FitbitService extends IService {
 
   @override
   Future<List<RatioPoint>> fetchRatioOneMonth() async {
-    return [];
+    return _fetchRatioXMonth(MonthPeriod.one);
   }
 
   @override
   Future<List<RatioPoint>> fetchRatioTwoMonth() async {
-    return [];
+    return _fetchRatioXMonth(MonthPeriod.two);
   }
 
   @override
   Future<List<RatioPoint>> fetchRatioThreeMonth() async {
-    return [];
+    return _fetchRatioXMonth(MonthPeriod.three);
+  }
+
+  Future<List<RatioPoint>> _fetchRatioXMonth(MonthPeriod period) async {
+    List<RatioPoint> ratioPoints = [];
+    if (!await isLoggedIn()) {
+      return ratioPoints;
+    }
+
+    final String date = Metrics.defaultMetrics().dateAsString;
+    Map<String, Metrics> cacheMap = {};
+
+    try {
+      cacheMap = await storage.readCache(StorageKeys.cache);
+      _logger.d("Cache hit for date: $date");
+
+      final int offset = switch (period) {
+        MonthPeriod.one => 1,
+        MonthPeriod.two => 2,
+        MonthPeriod.three => 3,
+      };
+
+      final DateTime cutoff = DateTime(
+        DateTime.now().year,
+        DateTime.now().month - offset,
+        DateTime.now().day,
+      );
+      final filtered = Map<String, Metrics>.from(cacheMap)
+        ..removeWhere((k, v) => DateTime.parse(k).isBefore(cutoff));
+
+      // Get newest Metrics from filtered map
+      final end =
+          filtered.entries
+              .map((entry) => MapEntry(DateTime.parse(entry.key), entry.value))
+              .reduce((a, b) => a.key.isAfter(b.key) ? a : b)
+              .value;
+
+      BfpCalculator bfpCalculator = BfpCalculator();
+      ratioPoints =
+          filtered.entries.map((entry) {
+            final change = end.difference(entry.value);
+            final ratio = bfpCalculator.getRatio(change);
+            return RatioPoint(DateTime.parse(entry.key), ratio);
+          }).toList();
+
+      return ratioPoints;
+    } catch (e) {
+      _logger.e("Error reading cache: $e");
+    }
+
+    _logger.d("Cache miss for date: $date");
+
+    return ratioPoints;
   }
 }

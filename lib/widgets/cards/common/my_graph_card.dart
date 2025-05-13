@@ -72,7 +72,7 @@ class MyGraphCard extends StatelessWidget {
   }
 
   Future<Widget> _buildGraph(double maxWidth, GodProvider provider) async {
-    final data = await provider.getHistory(MonthPeriod.one);
+    final data = await provider.getHistory();
 
     Container emptyContainer(Widget child) => Container(
       width: maxWidth,
@@ -140,7 +140,7 @@ class MyGraphCard extends StatelessWidget {
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
-                  interval: 2,
+                  interval: data.length / 5,
                   reservedSize: 20,
                   getTitlesWidget: (value, meta) {
                     final index = value.toInt();

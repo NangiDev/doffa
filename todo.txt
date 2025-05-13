@@ -1,4 +1,4 @@
-* Add real graph data
+* Add buttons to change graph interval 1M, 2M, 3M
 * Implement Kofi
 * Implement Ads
 * Move full auth flow to Firebase
