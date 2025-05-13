@@ -45,7 +45,7 @@ class FitbitService extends IService {
 
   @override
   Future<bool> logout() async {
-    await storage.clear();
+    await storage.delete(StorageKeys.accessToken);
     return await isLoggedIn();
   }
 
@@ -138,7 +138,7 @@ class FitbitService extends IService {
           // Weight data: {bmi: 21.95, date: 2025-03-10, fat: 15.17300033569336, logId: 1741594747000, source: Aria, time: 08:19:07, weight: 80.9}
           var last = data['weight'].last;
           FitBitObject obj = toFitBitObject(last);
-          _logger.d("Fitbit Object: ${obj.metrics.toJson()}");
+          // _logger.d("Fitbit Object: ${obj.metrics.toJson()}");
           return obj.metrics;
         }
       } // Else if token is expired
