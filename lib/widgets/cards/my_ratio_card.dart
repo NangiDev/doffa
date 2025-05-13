@@ -22,7 +22,11 @@ class MyRatioCard extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            showInformationDialog(context: context, maxWidth: maxWidth);
+            showInformationDialog(
+              context: context,
+              maxWidth: maxWidth,
+              provider: provider,
+            );
           },
           child: MyContainer(
             maxWidth: maxWidth,
@@ -121,6 +125,7 @@ class BadgeContainer extends StatelessWidget {
 void showInformationDialog({
   required BuildContext context,
   required double maxWidth,
+  required GodProvider provider,
 }) {
   showDialog(
     context: context,
@@ -136,7 +141,7 @@ void showInformationDialog({
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 2,
               children: [
-                _buildCalculationExplanation(context, maxWidth),
+                _buildCalculationExplanation(context, maxWidth, provider),
                 const SizedBox(height: 8),
                 Divider(),
                 const SizedBox(height: 8),
@@ -179,7 +184,11 @@ void showInformationDialog({
   );
 }
 
-Widget _buildCalculationExplanation(BuildContext context, double maxWidth) {
+Widget _buildCalculationExplanation(
+  BuildContext context,
+  double maxWidth,
+  GodProvider provider,
+) {
   final TextStyle textStyle = MyMontserrat.defaultStyle().copyWith(
     fontSize: 12,
     color: Colors.white70,
@@ -201,43 +210,12 @@ Widget _buildCalculationExplanation(BuildContext context, double maxWidth) {
     child: RichText(
       text: TextSpan(
         style: textStyle,
-        children: [
-          TextSpan(
-            text:
-                'The Doffa Ratio measures the quality of your body change\n— not just weight. It ranges from ',
-          ),
-          TextSpan(text: '-100 (bad)', style: textStyleRed),
-          TextSpan(text: ' to '),
-          TextSpan(text: '+100 (excellent)', style: textStyleGreen),
-          TextSpan(text: '.\n\n'),
-
-          TextSpan(text: 'Formula:\n', style: textStyleBold),
-          TextSpan(
-            text: 'Score = ((ΔLean - ΔFat) / |ΔLean + ΔFat|) x 100\n\n',
-            style: textStyle,
-          ),
-
-          TextSpan(text: 'Where:\n', style: textStyleBold),
-          TextSpan(text: '• ΔLean = change in lean mass\n'),
-          TextSpan(text: '• ΔFat = change in fat mass\n\n'),
-
-          TextSpan(text: 'Examples:\n', style: textStyleBold),
-          TextSpan(text: '• Lost 5kg fat → Score: '),
-          TextSpan(text: '+100', style: textStyle),
-          TextSpan(text: ' (Pure fat loss)\n'),
-
-          TextSpan(text: '• Gained 3kg muscle → Score: '),
-          TextSpan(text: '+100', style: textStyle),
-          TextSpan(text: ' (Pure lean gain)\n'),
-
-          TextSpan(text: '• Gained 3kg fat, 1kg lean → Score: '),
-          TextSpan(text: '-50', style: textStyle),
-          TextSpan(text: ' (Mostly fat gain)\n'),
-
-          TextSpan(text: '• Lost 2kg fat, gained 4kg lean → Score: '),
-          TextSpan(text: '+75', style: textStyle),
-          TextSpan(text: ' (Great recomposition on bulk)'),
-        ],
+        children: provider.calculator.getExplanation(
+          textStyleRed,
+          textStyleGreen,
+          textStyleBold,
+          textStyle,
+        ),
       ),
     ),
   );

@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:doffa/calculator/bfp_calculator.dart';
 import 'package:doffa/calculator/calculator.dart';
-import 'package:doffa/calculator/simple_calculator.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/services/demo_service.dart';
 import 'package:doffa/services/fitbit_service.dart';
@@ -14,13 +14,14 @@ import 'package:flutter/material.dart';
 // One provider to rule them all
 class GodProvider extends ChangeNotifier {
   final Storage _storage;
-  late ICalculator _calculator;
+  late final ICalculator _calculator;
+  ICalculator get calculator => _calculator;
   late IService _service;
 
   GodProvider({IService? service, Storage? storage, ICalculator? calculator})
     : _storage = storage ?? StorageFactory.create(),
       _service = service ?? TestService(storage ?? StorageFactory.create()),
-      _calculator = calculator ?? SimpleCalculator();
+      _calculator = calculator ?? BfpCalculator();
 
   // ==== INIT ====
   bool _isInitialized = false;
