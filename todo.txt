@@ -1,6 +1,7 @@
 * Add buttons to change graph interval 1M, 2M, 3M
 * Be able to ignore cache
 * Graph interactive label disappears outside
+* Custom cache object to reduce string size
 * Let cache contain null.
 * Implement Kofi
 * Implement Ads
@@ -13,3 +14,4 @@
 * Release app on Google Play
 * Caching to reduce calls?
 * Wide page design
+* Look into Hive as a no-sql database
