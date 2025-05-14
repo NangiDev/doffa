@@ -20,23 +20,25 @@ class PrefsStorage implements Storage {
   }
 
   @override
-  Future<void> writeCache(StorageKeys key, Map<String, Metrics> value) async {
-    final DateTime cutoff = DateTime.now().subtract(Duration(days: 999));
-
-    // Create a mutable copy of the original map
-    final filtered = Map<String, Metrics>.from(value)
-      ..removeWhere((k, v) => DateTime.parse(k).isBefore(cutoff));
-
+  Future<void> writeCache(StorageKeys key, Map<String, Metrics?> value) async {
     final prefs = await SharedPreferences.getInstance();
 
-    final encoded = jsonEncode(filtered.map((k, v) => MapEntry(k, v.toJson())));
+    final DateTime cutoff = DateTime.now().subtract(Duration(days: 999));
+    final filtered = Map<String, Metrics?>.from(value)
+      ..removeWhere((k, v) => DateTime.parse(k).isBefore(cutoff));
 
-    await prefs.setString(
-      "${StorageKeys.cache.name}Count",
-      filtered.length.toString(),
+    final encoded = jsonEncode(
+      filtered.map((k, v) {
+        if (v != null) {
+          return MapEntry(k, v.toJson());
+        } else {
+          return MapEntry(k, {"d": k, "x": true}); // Placeholder
+        }
+      }),
     );
 
     await prefs.setString(key.name, encoded);
+    await prefs.setInt("${StorageKeys.cache.name}Count", filtered.length);
   }
 
   @override
@@ -53,21 +55,27 @@ class PrefsStorage implements Storage {
   }
 
   @override
-  Future<Map<String, Metrics>> readCache(StorageKeys key) async {
+  Future<Map<String, Metrics?>> readCache(StorageKeys key) async {
     final prefs = await SharedPreferences.getInstance();
-    String cacheMap = prefs.getString(key.name) ?? "";
 
-    if (cacheMap.isNotEmpty) {
-      // Decode the JSON string into a Map<String, dynamic>
-      Map<String, dynamic> jsonMap = jsonDecode(cacheMap);
-
-      // Convert the dynamic map to a Map<String, Metrics>
-      return jsonMap.map((k, v) => MapEntry(k, Metrics.fromJson(v)));
+    final str = prefs.getString(key.name);
+    if (str == null || str.isEmpty) {
+      return {};
     }
 
-    await prefs.setString("${StorageKeys.cache.name}Count", "0");
+    try {
+      final decoded = jsonDecode(str) as Map<String, dynamic>;
 
-    return {};
+      return decoded.map((k, v) {
+        if (v is Map<String, dynamic> && v['x'] == true) {
+          return MapEntry(k, null);
+        } else {
+          return MapEntry(k, Metrics.fromJson(v as Map<String, dynamic>));
+        }
+      });
+    } catch (e) {
+      return {};
+    }
   }
 
   @override
