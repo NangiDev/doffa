@@ -242,18 +242,19 @@ Widget _builbScaleGradeContainer(Color color, int ratio, String word) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 7,
+            flex: 0,
             child: Align(
               alignment: Alignment.centerRight,
               child: MyMontserrat(
                 text: ratio.toString(),
                 maxWidth: 10,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w800,
+                color: Colors.black,
               ),
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 1,
             child: Align(
               alignment: Alignment.centerRight,
               child: MyMontserrat(
