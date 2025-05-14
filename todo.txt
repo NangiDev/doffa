@@ -1,6 +1,5 @@
-* Be able to ignore cache
-* Graph interactive label disappears outside
 * Let cache contain null.
+* Be able to ignore cache
 * Implement Kofi
 * Implement Ads
 * Move full auth flow to Firebase

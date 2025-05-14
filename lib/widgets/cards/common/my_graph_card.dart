@@ -51,7 +51,7 @@ class MyGraphCard extends StatelessWidget {
                       isExpanded: isExpanded,
                       isGraph: true,
                       onToggle: () => provider.toggleExpanded(section),
-                      secondChild: buildGraph(maxWidth, provider), // ✅ NEW
+                      secondChild: buildGraph(maxWidth, provider),
                     ),
                   ],
                 ),
@@ -182,6 +182,39 @@ class MyGraphCard extends StatelessWidget {
                     ),
                   ),
                 ],
+                lineTouchData: LineTouchData(
+                  handleBuiltInTouches: true,
+                  touchTooltipData: LineTouchTooltipData(
+                    tooltipBorderRadius: BorderRadius.circular(8),
+                    fitInsideHorizontally: true,
+                    fitInsideVertically: true,
+                    getTooltipItems: (touchedSpots) {
+                      return touchedSpots.map((touchedSpot) {
+                        return LineTooltipItem(
+                          '${touchedSpot.y.toStringAsFixed(1)}%',
+                          MyMontserrat.defaultStyle(
+                            maxWidth: maxWidth,
+                            sizeFactor: 28,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        );
+                      }).toList();
+                    },
+                  ),
+                  getTouchLineEnd: (_, __) => maxWidth / 4,
+                  getTouchedSpotIndicator: (
+                    LineChartBarData barData,
+                    List<int> spotIndexes,
+                  ) {
+                    return spotIndexes.map((index) {
+                      return TouchedSpotIndicatorData(
+                        FlLine(color: Colors.white, strokeWidth: 1),
+                        FlDotData(show: true),
+                      );
+                    }).toList();
+                  },
+                ),
               ),
             ),
           ),
