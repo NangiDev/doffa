@@ -6,7 +6,6 @@ import 'mappers.dart';
 
 enum WithingsType {
   weight(1),
-  height(4),
   fatFreeMass(5),
   fatRatio(6),
   fatMass(8);
@@ -45,17 +44,19 @@ WithingsObject toWithingsObject(Map<String, dynamic> data) {
   }
 
   final weight = getValue(WithingsType.weight.id);
-  final height = getValue(4); // height in meters
+  // final height = getValue(4); // height in meters
 
-  final bmi = double.parse((weight / (height * height)).toStringAsFixed(2));
+  // final bmi = double.parse((weight / (height * height)).toStringAsFixed(2));
 
   return WithingsObject(
     date: date,
-    bmi: bmi,
-    weightInKg: weight,
+    bmi: 00.00,
+    weightInKg: double.parse(weight.toStringAsFixed(2)),
     fatInKg: getValue(WithingsType.fatMass.id),
     leanInKg: getValue(WithingsType.fatFreeMass.id),
-    fatInPercentage: getValue(WithingsType.fatRatio.id),
+    fatInPercentage: double.parse(
+      getValue(WithingsType.fatRatio.id).toStringAsFixed(2),
+    ),
   );
 }
 

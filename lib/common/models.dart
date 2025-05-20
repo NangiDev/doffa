@@ -113,8 +113,8 @@ class Metrics implements BodyMetrics {
     'd': date.toIso8601String().split('T').first,
     'b': bmi,
     'w': weightInKg,
-    'f': fatInPercentage,
-    'p': fatInKg,
+    'p': fatInPercentage,
+    'f': fatInKg,
     'l': leanInKg,
   };
 
