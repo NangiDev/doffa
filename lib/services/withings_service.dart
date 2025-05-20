@@ -1,20 +1,23 @@
 import 'dart:convert';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:doffa/calculator/bfp_calculator.dart';
 import 'package:doffa/common/converters.dart';
 import 'package:doffa/common/mappers.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/providers/god_provider.dart';
-import 'package:doffa/services/constants/fitbit_constants.dart';
+import 'package:doffa/services/constants/withings_constants.dart';
 import 'package:doffa/services/service.dart';
 import 'package:doffa/storage/storage.dart';
 import 'package:doffa/widgets/cards/common/my_graph_card.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
-class FitbitService extends IService {
-  FitbitService(super.storage);
+class WithingsService extends IService {
+  WithingsService(super.storage);
 
   final _logger = Logger(printer: SimplePrinter(colors: false));
 
@@ -27,18 +30,55 @@ class FitbitService extends IService {
   @override
   Future<String> login() async {
     try {
-      final result = await FlutterWebAuth2.authenticate(
-        url: FitbitConstants.getOAuthUrl(),
-        callbackUrlScheme: FitbitConstants.callbackUrlScheme,
+      await Firebase.initializeApp(
+        options: FirebaseOptions(
+          apiKey: "AIzaSyDixuYTZZJ3mXx8vAo7-0bB48ZM7fOV_HY",
+          authDomain: "doffa-95e0a.firebaseapp.com",
+          projectId: "doffa-95e0a",
+          storageBucket: "doffa-95e0a.firebasestorage.app",
+          messagingSenderId: "77689229480",
+          appId: "1:77689229480:web:d0797e121a25a22b21329d",
+          measurementId: "G-95W75NL2KF",
+        ),
       );
 
-      // Extract token from the URL fragment
-      final fragment = Uri.parse(result).fragment;
-      final accessToken = Uri.splitQueryString(fragment)["access_token"];
-      if (accessToken == null) throw Exception("No access token returned");
+      // Activate Firebase App Check
+      await FirebaseAppCheck.instance.activate(
+        webProvider: ReCaptchaV3Provider(
+          '6LcAsv4qAAAAABxG7_vH_etEREH53j7A6dT2KoVZ',
+        ),
+        // androidProvider: AndroidProvider.playIntegrity,
+      );
+
+      // Fetch the authorization code using WebAuth
+      final result = await FlutterWebAuth2.authenticate(
+        url: WithingsConstants.getOAuthUrl(),
+        callbackUrlScheme: WithingsConstants.callbackUrlScheme,
+      );
+      // Extract code from the URL fragment
+      final uri = Uri.parse(result);
+      final code = uri.queryParameters['code'];
+      if (code == null) throw Exception("No code returned");
+
+      // Call the Firebase function with the authorization code and environment
+      final HttpsCallable callable = FirebaseFunctions.instanceFor(
+        region: "europe-west4",
+      ).httpsCallable('onCallWithingsAuth');
+
+      final response = await callable.call({
+        'code': code,
+        'env': WithingsConstants.env,
+      });
+
+      // _logger.d("Response from Firebase function: ${response.data}");
+
+      var accessToken = response.data['at'];
+      var refreshToken = response.data['rt'];
+      // var _userId = response.data['uid'];
 
       await storage.write(StorageKeys.accessToken, accessToken);
-      return accessToken;
+      await storage.write(StorageKeys.refreshToken, refreshToken);
+      return code;
     } catch (e) {
       _logger.e("Error during login: $e");
       await storage.delete(StorageKeys.accessToken);
@@ -128,7 +168,7 @@ class FitbitService extends IService {
       cacheMap = await storage.readCache(StorageKeys.cache);
       if (cacheMap.containsKey(date)) {
         _logger.d("Cache hit for date: $date");
-        return cacheMap[date]!;
+        return cacheMap[date] ?? metrics;
       }
     } catch (e) {
       _logger.e("Fetch - Error reading cache: $e for date: $date");
@@ -136,53 +176,109 @@ class FitbitService extends IService {
 
     _logger.d("Cache miss for date: $date");
 
+    const Map<String, int> measTypes = {
+      "weight": 1,
+      "height": 4,
+      "lean": 5,
+      "fat_percentage": 6,
+      "fat_kg": 8,
+    };
+
+    final DateTime endDate = DateTime.parse(date);
+    final DateTime startDate = endDate.subtract(Duration(days: 30));
+    final int startTimestamp = startDate.millisecondsSinceEpoch ~/ 1000;
+    final int endTimestamp = endDate.millisecondsSinceEpoch ~/ 1000;
+    final Map<String, String> payload = {
+      "action": "getmeas",
+      "meastypes": measTypes.values.join(','),
+      "category": "1",
+      "startdate": "$startTimestamp",
+      "enddate": "$endTimestamp",
+    };
+
+    const String url = "https://wbsapi.withings.net/measure";
+
     try {
-      final String url =
-          "https://api.fitbit.com/1/user/-/body/log/weight/date/$date/1m.json";
-      final response = await http.get(
+      final response = await http.post(
         Uri.parse(url),
         headers: {
           "Authorization":
               "Bearer ${await storage.read(StorageKeys.accessToken)}",
           "Accept": "application/json",
         },
+        body: payload,
       );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
+        if (data['status'] == 0) {
+          final rawGroups = data['body']['measuregrps'];
+          final measureGroups =
+              (rawGroups is List)
+                  ? rawGroups
+                      .whereType<Map<String, dynamic>>()
+                      .map((e) => e)
+                      .toList()
+                  : <Map<String, dynamic>>[];
 
-        DateTime current = metrics.date;
-        DateTime cutoff = DateTime(
-          current.year,
-          current.month - 1,
-          current.day,
-        );
+          if (measureGroups.isNotEmpty) {
+            // Sort by date in descending order to get the latest measurement
+            measureGroups.sort((a, b) {
+              final dateA = a['date'] as int? ?? 0;
+              final dateB = b['date'] as int? ?? 0;
+              return dateB.compareTo(dateA);
+            });
 
-        Map<String, Metrics?> metricsMap = {};
-        if (data.containsKey("weight") && data["weight"].isNotEmpty) {
-          Metrics last = metrics;
-          for (var ret in data['weight'] as List<dynamic>) {
-            try {
-              final FitBitObject obj = toFitBitObject(ret);
-              metricsMap.putIfAbsent(
-                obj.metrics.dateAsString,
-                () => obj.metrics,
-              );
-              last = obj.metrics;
-            } catch (_) {
-              _logger.e("Error parsing FitBitObject: $ret");
+            DateTime current = metrics.date;
+            DateTime cutoff = DateTime(
+              current.year,
+              current.month - 1,
+              current.day,
+            );
+
+            Map<String, Metrics?> metricsMap = {};
+            Metrics last = metrics;
+            for (final ret in measureGroups) {
+              try {
+                WithingsObject obj = toWithingsObject(ret);
+                metricsMap.putIfAbsent(
+                  obj.metrics.dateAsString,
+                  () => obj.metrics,
+                );
+                last = obj.metrics;
+              } catch (_) {
+                _logger.e("Error parsing WithingsObject: $ret");
+              }
             }
-          }
 
-          while (current.isAfter(cutoff)) {
-            final curDate = current.toIso8601String().split('T').first;
-            // Placeholder for "failed to parse" or "no data"
-            metricsMap.putIfAbsent(curDate, () => null);
-            current = current.subtract(const Duration(days: 1));
+            while (current.isAfter(cutoff)) {
+              final curDate = current.toIso8601String().split('T').first;
+              // Placeholder for "failed to parse" or "no data"
+              metricsMap.putIfAbsent(curDate, () => null);
+              current = current.subtract(const Duration(days: 1));
+            }
+            cacheMap.addEntries(metricsMap.entries);
+            await storage.writeCache(StorageKeys.cache, cacheMap);
+            return last;
+          } else {
+            _logger.w("No measurements found for date: $date");
+            // Write a lot of nulls to the cache
+            Map<String, Metrics?> metricsMap = {};
+            DateTime current = metrics.date;
+            DateTime cutoff = DateTime(
+              current.year,
+              current.month - 1,
+              current.day,
+            );
+            while (current.isAfter(cutoff)) {
+              final curDate = current.toIso8601String().split('T').first;
+              // Placeholder for "failed to parse" or "no data"
+              metricsMap.putIfAbsent(curDate, () => null);
+              current = current.subtract(const Duration(days: 1));
+            }
+            cacheMap.addEntries(metricsMap.entries);
+            await storage.writeCache(StorageKeys.cache, cacheMap);
           }
-          cacheMap.addEntries(metricsMap.entries);
-          await storage.writeCache(StorageKeys.cache, cacheMap);
-          return last;
         }
       } // Else if token is expired
       else if (response.statusCode == 401) {
@@ -248,6 +344,11 @@ class FitbitService extends IService {
           await fetchMetrics(m.copyWith(date: current));
           cacheMap = await storage.readCache(StorageKeys.cache);
         }
+      }
+
+      if (filtered.isEmpty) {
+        _logger.w("No measurements found for date: $date");
+        return ratioPoints;
       }
 
       // Get the latest metrics from filtered cacheMap

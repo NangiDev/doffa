@@ -7,6 +7,7 @@ import 'package:doffa/services/demo_service.dart';
 import 'package:doffa/services/fitbit_service.dart';
 import 'package:doffa/services/service.dart';
 import 'package:doffa/services/test_service.dart';
+import 'package:doffa/services/withings_service.dart';
 import 'package:doffa/storage/storage.dart';
 import 'package:doffa/storage/storage_factory.dart';
 import 'package:doffa/widgets/cards/common/my_graph_card.dart';
@@ -65,6 +66,8 @@ class GodProvider extends ChangeNotifier {
     switch (platform) {
       case PlatformProvider.fitbit:
         return FitbitService(_storage);
+      case PlatformProvider.withings:
+        return WithingsService(_storage);
       case PlatformProvider.demo:
         return DemoService(_storage);
       default:
