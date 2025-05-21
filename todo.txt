@@ -1,6 +1,7 @@
 * Make Android auth go through backend
 * Create release pipeline for APK and bundle
 * Release app on Google Play
+* Implement Garmin
 * Wide page design
 * Make Fitbit auth go through Firebase
 * Look into Hive as a no-sql database
