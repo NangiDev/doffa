@@ -12,6 +12,7 @@ import 'package:doffa/storage/storage.dart';
 import 'package:doffa/widgets/cards/common/my_graph_card.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
@@ -49,12 +50,24 @@ class WithingsService extends IService {
         androidProvider: AndroidProvider.playIntegrity,
       );
 
+      // Fetch the authorization code using WebAuth
+      final result = await FlutterWebAuth2.authenticate(
+        url: WithingsConstants.getOAuthUrl(),
+        callbackUrlScheme: WithingsConstants.callbackUrlScheme,
+      );
+
+      // Extract code from the URL fragment
+      final uri = Uri.parse(result);
+      final code = uri.queryParameters['code'];
+      if (code == null) throw Exception("No code returned");
+
       // Call the Firebase function to get the access token
       final HttpsCallable callable = FirebaseFunctions.instanceFor(
         region: "europe-west4",
       ).httpsCallable('onCallWithingsAuth');
 
       final response = await callable.call({
+        'code': code,
         'platform': 'withings',
         'target': WithingsConstants.target,
         'env': WithingsConstants.env,
