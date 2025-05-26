@@ -1,7 +1,6 @@
 import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/auth_service.dart';
 import 'package:doffa/screens/gradient_container.dart';
-import 'package:doffa/widgets/ads_google.dart';
 import 'package:doffa/widgets/my_logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   const MyLoginButtons(),
-                  AdsGoogle(),
+                  // AdsGoogle(),
                 ],
               ),
             ),
@@ -70,12 +69,18 @@ class MyLoginButtons extends StatelessWidget {
               },
             ),
 
-            /// Withings Login Button
+            // Withings Login Button
             // LoginButton(
             //   icon: const Icon(CupertinoIcons.heart_fill, color: Colors.white),
             //   label: "Withings",
             //   color: const Color(0xFF00C2D7),
-            //   onPressed: () async {},
+            //   onPressed: () async {
+            //     final authProvider = Provider.of<AuthProvider>(
+            //       context,
+            //       listen: false,
+            //     );
+            //     AuthService().signInWithWithings(authProvider);
+            //   },
             // ),
           ],
         ),

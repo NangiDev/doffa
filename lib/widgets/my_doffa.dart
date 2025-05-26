@@ -1,14 +1,13 @@
 import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/auth_service.dart';
+import 'package:doffa/models/data.dart';
 import 'package:doffa/models/progress.dart';
-import 'package:doffa/widgets/ads_google.dart';
 import 'package:doffa/widgets/my_data.dart';
 import 'package:doffa/widgets/my_date_pickers.dart';
 import 'package:doffa/widgets/my_logo.dart';
 import 'package:doffa/widgets/my_progress.dart';
 import 'package:doffa/widgets/my_ratio.dart';
 import 'package:flutter/material.dart';
-import 'package:doffa/models/data.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
@@ -80,7 +79,7 @@ class MyDoffa extends StatelessWidget {
             MyData(startData: startData, endData: endData),
             MyProgress(progress: progress),
             MyRatio(),
-            AdsGoogle(),
+            // AdsGoogle(),
           ],
         ),
       ),
