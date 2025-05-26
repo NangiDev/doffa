@@ -34,7 +34,20 @@ class LoginScreen extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(minWidth: 400, maxWidth: 600),
               child: Column(
-                children: [const MyLogo(), const MyLoginButtons(), AdsGoogle()],
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Flex(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        direction: Axis.vertical,
+                        children: [MyLogo()],
+                      ),
+                    ),
+                  ),
+                  const MyLoginButtons(),
+                  AdsGoogle(),
+                ],
               ),
             ),
           ),

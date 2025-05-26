@@ -40,7 +40,31 @@ class MyDoffa extends StatelessWidget {
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 600),
         child: Column(
           children: [
-            MyLogo(),
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.coffee),
+                      onPressed: () {
+                        // Add your action here, e.g., navigate to a "Buy me a coffee" page or show a dialog
+                        print('Buy me a coffee button pressed');
+                      },
+                    ),
+                    MyLogo(),
+                    IconButton(
+                      icon: const Icon(Icons.logout),
+                      onPressed: () {
+                        // Add your logout action here, e.g., clear user session or navigate to login page
+                        print('Logout button pressed');
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
             MyDatePickers(title: "Start Date"),
             MyDatePickers(title: "End Date"),
             // MyGraph(),
