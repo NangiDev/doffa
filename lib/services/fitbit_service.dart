@@ -183,6 +183,24 @@ class FitbitService extends IService {
           cacheMap.addEntries(metricsMap.entries);
           await storage.writeCache(StorageKeys.cache, cacheMap);
           return last;
+        } else {
+          _logger.w("No measurements found for date: $date");
+          // Write a lot of nulls to the cache
+          Map<String, Metrics?> metricsMap = {};
+          DateTime current = metrics.date;
+          DateTime cutoff = DateTime(
+            current.year,
+            current.month - 1,
+            current.day,
+          );
+          while (current.isAfter(cutoff)) {
+            final curDate = current.toIso8601String().split('T').first;
+            // Placeholder for "failed to parse" or "no data"
+            metricsMap.putIfAbsent(curDate, () => null);
+            current = current.subtract(const Duration(days: 1));
+          }
+          cacheMap.addEntries(metricsMap.entries);
+          await storage.writeCache(StorageKeys.cache, cacheMap);
         }
       } // Else if token is expired
       else if (response.statusCode == 401) {
@@ -248,6 +266,11 @@ class FitbitService extends IService {
           await fetchMetrics(m.copyWith(date: current));
           cacheMap = await storage.readCache(StorageKeys.cache);
         }
+      }
+
+      if (filtered.isEmpty) {
+        _logger.w("No measurements found for date: $date");
+        return ratioPoints;
       }
 
       // Get the latest metrics from filtered cacheMap
