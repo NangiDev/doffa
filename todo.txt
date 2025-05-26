@@ -1,5 +1,3 @@
-* Figure out why metrics aint updated on login
-* Update ratio algorithm
 * Add Graph
 * Implement Kofi
 * Implement Ads

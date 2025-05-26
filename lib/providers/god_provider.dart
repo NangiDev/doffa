@@ -40,8 +40,8 @@ class GodProvider extends ChangeNotifier {
     await _service.init();
     _isLoggedIn = await _service.isLoggedIn();
 
-    _loadUiState();
-    _loadMetrics();
+    await _loadUiState();
+    await _loadMetrics();
 
     _isInitialized = true;
 
@@ -88,10 +88,17 @@ class GodProvider extends ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
 
   Future<void> logIn() async {
+    _isInitialized = false;
+    notifyListeners();
+
     await _service.login();
     _isLoggedIn = await _service.isLoggedIn();
 
-    _service.init();
+    await _service.init();
+    await _loadUiState();
+    await _loadMetrics();
+
+    _isInitialized = true;
     notifyListeners();
   }
 

@@ -4,14 +4,11 @@ import 'package:doffa/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final GodProvider godProvider = GodProvider();
-  await godProvider.init();
-
   runApp(
-    ChangeNotifierProvider.value(value: godProvider, child: const MyApp()),
+    ChangeNotifierProvider(create: (_) => GodProvider(), child: const MyApp()),
   );
 }
 
@@ -43,8 +40,25 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class AuthGate extends StatelessWidget {
+class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
+
+  @override
+  State<AuthGate> createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<AuthGate> {
+  bool _calledInit = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_calledInit) {
+      _calledInit = true;
+      final provider = context.read<GodProvider>();
+      provider.init();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
