@@ -35,8 +35,8 @@
             };
 
             const hash = window.location.hash.substring(1);
-            const params = new URLSearchParams(hash);
-            const query = params.toString();
+            // const params = new URLSearchParams(hash);
+            // const query = params.toString();
 
             log("Authentication complete. Token redacted.");
 
@@ -61,7 +61,8 @@
             log("- Search has mobile=true: " + isSearchMatch);
             log("Result: " + isMobile);
 
-            const redirectUri = `com.nangidev.doffa://fitbit_auth?${query}`;
+            const redirectUri = `com.nangidev.doffa://fitbit_auth?${hash}`;
+            // const redirectUri = `com.nangidev.doffa://fitbit_auth?${query}`;
 
             if (isMobile) {
                 log("Redirecting to: " + redirectUri);
