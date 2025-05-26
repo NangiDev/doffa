@@ -75,9 +75,7 @@ class ExpandableSectionState extends State<ExpandableSection> {
                 });
                 _saveExpandedState(expanded); // Persist the new state
               },
-              children: [
-                Padding(padding: const EdgeInsets.all(16), child: widget.child),
-              ],
+              children: [widget.child],
             ),
           ),
         );
