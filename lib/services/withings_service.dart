@@ -178,14 +178,15 @@ class WithingsService extends IService {
 
     const Map<String, int> measTypes = {
       "weight": 1,
-      "height": 4,
       "lean": 5,
       "fat_percentage": 6,
       "fat_kg": 8,
     };
 
-    final DateTime endDate = DateTime.parse(date);
-    final DateTime startDate = endDate.subtract(Duration(days: 30));
+    final DateTime endDate = DateTime.parse(
+      date,
+    ).toUtc().add(Duration(days: 1));
+    final DateTime startDate = endDate.subtract(Duration(days: 31));
     final int startTimestamp = startDate.millisecondsSinceEpoch ~/ 1000;
     final int endTimestamp = endDate.millisecondsSinceEpoch ~/ 1000;
     final Map<String, String> payload = {
@@ -212,14 +213,7 @@ class WithingsService extends IService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         if (data['status'] == 0) {
-          final rawGroups = data['body']['measuregrps'];
-          final measureGroups =
-              (rawGroups is List)
-                  ? rawGroups
-                      .whereType<Map<String, dynamic>>()
-                      .map((e) => e)
-                      .toList()
-                  : <Map<String, dynamic>>[];
+          final measureGroups = data['body']['measuregrps'];
 
           if (measureGroups.isNotEmpty) {
             // Sort by date in descending order to get the latest measurement
@@ -246,8 +240,9 @@ class WithingsService extends IService {
                   () => obj.metrics,
                 );
                 last = obj.metrics;
-              } catch (_) {
+              } catch (e) {
                 _logger.e("Error parsing WithingsObject: $ret");
+                _logger.e(e);
               }
             }
 

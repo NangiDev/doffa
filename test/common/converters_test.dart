@@ -22,7 +22,7 @@ void main() {
 
       final expected = WithingsObject(
         date: DateTime(2019, 3, 1, 7, 38, 14),
-        bmi: 25.93,
+        bmi: 00.00,
         weightInKg: 70.0,
         fatInKg: 15.0,
         leanInKg: 55.0,
@@ -73,11 +73,71 @@ void main() {
 
       final expected = WithingsObject(
         date: DateTime(2023, 5, 19, 7, 0, 0),
-        bmi: 0.23,
+        bmi: 00.00,
         weightInKg: 70.0,
         fatInKg: 14.0,
         leanInKg: 15.0,
         fatInPercentage: 20.0,
+      );
+
+      final result = toWithingsObject(data);
+
+      expect(result, isA<WithingsObject>());
+
+      expect(result.date.year, equals(expected.date.year));
+      expect(result.date.month, equals(expected.date.month));
+      expect(result.date.day, equals(expected.date.day));
+
+      expect(result.weightInKg, equals(expected.weightInKg));
+      expect(result.fatInKg, equals(expected.fatInKg));
+      expect(result.leanInKg, equals(expected.leanInKg));
+      expect(result.fatInPercentage, equals(expected.fatInPercentage));
+      expect(result.bmi, equals(expected.bmi));
+
+      expect(result.metrics, isA<Metrics>());
+
+      expect(result.metrics.date.year, equals(expected.metrics.date.year));
+      expect(result.metrics.date.month, equals(expected.metrics.date.month));
+      expect(result.metrics.date.day, equals(expected.metrics.date.day));
+
+      expect(result.metrics.weightInKg, equals(expected.metrics.weightInKg));
+      expect(result.metrics.fatInKg, equals(expected.metrics.fatInKg));
+      expect(result.metrics.leanInKg, equals(expected.metrics.leanInKg));
+      expect(
+        result.metrics.fatInPercentage,
+        equals(expected.metrics.fatInPercentage),
+      );
+      expect(result.metrics.bmi, equals(expected.metrics.bmi));
+    });
+
+    test('should correctly convert data to WithingsObject 3', () {
+      final Map<String, dynamic> data = {
+        'grpid': 6554888807,
+        'attrib': 2,
+        'date': 1747771673,
+        'created': 1747771724,
+        'modified': 1747771724,
+        'category': 1,
+        'deviceid': null,
+        'hash_deviceid': null,
+        'measures': [
+          {'value': 796000, 'type': 1, 'unit': -4, 'algo': 0, 'fm': 131},
+          {'value': 14899, 'type': 6, 'unit': -3, 'algo': 0, 'fm': 131},
+          {'value': 11860, 'type': 8, 'unit': -3, 'algo': 0, 'fm': 131},
+          {'value': 67740, 'type': 5, 'unit': -3},
+        ],
+        'modelid': null,
+        'model': null,
+        'comment': null,
+      };
+
+      final expected = WithingsObject(
+        date: DateTime(2025, 5, 20, 7, 0, 0),
+        bmi: 00.00,
+        weightInKg: 79.6,
+        fatInKg: 11.86,
+        leanInKg: 67.74,
+        fatInPercentage: 14.9,
       );
 
       final result = toWithingsObject(data);
