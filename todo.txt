@@ -1,4 +1,4 @@
-* Add Graph
+* Add real graph data
 * Implement Kofi
 * Implement Ads
 * Move full auth flow to Firebase

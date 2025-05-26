@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/storage/storage.dart';
 import 'package:doffa/widgets/cards/common/my_expandable_header.dart';
 import 'package:doffa/widgets/my_container.dart';
+import 'package:doffa/widgets/text/my_montserrat.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MyGraphCard extends StatelessWidget {
@@ -34,20 +39,23 @@ class MyGraphCard extends StatelessWidget {
           builder: (context, constraints) {
             final double maxWidth = constraints.maxWidth;
 
-            return MyContainer(
-              maxWidth: maxWidth,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  MyExpandableHeader(
-                    title: title,
-                    subtitle: subtitle,
-                    maxWidth: maxWidth,
-                    isExpanded: isExpanded,
-                    onToggle: () => provider.toggleExpanded(section),
-                    secondChild: Placeholder(fallbackHeight: maxWidth / 2),
-                  ),
-                ],
+            return GestureDetector(
+              onTap: () => provider.toggleExpanded(section),
+              child: MyContainer(
+                maxWidth: maxWidth,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MyExpandableHeader(
+                      title: title,
+                      subtitle: subtitle,
+                      maxWidth: maxWidth,
+                      isExpanded: isExpanded,
+                      onToggle: () => provider.toggleExpanded(section),
+                      secondChild: _buildGraph(maxWidth, provider),
+                    ),
+                  ],
+                ),
               ),
             );
           },
@@ -55,4 +63,159 @@ class MyGraphCard extends StatelessWidget {
       },
     );
   }
+
+  Widget _buildGraph(double maxWidth, GodProvider provider) {
+    final random = Random();
+
+    final startDate = DateTime.now().subtract(const Duration(days: 30));
+    final data = List.generate(30, (index) {
+      final date = startDate.add(Duration(days: index));
+      final ratio = random.nextInt(201) - 100; // Random between -100 and 100
+      return RatioPoint(date, ratio);
+    });
+
+    Container emptyContainer(Widget child) => Container(
+      width: maxWidth,
+      decoration: const BoxDecoration(color: Colors.black12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: child,
+      ),
+    );
+
+    if (data.isEmpty) {
+      return emptyContainer(
+        Center(
+          child: MyMontserrat(
+            text: 'No data to display',
+            maxWidth: 14,
+            fontWeight: FontWeight.w400,
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
+    final sorted = [...data]..sort((a, b) => a.date.compareTo(b.date));
+
+    // double calculateMean(List<RatioPoint> points) {
+    //   final total = points.fold(0.0, (sum, p) => sum + p.ratio);
+    //   return total / points.length;
+    // }
+
+    // final mean = calculateMean(sorted);
+
+    return emptyContainer(
+      SizedBox(
+        height: maxWidth / 2,
+        child: LineChart(
+          LineChartData(
+            minX: 0,
+            maxX: (sorted.length - 1).toDouble(),
+            minY: -100,
+            maxY: 100,
+            backgroundColor: Color.fromARGB(255, 55, 55, 55),
+            titlesData: FlTitlesData(
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  interval: 25,
+                  reservedSize: 40,
+                  getTitlesWidget: (value, meta) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text(
+                        value.toInt().toString(),
+                        style: MyMontserrat.defaultStyle(
+                          maxWidth: maxWidth,
+                          sizeFactor: 32,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  interval: 10,
+                  reservedSize: 20,
+                  getTitlesWidget: (value, meta) {
+                    final index = value.toInt();
+                    final date = sorted[index].date;
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        DateFormat.Md().format(date),
+                        style: MyMontserrat.defaultStyle(
+                          maxWidth: maxWidth,
+                          sizeFactor: 32,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              topTitles: AxisTitles(),
+              rightTitles: AxisTitles(),
+            ),
+            gridData: FlGridData(
+              show: true,
+              drawVerticalLine: false,
+              drawHorizontalLine: true,
+              horizontalInterval: 100,
+              getDrawingHorizontalLine: (value) {
+                return FlLine(color: Colors.greenAccent, strokeWidth: 2);
+              },
+            ),
+            borderData: FlBorderData(show: false),
+            lineBarsData: [
+              LineChartBarData(
+                isCurved: true,
+                barWidth: 2,
+                color: Colors.blueAccent,
+                dotData: FlDotData(show: true),
+                spots: List.generate(
+                  sorted.length,
+                  (i) => FlSpot(i.toDouble(), sorted[i].ratio.toDouble()),
+                ),
+              ),
+            ],
+            // extraLinesData: ExtraLinesData(
+            //   horizontalLines: [
+            //     HorizontalLine(
+            //       y: mean,
+            //       color: Colors.redAccent,
+            //       strokeWidth: 2,
+            //       dashArray: [5, 4],
+            //       label: HorizontalLineLabel(
+            //         show: false,
+            //         alignment: Alignment.topRight,
+            //         style: MyMontserrat.defaultStyle(
+            //           maxWidth: maxWidth,
+            //           sizeFactor: 32,
+            //           fontWeight: FontWeight.w600,
+            //           color: Colors.redAccent,
+            //         ).copyWith(fontSize: 12),
+            //         labelResolver: (_) => 'Mean (${mean.toStringAsFixed(1)})',
+            //       ),
+            //     ),
+            //   ],
+            // ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class RatioPoint {
+  final DateTime date;
+  final int ratio; // doffa ratio
+
+  RatioPoint(this.date, this.ratio);
 }
