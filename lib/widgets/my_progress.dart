@@ -1,4 +1,4 @@
-import 'package:doffa/models/progress.dart';
+import 'package:doffa/models/fetch_result.dart';
 import 'package:doffa/widgets/expandable_section.dart';
 import 'package:flutter/material.dart';
 
