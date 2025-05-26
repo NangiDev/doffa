@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDatePickers extends StatefulWidget {
   final String title;
@@ -17,7 +18,26 @@ class _MyDatePickersState extends State<MyDatePickers> {
   @override
   void initState() {
     super.initState();
-    _setDate(DateTime.now());
+    // If it's the Start Date, load from SharedPreferences, otherwise set to today for End Date.
+    if (widget.title == "Start Date") {
+      _loadStartDate();
+    } else {
+      _setDate(DateTime.now()); // For End Date, always set to today
+    }
+  }
+
+  Future<void> _loadStartDate() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? savedStartDateString = prefs.getString('start_date');
+    if (savedStartDateString != null) {
+      setState(() {
+        selectedDate = DateTime.parse(savedStartDateString);
+        _controller.text = DateFormat('yyyy-MM-dd').format(selectedDate!);
+      });
+    } else {
+      // If no saved date exists, default to today
+      _setDate(DateTime.now());
+    }
   }
 
   void _setDate(DateTime date) {
@@ -25,6 +45,16 @@ class _MyDatePickersState extends State<MyDatePickers> {
       selectedDate = date;
       _controller.text = DateFormat('yyyy-MM-dd').format(date);
     });
+
+    // For Start Date, save it in SharedPreferences
+    if (widget.title == "Start Date") {
+      _saveStartDate(date);
+    }
+  }
+
+  Future<void> _saveStartDate(DateTime date) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('start_date', date.toIso8601String());
   }
 
   Future<void> _pickDate() async {

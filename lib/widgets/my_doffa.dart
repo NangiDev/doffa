@@ -20,7 +20,7 @@ class MyDoffa extends StatelessWidget {
             MyLogo(),
             MyDatePickers(title: "Start Date"),
             MyDatePickers(title: "End Date"),
-            MyGraph(),
+            // MyGraph(),
             MyData(),
             MyProgress(),
             MyRatio(),
