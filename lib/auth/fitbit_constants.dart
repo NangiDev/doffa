@@ -4,6 +4,7 @@ class FitbitConstants {
   static const String clientId = "22BQ88";
   static const String redirectUri = "http://localhost:3001/auth.html";
   static const String scope = "weight";
+  static const String callbackUrlScheme = "http";
   static const int expiresIn = 604800; // 7 days in seconds
 
   // Base URL for Fitbit OAuth
