@@ -1,7 +1,7 @@
 class FitbitConstants {
   static const String _webProdUrl =
       "https://nangidev.github.io/doffa/auth.html";
-  static const String _webDevUrl = "http://localhost:3001/auth.html";
+  static const String _webDevUrl = "http://localhost:3001/doffa/auth.html";
 
   // OAuth 2.0 parameters
   static const String responseType = "token";
