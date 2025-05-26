@@ -38,7 +38,6 @@ class GodProvider extends ChangeNotifier {
     _service = await _makeService(platform);
 
     // Initialize the login state
-    await _service.init();
     _isLoggedIn = await _service.isLoggedIn();
 
     await _loadUiState();
