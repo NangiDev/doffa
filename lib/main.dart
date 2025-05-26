@@ -8,8 +8,8 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => AuthProvider()),
-        ChangeNotifierProvider(create: (context) => ApiProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ApiProvider()),
       ],
       child: MyApp(),
     ),
@@ -22,8 +22,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AuthWrapper(), // ✅ Ensures UI updates when auth state changes
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.light().copyWith(primary: Color(0xff4288f5)),
+      ),
+      debugShowCheckedModeBanner: true,
+      home: AuthWrapper(),
     );
   }
 }

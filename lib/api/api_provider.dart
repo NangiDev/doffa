@@ -4,33 +4,61 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiProvider with ChangeNotifier {
-  final Data _startData = Data();
+  Data _startData = Data();
   Data get startData => _startData;
-  final Data _endData = Data();
+
+  Data _endData = Data();
   Data get endData => _endData;
+
   final Progress _progress = Progress();
   Progress get progress => _progress;
+
   FitbitApiService? api;
 
-  FitbitApiService initApi() {
+  Future<void> initApi() async {
     if (api == null) {
-      SharedPreferences.getInstance().then((prefs) {
-        final accessToken = prefs.getString('access_token');
-        if (accessToken != null) {
-          api = FitbitApiService(accessToken);
-        } else {
-          throw Exception('Access token is null');
-        }
-      });
-    }
+      final prefs = await SharedPreferences.getInstance();
+      final accessToken = prefs.getString('access_token');
 
-    return api!;
+      if (accessToken != null) {
+        api = FitbitApiService(accessToken);
+      } else {
+        throw Exception('Access token is null');
+      }
+    }
   }
 
-  void fetchStartData(String date) {
-    initApi().fetchFromData(date).then((data) {
-      // _startData = data;
-      notifyListeners();
-    });
+  Future<void> fetchStartData(String date) async {
+    await initApi();
+    if (api == null) return;
+
+    final data = await api!.fetchFromData(date);
+
+    _startData = Data.named(
+      date: DateTime.parse(data['date']),
+      bmi: data['bmi'],
+      kg: data['weight'],
+      fat: data['fat'],
+      lean: 0,
+    );
+
+    notifyListeners();
+  }
+
+  Future<void> fetchEndData(String date) async {
+    await initApi();
+    if (api == null) return;
+
+    final data = await api!.fetchFromData(date);
+
+    _endData = Data.named(
+      date: DateTime.parse(data['date']),
+      bmi: data['bmi'],
+      kg: data['weight'],
+      fat: data['fat'],
+      lean: 0,
+    );
+
+    notifyListeners();
   }
 }
