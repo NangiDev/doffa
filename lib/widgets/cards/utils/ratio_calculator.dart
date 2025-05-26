@@ -89,7 +89,11 @@ class _RatioCalculatorState extends State<RatioCalculator> {
               final fat = double.tryParse(fatController.text) ?? 0.0;
 
               await testProvider.setEnd(
-                testProvider.start.copyWith(leanInKg: lean, fatInKg: fat),
+                testProvider.start.copyWith(
+                  weightInKg: lean + fat,
+                  leanInKg: lean,
+                  fatInKg: fat,
+                ),
               );
 
               setState(() {
