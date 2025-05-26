@@ -1,5 +1,7 @@
+import 'package:doffa/widgets/ad/mobile_ad_widget.dart';
+import 'package:doffa/widgets/ad/web_ad_widget.dart';
 import 'package:doffa/widgets/my_container.dart';
-import 'package:doffa/widgets/text/my_montserrat.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MyAds extends StatelessWidget {
@@ -12,17 +14,7 @@ class MyAds extends StatelessWidget {
         double maxWidth = constraints.maxWidth;
         return MyContainer(
           maxWidth: maxWidth,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-            child: Center(
-              child: MyMontserrat(
-                maxWidth: maxWidth,
-                text: "Google Ads",
-                sizeFactor: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
+          child: kIsWeb ? WebAdWidget() : MobileAdWidget(),
         );
       },
     );
