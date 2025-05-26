@@ -1,11 +1,8 @@
-* Implement Kofi
-* Implement Ads
-* Move full auth flow to Firebase
-* Make Fitbit auth go through Firebase
-* Implement Storage Withings
-* Implement API integration Withings
 * Make Android auth go through backend
 * Create release pipeline for APK and bundle
 * Release app on Google Play
 * Wide page design
+* Make Fitbit auth go through Firebase
 * Look into Hive as a no-sql database
+* Implement Kofi
+* Implement Ads

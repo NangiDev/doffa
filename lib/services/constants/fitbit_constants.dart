@@ -16,7 +16,7 @@ class FitbitConstants {
 
   static const String baseUrl = "https://www.fitbit.com/oauth2/authorize";
 
-  static String getFitbitOAuthUrl() {
+  static String getOAuthUrl() {
     return "$baseUrl"
         "?response_type=$responseType"
         "&client_id=$clientId"

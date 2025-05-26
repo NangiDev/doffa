@@ -33,6 +33,15 @@ class MyButtonCard extends StatelessWidget {
                   },
                 ),
                 MyLoginButton(
+                  icon: CupertinoIcons.heart_fill,
+                  label: "Login with Withings",
+                  color: const Color(0xFF2aa77c),
+                  onPressed: () async {
+                    await provider.selectPlatform(PlatformProvider.withings);
+                    await provider.logIn();
+                  },
+                ),
+                MyLoginButton(
                   icon: CupertinoIcons.play_circle_fill,
                   label: "Try Demo",
                   color: const Color(0xFF000000),
@@ -80,7 +89,7 @@ class MyLoginButton extends StatelessWidget {
           label: MyMontserrat(
             maxWidth: maxWidth,
             text: label,
-            sizeFactor: 12,
+            sizeFactor: 16,
             fontWeight: FontWeight.w400,
           ),
           style: ElevatedButton.styleFrom(

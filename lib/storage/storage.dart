@@ -2,6 +2,7 @@ import 'package:doffa/common/models.dart';
 
 enum StorageKeys {
   accessToken,
+  refreshToken,
   start,
   end,
   expandedData,
