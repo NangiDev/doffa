@@ -100,19 +100,18 @@ class WithingsApiService extends ApiService {
       if (type == 8) fat = value; // Fat percentage
     }
 
-    bmi = 0;
     if (weight != null && height != null) {
       bmi = weight / (height * height); // Calculate BMI
     }
 
     return {
-      "bmi": bmi,
+      "bmi": bmi ?? 0.0,
       "date": formattedDate,
-      "fat": fat,
+      "fat": fat ?? 0.0,
       "logId": timestamp * 1000, // Convert to milliseconds
       "source": "Withings",
       "time": formattedTime,
-      "weight": weight,
+      "weight": weight ?? 0.0,
     };
   }
 }
