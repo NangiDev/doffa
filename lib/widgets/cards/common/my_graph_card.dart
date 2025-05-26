@@ -191,7 +191,7 @@ class MyGraphCard extends StatelessWidget {
                     getTooltipItems: (touchedSpots) {
                       return touchedSpots.map((touchedSpot) {
                         return LineTooltipItem(
-                          '${touchedSpot.y.toStringAsFixed(1)}%',
+                          touchedSpot.y.toStringAsFixed(1),
                           MyMontserrat.defaultStyle(
                             maxWidth: maxWidth,
                             sizeFactor: 28,
