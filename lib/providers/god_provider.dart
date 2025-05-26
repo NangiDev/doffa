@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:doffa/calculator/calculator.dart';
+import 'package:doffa/calculator/simple_calculator.dart';
 import 'package:doffa/common/models.dart';
 import 'package:doffa/services/demo_service.dart';
 import 'package:doffa/services/fitbit_service.dart';
@@ -12,11 +14,13 @@ import 'package:flutter/material.dart';
 // One provider to rule them all
 class GodProvider extends ChangeNotifier {
   final Storage _storage;
+  late ICalculator _calculator;
   late IService _service;
 
-  GodProvider({IService? service, Storage? storage})
+  GodProvider({IService? service, Storage? storage, ICalculator? calculator})
     : _storage = storage ?? StorageFactory.create(),
-      _service = service ?? TestService(storage ?? StorageFactory.create());
+      _service = service ?? TestService(storage ?? StorageFactory.create()),
+      _calculator = calculator ?? SimpleCalculator();
 
   // ==== INIT ====
   bool _isInitialized = false;
@@ -153,16 +157,6 @@ class GodProvider extends ChangeNotifier {
   }
 
   int getRatio() {
-    final double deltaFat = _change.fatInKg;
-    final double deltaLean = _change.leanInKg;
-
-    // Calculate the total absolute change in fat and lean mass
-    final double totalChange = max((deltaFat.abs() + deltaLean.abs()), 1);
-
-    // Calculate the ratio of lean mass gain vs fat loss (favor lean gain more)
-    final double score = ((deltaLean - deltaFat) / totalChange) * 100;
-
-    // Return the score rounded and clamped to the range [-100, 100]
-    return score.round().clamp(-100, 100);
+    return _calculator.getRatio(change);
   }
 }
