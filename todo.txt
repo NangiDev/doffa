@@ -4,5 +4,7 @@
 * Wide page design
 * Make Fitbit auth go through Firebase
 * Look into Hive as a no-sql database
+* More robust fetch starting from midnight
+* Remove of fix BMI
 * Implement Kofi
 * Implement Ads
