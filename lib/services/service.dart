@@ -1,6 +1,5 @@
 import 'package:doffa/common/models.dart';
 import 'package:doffa/storage/storage.dart';
-import 'package:flutter/widgets.dart';
 
 enum PlatformProvider { none, demo, fitbit }
 
@@ -26,16 +25,4 @@ abstract class IService {
   Future<Metrics> setEnd(Metrics metrics);
 
   Future<Metrics> fetchMetrics(Metrics metrics);
-
-  @protected
-  String extractAccessToken(String fragment) {
-    final parameters = fragment.split('&');
-    for (var param in parameters) {
-      final parts = param.split('=');
-      if (parts.length == 2 && parts[0] == 'access_token') {
-        return parts[1];
-      }
-    }
-    return "";
-  }
 }
