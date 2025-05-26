@@ -15,56 +15,63 @@ class WithingsApiService extends ApiService {
 
   @override
   Future<Map<String, dynamic>> fetchFromData(String date) async {
-    // Convert input date to DateTime object
-    final DateTime selectedDate = DateTime.parse(date);
+    final DateTime endDate = DateTime.parse(date);
+    final DateTime startDate = endDate.subtract(Duration(days: 30));
 
-    // Calculate 1 month ago from the given date
-    final int startDate =
-        selectedDate.subtract(Duration(days: 30)).millisecondsSinceEpoch ~/
-        1000;
-    final int endDate = selectedDate.millisecondsSinceEpoch ~/ 1000;
+    final int startTimestamp = startDate.millisecondsSinceEpoch ~/ 1000;
+    final int endTimestamp = endDate.millisecondsSinceEpoch ~/ 1000;
 
-    final String url =
-        "https://wbsapi.withings.net/measure?action=getmeas"
-        "&meastype=1,6,8" // 1 = Weight, 6 = Fat %, 8 = BMI
-        "&category=1" // Category 1 = User Data
-        "&startdate=$startDate"
-        "&enddate=$endDate";
+    const String url = "https://wbsapi.withings.net/measure";
+
+    const Map<String, int> measTypes = {
+      "weight": 1,
+      "height": 4,
+      "lean": 5,
+      "fat_percentage": 6,
+      "fat_kg": 8,
+    };
+
+    final Map<String, String> payload = {
+      "action": "getmeas",
+      "meastypes": measTypes.values.join(','),
+      "category": "1",
+      "startdate": "$startTimestamp",
+      "enddate": "$endTimestamp",
+    };
 
     try {
-      final response = await http.get(
+      final response = await http.post(
         Uri.parse(url),
         headers: {
           "Authorization": "Bearer $accessToken",
-          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
+        body: payload,
       );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
+        if (data['status'] == 0) {
+          final List<dynamic> measureGroups = data['body']['measuregrps'];
 
-        if (data["status"] == 0 && data["body"]?["measuregrps"] != null) {
-          final List<dynamic> measurements = data["body"]["measuregrps"];
-
-          if (measurements.isNotEmpty) {
-            final latestMeasurement = measurements.last;
-            final formattedData = _formatMeasurement(latestMeasurement);
-            _logger.i("Weight data: $formattedData");
-            return formattedData;
-          } else {
-            _logger.w("No weight data available for past month from: $date");
+          if (measureGroups.isEmpty) {
+            _logger.w("No measurements found for date: $date");
+            return {};
           }
-        } else {
-          _logger.w("API returned an error: ${data['status']}");
+
+          final dynamic lastMeasurement = measureGroups.last;
+          final Map<String, dynamic> measurement = _formatMeasurement(
+            lastMeasurement,
+          );
+          _logger.i("Measurement data: $measurement");
+          return measurement;
         }
       } else {
-        _logger.e("HTTP Error: ${response.statusCode} - ${response.body}");
+        _logger.e("HTTP error: ${response.statusCode} - ${response.body}");
       }
     } catch (e, stacktrace) {
       _logger.e("Request failed", error: e, stackTrace: stacktrace);
     }
-
-    _logger.w("Failed to fetch data for past month from: $date");
     return {};
   }
 
@@ -80,6 +87,7 @@ class WithingsApiService extends ApiService {
         "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
 
     double? weight;
+    double? height;
     double? fat;
     double? bmi;
 
@@ -88,8 +96,12 @@ class WithingsApiService extends ApiService {
       final double value = measure["value"] * pow(10.0, measure["unit"]);
 
       if (type == 1) weight = value; // Weight in kg
-      if (type == 6) fat = value; // Fat percentage
-      if (type == 8) bmi = value; // BMI
+      if (type == 4) height = value; // Height in meters
+      if (type == 8) fat = value; // Fat percentage
+    }
+
+    if (weight != null && height != null) {
+      bmi = weight / (height * height); // Calculate BMI
     }
 
     return {
