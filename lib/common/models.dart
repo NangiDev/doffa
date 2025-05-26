@@ -110,23 +110,22 @@ class Metrics implements BodyMetrics {
   }
 
   Map<String, dynamic> toJson() => {
-    'date': date.toIso8601String().split('T').first,
-    'bmi': bmi,
-    'weightInKg': weightInKg,
-    'fatInPercentage': fatInPercentage,
-    'fatInKg': fatInKg,
-    'leanInKg': leanInKg,
+    'b': bmi,
+    'w': weightInKg,
+    'f': fatInPercentage,
+    'p': fatInKg,
+    'l': leanInKg,
   };
 
   // Create an instance from a JSON string
   factory Metrics.fromJson(Map<String, dynamic> jsonString) {
     return Metrics(
-      date: DateTime.parse(jsonString['date']),
-      bmi: double.parse(jsonString['bmi'].toString()),
-      weightInKg: double.parse(jsonString['weightInKg'].toString()),
-      fatInPercentage: double.parse(jsonString['fatInPercentage'].toString()),
-      fatInKg: double.parse(jsonString['fatInKg'].toString()),
-      leanInKg: double.parse(jsonString['leanInKg'].toString()),
+      date: DateTime.parse(jsonString['d']),
+      bmi: double.parse(jsonString['b'].toString()),
+      weightInKg: double.parse(jsonString['w'].toString()),
+      fatInPercentage: double.parse(jsonString['p'].toString()),
+      fatInKg: double.parse(jsonString['f'].toString()),
+      leanInKg: double.parse(jsonString['l'].toString()),
     );
   }
 
@@ -166,4 +165,22 @@ class Progress extends FetchResult {
   factory Progress.defaultProgress() {
     return Progress(days: 0, metrics: Metrics.defaultMetrics());
   }
+}
+
+class CacheObject {
+  final String d;
+  final double b;
+  final double w;
+  final double p;
+  final double f;
+  final double l;
+
+  CacheObject({
+    required this.d,
+    required this.b,
+    required this.w,
+    required this.p,
+    required this.f,
+    required this.l,
+  });
 }

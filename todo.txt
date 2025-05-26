@@ -1,6 +1,5 @@
 * Be able to ignore cache
 * Graph interactive label disappears outside
-* Custom cache object to reduce string size
 * Let cache contain null.
 * Ratio description does not fit on small screen
 * Implement Kofi
