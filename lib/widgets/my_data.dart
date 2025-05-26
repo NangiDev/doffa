@@ -1,5 +1,4 @@
 import 'package:doffa/api/api_provider.dart';
-import 'package:doffa/models/fetch_result.dart';
 import 'package:doffa/widgets/expandable_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
