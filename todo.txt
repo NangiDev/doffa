@@ -1,7 +1,6 @@
 * Be able to ignore cache
 * Graph interactive label disappears outside
 * Let cache contain null.
-* Ratio description does not fit on small screen
 * Implement Kofi
 * Implement Ads
 * Move full auth flow to Firebase
