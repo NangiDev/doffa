@@ -1,3 +1,4 @@
+import 'package:doffa/progress.dart';
 import 'package:doffa/widgets/ads_google.dart';
 import 'package:doffa/widgets/my_data.dart';
 import 'package:doffa/widgets/my_date_pickers.dart';
@@ -27,6 +28,13 @@ class MyDoffa extends StatelessWidget {
       lean: 61.0,
     );
 
+    final progress = Progress(
+      days: 4,
+      bmi: 24.5,
+      kg: 75.0,
+      fat: 20.0,
+      lean: 60.0,
+    );
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 600),
@@ -37,7 +45,7 @@ class MyDoffa extends StatelessWidget {
             MyDatePickers(title: "End Date"),
             // MyGraph(),
             MyData(startData: startData, endData: endData),
-            MyProgress(),
+            MyProgress(progress: progress),
             MyRatio(),
             AdsGoogle(),
           ],
