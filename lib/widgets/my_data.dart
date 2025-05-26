@@ -14,47 +14,58 @@ class MyData extends StatelessWidget {
         final startData = apiProvider.startData;
         final endData = apiProvider.endData;
 
+        final dataEntries = {
+          "DATE": [formatDate(startData.date), formatDate(endData.date)],
+          "BMI": [startData.bmi, endData.bmi],
+          "FAT": [startData.fat, endData.fat],
+          "LEAN": [startData.lean, endData.lean],
+          "WEIGHT": [startData.kg, endData.kg],
+        };
+
         return ExpandableSection(
           title: "Data",
           storageKey: "data_section_state",
-          child: Column(children: _buildDataRows(startData, endData)),
+          child: Column(
+            children: [
+              ...dataEntries.entries.map((entry) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        entry.value[0].toString(),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        entry.key,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        entry.value[1].toString(),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ],
+                );
+              }),
+              const Divider(color: Colors.black12),
+              const Text(
+                "Fat, lean mass, and weight are measured in kilograms (kg).",
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
         );
       },
     );
   }
 
-  List<Widget> _buildDataRows(Data startData, Data endData) {
-    final labels = ["DATE", "BMI", "KG", "FAT", "LEAN"];
-    final startValues = [
-      "${startData.date.year}-${startData.date.month.toString().padLeft(2, '0')}-${startData.date.day.toString().padLeft(2, '0')}",
-      "${startData.bmi}",
-      "${startData.kg}",
-      "${startData.fat}",
-      "${startData.lean}",
-    ];
-    final endValues = [
-      "${endData.date.year}-${endData.date.month.toString().padLeft(2, '0')}-${endData.date.day.toString().padLeft(2, '0')}",
-      "${endData.bmi}",
-      "${endData.kg}",
-      "${endData.fat}",
-      "${endData.lean}",
-    ];
-
-    return List.generate(labels.length, (index) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(child: Text(startValues[index], textAlign: TextAlign.right)),
-          Expanded(
-            child: Text(
-              labels[index],
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          Expanded(child: Text(endValues[index], textAlign: TextAlign.left)),
-        ],
-      );
-    });
+  String formatDate(DateTime date) {
+    return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
   }
 }

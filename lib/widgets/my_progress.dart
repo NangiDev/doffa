@@ -10,106 +10,41 @@ class MyProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ApiProvider>(
       builder: (context, apiProvider, child) {
+        final progressData = {
+          "DAYS": apiProvider.progress.days,
+          "BMI": apiProvider.progress.bmi,
+          "FAT": apiProvider.progress.fat,
+          "LEAN": apiProvider.progress.lean,
+          "WEIGHT": apiProvider.progress.kg,
+        };
+
         return ExpandableSection(
           title: "Progress",
           storageKey: "progress_section_state",
-          child: Flex(
-            direction: Axis.vertical,
+          child: Column(
             children: [
-              Flex(
-                spacing: 16.0,
-                direction: Axis.horizontal,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "DAYS",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+              ...progressData.entries.map((entry) {
+                return Row(
+                  spacing: 16.0,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        entry.key,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      "${apiProvider.progress.days}",
-                      textAlign: TextAlign.left,
+                    Expanded(
+                      child: Text("${entry.value}", textAlign: TextAlign.left),
                     ),
-                  ),
-                ],
-              ),
-              Flex(
-                spacing: 16.0,
-                direction: Axis.horizontal,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "BMI",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      "${apiProvider.progress.bmi}",
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ],
-              ),
-              Flex(
-                spacing: 16.0,
-                direction: Axis.horizontal,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "KG",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      "${apiProvider.progress.kg}",
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ],
-              ),
-              Flex(
-                spacing: 16.0,
-                direction: Axis.horizontal,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "FAT",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      "${apiProvider.progress.fat}",
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ],
-              ),
-              Flex(
-                spacing: 16.0,
-                direction: Axis.horizontal,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "LEAN",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      "${apiProvider.progress.lean}",
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ],
+                  ],
+                );
+              }),
+              const Divider(color: Colors.black12),
+              const Text(
+                "Fat, lean mass, and weight are measured in kilograms (kg).",
+                style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ],
           ),
