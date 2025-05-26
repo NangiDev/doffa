@@ -68,18 +68,18 @@ class MyLoginButtons extends StatelessWidget {
             ),
 
             // Withings Login Button
-            // LoginButton(
-            //   icon: const Icon(CupertinoIcons.heart_fill, color: Colors.white),
-            //   label: "Withings",
-            //   color: const Color(0xFF00C2D7),
-            //   onPressed: () async {
-            //     final authProvider = Provider.of<AuthProvider>(
-            //       context,
-            //       listen: false,
-            //     );
-            //     AuthService().signInWithWithings(authProvider);
-            //   },
-            // ),
+            LoginButton(
+              icon: const Icon(CupertinoIcons.heart_fill, color: Colors.white),
+              label: "Withings",
+              color: const Color(0xFF00C2D7),
+              onPressed: () async {
+                final authProvider = Provider.of<AuthProvider>(
+                  context,
+                  listen: false,
+                );
+                AuthService().signInWithWithings(authProvider);
+              },
+            ),
           ],
         ),
       ),

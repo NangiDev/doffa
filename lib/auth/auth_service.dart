@@ -73,9 +73,9 @@ class AuthService {
       }
 
       // Call the Firebase function with the authorization code and environment
-      final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
-        'onCallWithingsAuth',
-      );
+      final HttpsCallable callable = FirebaseFunctions.instanceFor(
+        region: "europe-west4",
+      ).httpsCallable('onCallWithingsAuth');
       final response = await callable.call({
         'code': code,
         'env': WithingsConstants.env,
@@ -88,13 +88,17 @@ class AuthService {
       final uid = data['uid'];
 
       // Log the received tokens and user ID
-      print("Access token: $accessToken");
-      print("Refresh token: $refreshToken");
-      print("User ID: $uid");
+      _logger.i("Access token: $accessToken");
+      _logger.i("Refresh token: $refreshToken");
+      _logger.i("User ID: $uid");
 
       // Use the access token to log in the user
       if (accessToken != null) {
-        await authProvider.login(accessToken);
+        await authProvider.login(
+          accessToken,
+          refreshToken: refreshToken,
+          userId: uid,
+        );
         _logger.i("Withings access token saved successfully.");
       } else {
         _logger.e("Error: Unable to retrieve access token.");
