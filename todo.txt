@@ -1,5 +1,3 @@
-* Let cache contain null to prevent fetching dates that does not exists
-* Be able to ignore cache
 * Implement Kofi
 * Implement Ads
 * Move full auth flow to Firebase

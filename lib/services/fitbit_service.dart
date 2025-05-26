@@ -122,7 +122,7 @@ class FitbitService extends IService {
     }
 
     final String date = metrics.dateAsString;
-    Map<String, Metrics> cacheMap = {};
+    Map<String, Metrics?> cacheMap = {};
 
     try {
       cacheMap = await storage.readCache(StorageKeys.cache);
@@ -131,7 +131,7 @@ class FitbitService extends IService {
         return cacheMap[date]!;
       }
     } catch (e) {
-      _logger.e("Error reading cache: $e");
+      _logger.e("Fetch - Error reading cache: $e for date: $date");
     }
 
     _logger.d("Cache miss for date: $date");
@@ -151,31 +151,38 @@ class FitbitService extends IService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
 
+        DateTime current = metrics.date;
+        DateTime cutoff = DateTime(
+          current.year,
+          current.month - 1,
+          current.day,
+        );
+
+        Map<String, Metrics?> metricsMap = {};
         if (data.containsKey("weight") && data["weight"].isNotEmpty) {
-          final List<Metrics> metricsList =
-              (data['weight'] as List<dynamic>)
-                  .where((ret) => ret != null)
-                  .map<Metrics?>((ret) {
-                    try {
-                      final FitBitObject obj = toFitBitObject(ret);
-                      return obj.metrics;
-                    } catch (_) {
-                      return null;
-                    }
-                  })
-                  .where((ret) => ret != null)
-                  .map((ret) => ret!)
-                  .toList();
+          Metrics last = metrics;
+          for (var ret in data['weight'] as List<dynamic>) {
+            try {
+              final FitBitObject obj = toFitBitObject(ret);
+              metricsMap.putIfAbsent(
+                obj.metrics.dateAsString,
+                () => obj.metrics,
+              );
+              last = obj.metrics;
+            } catch (_) {
+              _logger.e("Error parsing FitBitObject: $ret");
+            }
+          }
 
-          final Map<String, Metrics> metricsMap = {
-            for (var metric in metricsList) metric.dateAsString: metric,
-          };
-
+          while (current.isAfter(cutoff)) {
+            final curDate = current.toIso8601String().split('T').first;
+            // Placeholder for "failed to parse" or "no data"
+            metricsMap.putIfAbsent(curDate, () => null);
+            current = current.subtract(const Duration(days: 1));
+          }
           cacheMap.addEntries(metricsMap.entries);
           await storage.writeCache(StorageKeys.cache, cacheMap);
-
-          // Weight data: {bmi: 21.95, date: 2025-03-10, fat: 15.17300033569336, logId: 1741594747000, source: Aria, time: 08:19:07, weight: 80.9}
-          return metricsList.last;
+          return last;
         }
       } // Else if token is expired
       else if (response.statusCode == 401) {
@@ -209,45 +216,56 @@ class FitbitService extends IService {
       return ratioPoints;
     }
 
-    final String date = Metrics.defaultMetrics().dateAsString;
-    Map<String, Metrics> cacheMap = {};
+    Metrics m = Metrics.defaultMetrics();
+    final String date = m.dateAsString;
 
     try {
-      cacheMap = await storage.readCache(StorageKeys.cache);
-      _logger.d("Cache hit for date: $date");
-
       final int offset = switch (period) {
         MonthPeriod.one => 1,
         MonthPeriod.two => 2,
         MonthPeriod.three => 3,
       };
 
-      final DateTime cutoff = DateTime(
-        DateTime.now().year,
-        DateTime.now().month - offset,
-        DateTime.now().day,
+      DateTime current = m.date;
+      DateTime cutoff = DateTime(
+        current.year,
+        current.month - offset,
+        current.day,
       );
-      final filtered = Map<String, Metrics>.from(cacheMap)
-        ..removeWhere((k, v) => DateTime.parse(k).isBefore(cutoff));
 
-      // Get newest Metrics from filtered map
-      final end =
-          filtered.entries
-              .map((entry) => MapEntry(DateTime.parse(entry.key), entry.value))
-              .reduce((a, b) => a.key.isAfter(b.key) ? a : b)
-              .value;
+      Map<String, Metrics?> cacheMap = await storage.readCache(
+        StorageKeys.cache,
+      );
+      final Map<String, Metrics> filtered = {};
+      while (current.isAfter(cutoff)) {
+        final curDate = current.toIso8601String().split('T').first;
+        if (cacheMap.containsKey(curDate)) {
+          if (cacheMap[curDate] != null) {
+            filtered[curDate] = cacheMap[curDate]!;
+          }
+          current = current.subtract(const Duration(days: 1));
+        } else {
+          await fetchMetrics(m.copyWith(date: current));
+          cacheMap = await storage.readCache(StorageKeys.cache);
+        }
+      }
+
+      // Get the latest metrics from filtered cacheMap
+      final Metrics latestDate =
+          (filtered.values.toList()..sort((a, b) => a.date.compareTo(b.date)))
+              .last;
 
       BfpCalculator bfpCalculator = BfpCalculator();
       ratioPoints =
           filtered.entries.map((entry) {
-            final change = end.difference(entry.value);
+            final change = latestDate.difference(entry.value);
             final ratio = bfpCalculator.getRatio(change);
             return RatioPoint(DateTime.parse(entry.key), ratio);
           }).toList();
 
       return ratioPoints;
     } catch (e) {
-      _logger.e("Error reading cache: $e");
+      _logger.e("Ratio - Error reading cache: $e for date: $date");
     }
 
     _logger.d("Cache miss for date: $date");
