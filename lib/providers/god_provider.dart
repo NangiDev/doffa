@@ -9,6 +9,7 @@ import 'package:doffa/services/service.dart';
 import 'package:doffa/services/test_service.dart';
 import 'package:doffa/storage/storage.dart';
 import 'package:doffa/storage/storage_factory.dart';
+import 'package:doffa/widgets/cards/common/my_graph_card.dart';
 import 'package:flutter/material.dart';
 
 // One provider to rule them all
@@ -167,4 +168,17 @@ class GodProvider extends ChangeNotifier {
   int getRatio() {
     return _calculator.getRatio(change);
   }
+
+  Future<List<RatioPoint>> getHistory(MonthPeriod period) async {
+    switch (period) {
+      case MonthPeriod.one:
+        return await _service.fetchRatioOneMonth();
+      case MonthPeriod.two:
+        return await _service.fetchRatioTwoMonth();
+      case MonthPeriod.three:
+        return await _service.fetchRatioThreeMonth();
+    }
+  }
 }
+
+enum MonthPeriod { one, two, three }

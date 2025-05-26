@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:doffa/providers/god_provider.dart';
 import 'package:doffa/storage/storage.dart';
 import 'package:doffa/widgets/cards/common/my_expandable_header.dart';
@@ -43,18 +41,27 @@ class MyGraphCard extends StatelessWidget {
               onTap: () => provider.toggleExpanded(section),
               child: MyContainer(
                 maxWidth: maxWidth,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    MyExpandableHeader(
-                      title: title,
-                      subtitle: subtitle,
-                      maxWidth: maxWidth,
-                      isExpanded: isExpanded,
-                      onToggle: () => provider.toggleExpanded(section),
-                      secondChild: _buildGraph(maxWidth, provider),
-                    ),
-                  ],
+                child: FutureBuilder<Widget>(
+                  future: _buildGraph(maxWidth, provider),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        MyExpandableHeader(
+                          title: title,
+                          subtitle: subtitle,
+                          maxWidth: maxWidth,
+                          isExpanded: isExpanded,
+                          onToggle: () => provider.toggleExpanded(section),
+                          secondChild: snapshot.data!,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             );
@@ -64,15 +71,8 @@ class MyGraphCard extends StatelessWidget {
     );
   }
 
-  Widget _buildGraph(double maxWidth, GodProvider provider) {
-    final random = Random();
-
-    final startDate = DateTime.now().subtract(const Duration(days: 30));
-    final data = List.generate(30, (index) {
-      final date = startDate.add(Duration(days: index));
-      final ratio = random.nextInt(201) - 100; // Random between -100 and 100
-      return RatioPoint(date, ratio);
-    });
+  Future<Widget> _buildGraph(double maxWidth, GodProvider provider) async {
+    final data = await provider.getHistory(MonthPeriod.one);
 
     Container emptyContainer(Widget child) => Container(
       width: maxWidth,
@@ -140,7 +140,7 @@ class MyGraphCard extends StatelessWidget {
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
-                  interval: 10,
+                  interval: 2,
                   reservedSize: 20,
                   getTitlesWidget: (value, meta) {
                     final index = value.toInt();

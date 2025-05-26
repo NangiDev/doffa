@@ -1,5 +1,6 @@
 import 'package:doffa/common/models.dart';
 import 'package:doffa/storage/storage.dart';
+import 'package:doffa/widgets/cards/common/my_graph_card.dart';
 
 enum PlatformProvider { none, demo, fitbit }
 
@@ -25,4 +26,8 @@ abstract class IService {
   Future<Metrics> setEnd(Metrics metrics);
 
   Future<Metrics> fetchMetrics(Metrics metrics);
+
+  Future<List<RatioPoint>> fetchRatioOneMonth();
+  Future<List<RatioPoint>> fetchRatioTwoMonth();
+  Future<List<RatioPoint>> fetchRatioThreeMonth();
 }
