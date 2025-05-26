@@ -19,10 +19,10 @@ class Data extends FetchResult {
     required double kg,
     required double fat,
     required double lean,
-  }) : bmi = double.parse(bmi.toStringAsFixed(2)),
-       kg = double.parse(kg.toStringAsFixed(2)),
-       fat = double.parse(fat.toStringAsFixed(2)),
-       lean = double.parse(lean.toStringAsFixed(2));
+  }) : bmi = double.parse(bmi.toStringAsFixed(1)),
+       kg = double.parse(kg.toStringAsFixed(1)),
+       fat = double.parse(fat.toStringAsFixed(1)),
+       lean = double.parse(lean.toStringAsFixed(1));
 }
 
 @immutable
@@ -42,10 +42,10 @@ class Progress extends FetchResult {
     required kg,
     required fat,
     required lean,
-  }) : bmi = double.parse(bmi.toStringAsFixed(2)),
-       kg = double.parse(kg.toStringAsFixed(2)),
-       fat = double.parse(fat.toStringAsFixed(2)),
-       lean = double.parse(lean.toStringAsFixed(2));
+  }) : bmi = double.parse(bmi.toStringAsFixed(1)),
+       kg = double.parse(kg.toStringAsFixed(1)),
+       fat = double.parse(fat.toStringAsFixed(1)),
+       lean = double.parse(lean.toStringAsFixed(1));
 }
 
 @immutable
