@@ -1,3 +1,4 @@
+import 'package:doffa/api/api_provider.dart';
 import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/auth_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,10 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => AuthProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => ApiProvider()),
+      ],
       child: MyApp(),
     ),
   );

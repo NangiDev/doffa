@@ -4,11 +4,11 @@ import 'package:logger/logger.dart';
 
 class FitbitApiService {
   final String accessToken;
-  final Logger _logger = Logger();
+  final _logger = Logger(printer: SimplePrinter(colors: false));
 
   FitbitApiService(this.accessToken);
 
-  Future<void> fetchFromData(String date) async {
+  Future<Map<String, dynamic>> fetchFromData(String date) async {
     final String url =
         "https://api.fitbit.com/1/user/-/body/log/weight/date/$date.json";
     try {
@@ -24,7 +24,9 @@ class FitbitApiService {
         final Map<String, dynamic> data = jsonDecode(response.body);
 
         if (data.containsKey("weight") && data["weight"].isNotEmpty) {
+          // Weight data: {bmi: 21.95, date: 2025-03-10, fat: 15.17300033569336, logId: 1741594747000, source: Aria, time: 08:19:07, weight: 80.9}
           _logger.i("Weight data: ${data['weight'][0]}");
+          return data;
         } else {
           _logger.w("Not enough data for date: $date");
         }
@@ -34,5 +36,6 @@ class FitbitApiService {
     } catch (e, stacktrace) {
       _logger.e("Request failed", error: e, stackTrace: stacktrace);
     }
+    throw Exception("Failed to fetch data for date: $date");
   }
 }

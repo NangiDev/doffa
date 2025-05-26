@@ -10,11 +10,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: GradientContainer(
         child: Center(
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minWidth: 400, maxWidth: 600),
-              child: MyDoffa(),
-            ),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 400, maxWidth: 600),
+            child: MyDoffa(),
           ),
         ),
       ),

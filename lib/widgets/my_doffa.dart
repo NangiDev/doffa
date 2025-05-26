@@ -13,29 +13,6 @@ class MyDoffa extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final startData = Data(
-      date: DateTime(2025, 3, 10),
-      bmi: 24.5,
-      kg: 75.0,
-      fat: 20.0,
-      lean: 60.0,
-    );
-    final endData = Data(
-      date: DateTime(2025, 3, 20),
-      bmi: 25.5,
-      kg: 76.0,
-      fat: 21.0,
-      lean: 61.0,
-    );
-
-    final progress = Progress(
-      days: 4,
-      bmi: 24.5,
-      kg: 75.0,
-      fat: 20.0,
-      lean: 60.0,
-    );
-
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 600),
@@ -53,8 +30,8 @@ class MyDoffa extends StatelessWidget {
             MyDatePickers(title: "Start Date"),
             MyDatePickers(title: "End Date"),
             // MyGraph(),
-            MyData(startData: startData, endData: endData),
-            MyProgress(progress: progress),
+            MyData(),
+            MyProgress(),
             MyRatio(),
             // AdsGoogle(),
           ],

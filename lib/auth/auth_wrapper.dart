@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'auth_provider.dart';
 
 class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
   @override
   Widget build(BuildContext context) {
     bool isLoggedIn = context.watch<AuthProvider>().isAuthenticated;
