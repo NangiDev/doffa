@@ -7,19 +7,21 @@
 </head>
 
 <body>
-    <!--Update paragraph depending on what happends in the script
-    I cant read the console.log messages-->
-
+    <!-- Update paragraph depending on what happens in the script -->
     <p>Authentication is complete. If this does not happen automatically, please close the window.</p>
     <p id="log"></p>
+
     <script>
         (function () {
             const hash = window.location.hash.substring(1);
             const params = new URLSearchParams(hash); // Parse the fragment
             const query = params.toString(); // Reserialize as query
 
+            // Clear the log paragraph and set the first log message
+            const logElement = document.getElementById('log');
+            logElement.innerText = 'Authentication complete: ' + query + '\n';
+
             console.log('Authentication complete:', query);
-            document.getElementById('log').innerText = 'Authentication complete: ' + query;
 
             // Check if it's in a mobile context (Flutter WebView / app)
             const isMobile = navigator.userAgent.includes('wv') ||
@@ -28,13 +30,15 @@
                 window.location.search.includes('mobile=true');
 
             console.log('Is mobile:', isMobile);
-            document.getElementById('log').innerText.append('\nIs mobile: ' + isMobile);
+
+            // Append the result of the mobile check to the log
+            logElement.innerText += 'Is mobile: ' + isMobile + '\n';
 
             if (isMobile) {
                 // Redirect back to the mobile app via custom URI scheme
                 const redirectUri = `com.nangidev.doffa://fitbit_auth?${query}`;
 
-                document.getElementById('log').innerText.append('\nRedirecting to mobile app: ' + redirectUri);
+                logElement.innerText += 'Redirecting to mobile app: ' + redirectUri + '\n';
                 window.location.href = redirectUri;
             } else {
                 // Fallback to web (use postMessage or localStorage for Flutter web)
