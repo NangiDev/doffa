@@ -29,6 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
+        elevation: 0,
+        color: Colors.blue[50],
         child: Padding(padding: EdgeInsets.all(32.0), child: MyDoffa()),
       ),
     );
@@ -40,16 +42,15 @@ class MyDoffa extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flex(
-      spacing: 16.0,
       direction: Axis.vertical,
       children: [
         MyLogo(),
-        MyDatePickers(),
+        // MyDatePickers(),
         MyGraph(),
         MyData(),
         MyProgress(),
         MyRatio(),
-        GoogleAds(),
+        // GoogleAds(),
       ],
     );
   }
@@ -67,28 +68,21 @@ class MyRatio extends StatelessWidget {
   const MyRatio({super.key});
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.horizontal,
-      children: [
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Progress',
-              hintText: 'Enter Progress',
-              prefixIcon: Icon(Icons.trending_up),
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Flex(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          direction: Axis.vertical,
+          children: [
+            Text(
+              '80/20',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
-          ),
+          ],
         ),
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Goal',
-              hintText: 'Enter Goal',
-              prefixIcon: Icon(Icons.flag),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -97,28 +91,31 @@ class MyProgress extends StatelessWidget {
   const MyProgress({super.key});
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.vertical,
-      children: [
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Progress',
-              hintText: 'Enter Progress',
-              prefixIcon: Icon(Icons.trending_up),
+    return ExpandableSection(
+      title: "Progress",
+      child: Flex(
+        direction: Axis.horizontal,
+        children: [
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Weight',
+                hintText: 'Enter Weight',
+                prefixIcon: Icon(Icons.line_weight),
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Goal',
-              hintText: 'Enter Goal',
-              prefixIcon: Icon(Icons.flag),
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Height',
+                hintText: 'Enter Height',
+                prefixIcon: Icon(Icons.height),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -127,28 +124,31 @@ class MyData extends StatelessWidget {
   const MyData({super.key});
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.horizontal,
-      children: [
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Weight',
-              hintText: 'Enter Weight',
-              prefixIcon: Icon(Icons.line_weight),
+    return ExpandableSection(
+      title: "Data",
+      child: Flex(
+        direction: Axis.horizontal,
+        children: [
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Weight',
+                hintText: 'Enter Weight',
+                prefixIcon: Icon(Icons.line_weight),
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Height',
-              hintText: 'Enter Height',
-              prefixIcon: Icon(Icons.height),
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Height',
+                hintText: 'Enter Height',
+                prefixIcon: Icon(Icons.height),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -157,7 +157,12 @@ class MyGraph extends StatelessWidget {
   const MyGraph({super.key});
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ExpandableSection(
+      title: "Graph",
+      child: Flex(direction: Axis.horizontal, children: [
+        ],
+      ),
+    );
   }
 }
 
@@ -167,7 +172,6 @@ class MyDatePickers extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flex(
       direction: Axis.horizontal,
-      spacing: 16.0,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Card(
@@ -217,18 +221,51 @@ class MyLogo extends StatelessWidget {
   const MyLogo({super.key});
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.vertical,
-      children: [
-        SvgPicture.asset(
-          './assets/opt_prism_dark.svg',
-          semanticsLabel: 'App Logo',
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SvgPicture.asset(
+              './assets/opt_prism_dark.svg',
+              semanticsLabel: 'App Logo',
+            ),
+            Text(
+              'DOFFA',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
-        Text(
-          'DOFFA',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+class ExpandableSection extends StatelessWidget {
+  final String title;
+  final Widget child;
+
+  const ExpandableSection({
+    super.key,
+    required this.title,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: ExpansionTile(
+          title: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          children: [Padding(padding: const EdgeInsets.all(16), child: child)],
         ),
-      ],
+      ),
     );
   }
 }
