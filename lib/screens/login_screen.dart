@@ -1,6 +1,6 @@
+import 'package:doffa/screens/gradient_container.dart';
 import 'package:doffa/screens/home_screen.dart';
 import 'package:doffa/widgets/ads_google.dart';
-import 'package:doffa/widgets/my_doffa.dart';
 import 'package:doffa/widgets/my_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,14 +12,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF8EB8F9), Color(0xFF3272D6)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+      body: GradientContainer(
         child: Center(
           child: SingleChildScrollView(
             child: ConstrainedBox(
