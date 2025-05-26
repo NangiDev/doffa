@@ -12,7 +12,7 @@ jobs:
     steps:
       # Check out the code
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Set up Flutter
       - name: Set up Flutter
@@ -21,13 +21,17 @@ jobs:
           channel: stable
           flutter-version: 3.29.2
 
+      # Get the latest commit hash
+      - name: Get Git Hash
+        run: echo "GIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       # Install dependencies
       - name: Install Dependencies
         run: flutter pub get
 
-      # Build the Flutter web app
+      # Build the Flutter web app with the Git hash
       - name: Build Flutter Web
-        run: flutter build web --release
+        run: flutter build web --release --dart-define=GIT_HASH=${{ env.GIT_HASH }}
 
       # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
@@ -42,4 +46,3 @@ jobs:
           enable_jekyll: false
           disable_nojekyll: true
           exclude_assets: .github  # Exclude the .github folder from being published
-

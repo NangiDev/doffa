@@ -1,3 +1,4 @@
+import 'package:doffa/widgets/git_versioning.dart';
 import 'package:doffa/widgets/my_coffee_button.dart';
 import 'package:doffa/widgets/my_data.dart';
 import 'package:doffa/widgets/my_date_pickers.dart';
@@ -33,6 +34,7 @@ class MyDoffa extends StatelessWidget {
             MyProgress(),
             MyRatio(),
             // AdsGoogle(),
+            GitVersioningWidget(),
           ],
         ),
       ),
