@@ -1,3 +1,4 @@
+import 'package:doffa/api/api_provider.dart';
 import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,11 @@ class MySignOutButton extends StatelessWidget {
       icon: const Icon(Icons.logout),
       onPressed: () {
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+
         AuthService().signOut(authProvider);
+        apiProvider.clearData();
+
         _logger.i('Logout button pressed');
       },
     );

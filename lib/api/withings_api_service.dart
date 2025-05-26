@@ -100,6 +100,7 @@ class WithingsApiService extends ApiService {
       if (type == 8) fat = value; // Fat percentage
     }
 
+    bmi = 0;
     if (weight != null && height != null) {
       bmi = weight / (height * height); // Calculate BMI
     }
