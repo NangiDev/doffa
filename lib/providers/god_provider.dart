@@ -168,8 +168,15 @@ class GodProvider extends ChangeNotifier {
     return _calculator.getRatio(change);
   }
 
-  Future<List<RatioPoint>> getHistory(MonthPeriod period) async {
-    switch (period) {
+  MonthPeriod _period = MonthPeriod.one;
+  MonthPeriod get period => _period;
+  set period(MonthPeriod value) {
+    _period = value;
+    notifyListeners();
+  }
+
+  Future<List<RatioPoint>> getHistory() async {
+    switch (_period) {
       case MonthPeriod.one:
         return await _service.fetchRatioOneMonth();
       case MonthPeriod.two:
