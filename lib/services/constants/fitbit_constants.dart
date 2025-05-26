@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
-
 class FitbitConstants {
   static const String _webProdUrl =
       "https://nangidev.github.io/doffa/auth.html";
@@ -14,9 +12,7 @@ class FitbitConstants {
     return Uri.base.host == "localhost" ? _webDevUrl : _webProdUrl;
   }
 
-  static String get callbackUrlScheme {
-    return kIsWeb ? "http" : "com.nangidev.doffa"; // Custom scheme for mobile
-  }
+  static const String callbackUrlScheme = "http";
 
   static const String baseUrl = "https://www.fitbit.com/oauth2/authorize";
 

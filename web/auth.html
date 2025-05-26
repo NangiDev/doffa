@@ -25,7 +25,7 @@
 
     <script>
         (function () {
-            const DEBUG = true; // Enable for development logging
+            const DEBUG = true; // Set to true to enable debug logging
             const logElement = document.getElementById('log');
             const log = (msg) => {
                 if (DEBUG) {
@@ -34,58 +34,19 @@
                 }
             };
 
-            const hash = window.location.hash.substring(1);
-            // const params = new URLSearchParams(hash);
-            // const query = params.toString();
-
             log("Authentication complete. Token redacted.");
 
-            const userAgent = navigator.userAgent;
-            const referrer = document.referrer;
-            const search = window.location.search;
+            const message = { 'flutter-web-auth-2': window.location.href };
+            log("Sending authentication result via postMessage or localStorage.");
 
-            const isWebView = userAgent.includes('wv');
-            const isFlutter = userAgent.includes('Flutter');
-            const isMobileUA = /Mobi|Android/i.test(userAgent);
-            const isReferrerMatch = /doffa/i.test(referrer);
-            const isSearchMatch = search.includes('mobile=true');
-
-            const isMobile = isWebView || isFlutter || isMobileUA || isReferrerMatch || isSearchMatch;
-
-            log("isMobile checks:");
-            log("- User-Agent: " + userAgent);
-            log("- WebView: " + isWebView);
-            log("- Flutter: " + isFlutter);
-            log("- Mobi/Android: " + isMobileUA);
-            log("- Referrer has 'doffa': " + isReferrerMatch);
-            log("- Search has mobile=true: " + isSearchMatch);
-            log("Result: " + isMobile);
-
-            const redirectUri = `com.nangidev.doffa://fitbit_auth?${hash}`;
-            // const redirectUri = `com.nangidev.doffa://fitbit_auth?${query}`;
-
-            if (isMobile) {
-                log("Redirecting to: " + redirectUri);
-                setTimeout(() => {
-                    try {
-                        window.location.href = redirectUri;
-                    } catch (err) {
-                        log("Redirect failed: " + err);
-                    }
-                }, 100);
+            if (window.opener) {
+                window.opener.postMessage(message, '*');
+                window.close();
+            } else if (window.parent && window.parent !== window) {
+                window.parent.postMessage(message, '*');
             } else {
-                const message = { 'flutter-web-auth-2': window.location.href };
-                log("Using postMessage/localStorage fallback.");
-
-                if (window.opener) {
-                    window.opener.postMessage(message, '*');
-                    window.close();
-                } else if (window.parent && window.parent !== window) {
-                    window.parent.postMessage(message, '*');
-                } else {
-                    localStorage.setItem('flutter-web-auth-2', window.location.href);
-                    window.close();
-                }
+                localStorage.setItem('flutter-web-auth-2', window.location.href);
+                window.close();
             }
         })();
     </script>
