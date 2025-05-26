@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'my_date_pickers.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Doffa - Fitness Tracker',
-      theme: ThemeData.from(colorScheme: ColorScheme.light()),
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.light(
+          primary: Color(0xFF3272D6), // Darker blue
+        ),
+      ),
       home: const MyHomePage(),
     );
   }
@@ -27,11 +32,32 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        elevation: 0,
-        color: Colors.blue[50],
-        child: Padding(padding: EdgeInsets.all(32.0), child: MyDoffa()),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF8EB8F9), // Light blue
+              Color(0xFF3272D6), // Darker blue
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Card(
+                elevation: 0,
+                color: Colors.transparent, // Make Card background transparent
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(child: MyDoffa()),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -39,19 +65,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class MyDoffa extends StatelessWidget {
   const MyDoffa({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.vertical,
-      children: [
-        MyLogo(),
-        // MyDatePickers(),
-        MyGraph(),
-        MyData(),
-        MyProgress(),
-        MyRatio(),
-        // GoogleAds(),
-      ],
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minWidth: 400, maxWidth: 600),
+        child: Flex(
+          direction: Axis.vertical,
+          children: [
+            MyLogo(),
+            MyDatePickers(title: "Start Date"),
+            MyDatePickers(title: "End Date"),
+            MyGraph(),
+            MyData(),
+            MyProgress(),
+            MyRatio(),
+            // GoogleAds(),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -162,57 +195,6 @@ class MyGraph extends StatelessWidget {
       child: Flex(direction: Axis.horizontal, children: [
         ],
       ),
-    );
-  }
-}
-
-class MyDatePickers extends StatelessWidget {
-  const MyDatePickers({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.horizontal,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Card(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.calendar_today),
-                  onPressed: () {
-                    showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2100),
-                    );
-                  },
-                ),
-                Text(
-                  'Start Date',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Card(
-          child: IconButton(
-            icon: Icon(Icons.calendar_today),
-            onPressed: () {
-              showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2100),
-              );
-            },
-          ),
-        ),
-      ],
     );
   }
 }
