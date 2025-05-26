@@ -9,3 +9,4 @@
 * Remove of fix BMI
 * Implement Kofi
 * Implement Ads
+* Move away from GitHub pages? Railway? Firebase?
