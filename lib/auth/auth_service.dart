@@ -1,6 +1,9 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/fitbit_constants.dart';
 import 'package:doffa/auth/withings_constants.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,40 +36,63 @@ class AuthService {
 
   Future<void> signInWithWithings(AuthProvider authProvider) async {
     try {
+      // Initialize Firebase
+      await Firebase.initializeApp(
+        options: FirebaseOptions(
+          apiKey: "AIzaSyDixuYTZZJ3mXx8vAo7-0bB48ZM7fOV_HY",
+          authDomain: "doffa-95e0a.firebaseapp.com",
+          projectId: "doffa-95e0a",
+          storageBucket: "doffa-95e0a.firebasestorage.app",
+          messagingSenderId: "77689229480",
+          appId: "1:77689229480:web:d0797e121a25a22b21329d",
+          measurementId: "G-95W75NL2KF",
+        ),
+      );
+
+      // Activate Firebase App Check
+      await FirebaseAppCheck.instance.activate(
+        webProvider: ReCaptchaV3Provider(
+          '6LcAsv4qAAAAABxG7_vH_etEREH53j7A6dT2KoVZ',
+        ),
+        androidProvider: AndroidProvider.debug,
+        appleProvider: AppleProvider.appAttest,
+      );
+
+      // Fetch the authorization code using WebAuth
       final result = await FlutterWebAuth2.authenticate(
         url: WithingsConstants.getWithingsOAuthUrl(),
         callbackUrlScheme: WithingsConstants.callbackUrlScheme,
       );
 
-      _logger.e(result);
-
       final uri = Uri.parse(result);
-      final fragment = uri.fragment;
-      final state = _extractState(fragment);
-      final code = _extractCode(fragment);
-
-      if (state != WithingsConstants.state) {
-        _logger.e(
-          "Error: State mismatch. $state != ${WithingsConstants.state}",
-        );
-        return;
-      }
+      final code = uri.queryParameters['code'];
 
       if (code == null) {
         _logger.e("Error: Unable to retrieve code.");
         return;
       }
 
-      _logger.e(state);
-      _logger.e(code);
+      // Call the Firebase function with the authorization code and environment
+      final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+        'onCallWithingsAuth',
+      );
+      final response = await callable.call({
+        'code': code,
+        'env': WithingsConstants.env,
+      });
 
-      // withings demands a POST request to get the access token
-      // so we can't use the access token directly
-      // we need to send the code to the server to get the access token
-      // and then save it
+      // Process the response data
+      final data = response.data;
+      final accessToken = data['at'];
+      final refreshToken = data['rt'];
+      final uid = data['uid'];
 
-      final accessToken = _extractAccessToken(fragment);
+      // Log the received tokens and user ID
+      print("Access token: $accessToken");
+      print("Refresh token: $refreshToken");
+      print("User ID: $uid");
 
+      // Use the access token to log in the user
       if (accessToken != null) {
         await authProvider.login(accessToken);
         _logger.i("Withings access token saved successfully.");
@@ -93,28 +119,6 @@ class AuthService {
     for (var param in parameters) {
       final parts = param.split('=');
       if (parts.length == 2 && parts[0] == 'access_token') {
-        return parts[1];
-      }
-    }
-    return null;
-  }
-
-  String? _extractState(String fragment) {
-    final parameters = fragment.split('&');
-    for (var param in parameters) {
-      final parts = param.split('=');
-      if (parts.length == 2 && parts[0] == 'state') {
-        return parts[1];
-      }
-    }
-    return null;
-  }
-
-  String? _extractCode(String fragment) {
-    final parameters = fragment.split('&');
-    for (var param in parameters) {
-      final parts = param.split('=');
-      if (parts.length == 2 && parts[0] == 'code') {
         return parts[1];
       }
     }
