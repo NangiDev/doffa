@@ -12,6 +12,7 @@ class MyData extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpandableSection(
       title: "Data",
+      storageKey: "data_section_state",
       child: Flex(
         direction: Axis.vertical,
         children: [

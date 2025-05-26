@@ -10,6 +10,7 @@ class MyProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpandableSection(
       title: "Progress",
+      storageKey: "progress_section_state",
       child: Flex(
         direction: Axis.vertical,
         children: [
