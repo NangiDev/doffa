@@ -1,3 +1,5 @@
+import 'package:doffa/api/api_provider.dart';
+import 'package:doffa/api/api_service.dart';
 import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/auth_service.dart';
 import 'package:doffa/screens/gradient_container.dart';
@@ -63,6 +65,10 @@ class MyLoginButtons extends StatelessWidget {
                   context,
                   listen: false,
                 );
+                Provider.of<ApiProvider>(
+                  context,
+                  listen: false,
+                ).setProvider('fitbit');
                 AuthService().signInWithFitbit(authProvider);
               },
             ),
@@ -77,7 +83,29 @@ class MyLoginButtons extends StatelessWidget {
                   context,
                   listen: false,
                 );
+                Provider.of<ApiProvider>(
+                  context,
+                  listen: false,
+                ).setProvider('withings');
                 AuthService().signInWithWithings(authProvider);
+              },
+            ),
+
+            // Demo Login Button
+            LoginButton(
+              icon: const Icon(CupertinoIcons.rocket_fill, color: Colors.white),
+              label: "Demo",
+              color: Colors.black,
+              onPressed: () async {
+                final authProvider = Provider.of<AuthProvider>(
+                  context,
+                  listen: false,
+                );
+                Provider.of<ApiProvider>(
+                  context,
+                  listen: false,
+                ).setProvider('demo');
+                AuthService().signInAsDemo(authProvider);
               },
             ),
           ],

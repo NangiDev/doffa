@@ -11,6 +11,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthService {
   final _logger = Logger(printer: SimplePrinter(colors: false));
   static const String _accessTokenKey = "access_token";
+  Future<void> signInAsDemo(AuthProvider authProvider) async {
+    await authProvider.login("demo_access_token");
+    _logger.i("Demo access token saved successfully.");
+  }
 
   Future<void> signInWithFitbit(AuthProvider authProvider) async {
     try {

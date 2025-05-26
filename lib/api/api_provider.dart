@@ -1,4 +1,5 @@
 import 'package:doffa/api/api_service.dart';
+import 'package:doffa/api/demo_api_service.dart';
 import 'package:doffa/api/fitbit_api_service.dart';
 import 'package:doffa/api/withings_api_service.dart';
 import 'package:doffa/models/fetch_result.dart';
@@ -20,7 +21,15 @@ class ApiProvider with ChangeNotifier {
   Ratio _ratio = Ratio();
   Ratio get ratio => _ratio;
 
+  String _provider = 'demo';
+  String get provider => _provider;
+
   ApiService? api;
+
+  Future<void> setProvider(String provider) async {
+    _provider = provider;
+    notifyListeners();
+  }
 
   Future<void> initApi() async {
     // Reset the api instance before initializing
@@ -31,16 +40,29 @@ class ApiProvider with ChangeNotifier {
     final refreshToken = prefs.getString('refresh_token');
     final userId = prefs.getString('user_id');
 
-    if (accessToken != null) {
-      if (refreshToken != null && userId != null) {
-        api = WithingsApiService(accessToken, refreshToken, userId);
-        _logger.i('Using Withings API');
-      } else {
-        api = FitbitApiService(accessToken);
-        _logger.i('Using Fitbit API');
-      }
-    } else {
+    if (accessToken == null) {
       throw Exception('Access token is null');
+    }
+
+    switch (_provider) {
+      case 'fitbit':
+        _logger.i('Using Fitbit API');
+        api = FitbitApiService(accessToken);
+        break;
+      case 'withings':
+        _logger.i('Using Withings API');
+        if (refreshToken != null && userId != null) {
+          api = WithingsApiService(accessToken, refreshToken, userId);
+        } else {
+          throw Exception('Refresh token or user ID is null');
+        }
+        break;
+      case 'demo':
+        _logger.i('Using demo API');
+        api = DemoApiService(accessToken);
+        break;
+      default:
+        throw Exception('Unsupported provider: $_provider');
     }
   }
 
@@ -152,6 +174,7 @@ class ApiProvider with ChangeNotifier {
     _startData = Data();
     _progress = Progress();
     _ratio = Ratio();
+    _provider = 'demo';
 
     notifyListeners();
   }
