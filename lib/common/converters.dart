@@ -14,7 +14,11 @@ enum WithingsType {
 }
 
 WithingsObject toWithingsObject(Map<String, dynamic> data) {
-  final measures = data['measures'] as List<dynamic>;
+  final date = DateTime.fromMillisecondsSinceEpoch(
+    (data['date'] as num).toInt(),
+  );
+
+  final measures = data['measures'] as List<Map<String, dynamic>>;
 
   final valuesByType = <int, double>{};
 
@@ -36,6 +40,7 @@ WithingsObject toWithingsObject(Map<String, dynamic> data) {
   }
 
   return WithingsObject(
+    date: date,
     bmi: getValue(WithingsType.bmi.id),
     weightInKg: getValue(WithingsType.weight.id),
     fatInKg: getValue(WithingsType.fatMass.id),
@@ -44,16 +49,29 @@ WithingsObject toWithingsObject(Map<String, dynamic> data) {
   );
 }
 
-FitBitObject toFitBitObject(Map<String, dynamic> response) {
-  final data = response['weight'][0] as Map<String, dynamic>;
+FitBitObject toFitBitObject(Map<String, dynamic> data) {
+  try {
+    // String yyyy-mm-dd to DateTime epoch
+    final dateString = data['date'] as String;
+    final dateParts = dateString.split('-');
+    if (dateParts.length != 3) {
+      throw FormatException('Invalid date format: $dateString');
+    }
+    final year = int.parse(dateParts[0]);
+    final month = int.parse(dateParts[1]);
+    final day = int.parse(dateParts[2]);
+    final date = DateTime(year, month, day);
+    final weight = (data['weight'] as num).toDouble();
+    final fatPercentage = (data['fat'] as num).toDouble();
+    final bmi = (data['bmi'] as num).toDouble();
 
-  final weight = (data['weight'] as num).toDouble();
-  final fatPercentage = (data['fat'] as num).toDouble();
-  final bmi = (data['bmi'] as num).toDouble();
-
-  return FitBitObject(
-    weightInKg: weight,
-    fatInPercentage: fatPercentage,
-    bmi: bmi,
-  );
+    return FitBitObject(
+      date: date,
+      weightInKg: weight,
+      fatInPercentage: fatPercentage,
+      bmi: bmi,
+    );
+  } catch (e) {
+    throw Exception('Failed to convert FitBit data: $e');
+  }
 }

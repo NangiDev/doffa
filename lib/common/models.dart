@@ -5,6 +5,7 @@ abstract class FetchResult {
 }
 
 abstract class BodyMetrics {
+  DateTime get date;
   double get bmi;
   double get weightInKg;
   double get fatInPercentage;
@@ -14,6 +15,8 @@ abstract class BodyMetrics {
 
 @immutable
 class Metrics implements BodyMetrics {
+  @override
+  final DateTime date;
   @override
   final double bmi;
   @override
@@ -26,20 +29,24 @@ class Metrics implements BodyMetrics {
   final double leanInKg;
 
   const Metrics({
+    required this.date,
     required this.bmi,
     required this.weightInKg,
     required this.fatInPercentage,
     required this.fatInKg,
     required this.leanInKg,
   });
-}
 
-@immutable
-class Data extends FetchResult {
-  final DateTime date;
-  final Metrics metrics;
-
-  const Data({required this.date, required this.metrics});
+  factory Metrics.defaultMetrics() {
+    return Metrics(
+      date: DateTime.now(),
+      bmi: 0.0,
+      weightInKg: 0.0,
+      fatInPercentage: 0.0,
+      fatInKg: 0.0,
+      leanInKg: 0.0,
+    );
+  }
 }
 
 @immutable
@@ -48,4 +55,8 @@ class Progress extends FetchResult {
   final Metrics metrics;
 
   const Progress({required this.days, required this.metrics});
+
+  factory Progress.defaultProgress() {
+    return Progress(days: 0, metrics: Metrics.defaultMetrics());
+  }
 }

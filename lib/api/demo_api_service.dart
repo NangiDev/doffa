@@ -1,4 +1,5 @@
 import 'package:doffa/api/api_service.dart';
+import 'package:doffa/common/models.dart';
 import 'package:logger/logger.dart';
 
 class DemoApiService extends ApiService {
@@ -8,26 +9,22 @@ class DemoApiService extends ApiService {
   DemoApiService(this.accessToken);
 
   @override
-  Future<Map<String, dynamic>> fetchFromData(String date) async {
+  Future<Metrics> fetchFromData(String date) async {
     _logger.i('Fetching data from demo API');
-    // Simulate fetching data from the API
-    await Future.delayed(Duration(seconds: 1));
-    return {
-      "bmi":
-          18.0 +
-          (5.0 * (0.5 - (DateTime.now().millisecondsSinceEpoch % 1000) / 1000)),
-      "date": date,
-      "fat":
-          10.0 +
-          (10.0 *
-              (0.5 - (DateTime.now().millisecondsSinceEpoch % 1000) / 1000)),
-      "logId": DateTime.now().millisecondsSinceEpoch,
-      "source": "DemoSource",
-      "time": DateTime.now().toIso8601String().split('T')[1],
-      "weight":
-          60.0 +
-          (20.0 *
-              (0.5 - (DateTime.now().millisecondsSinceEpoch % 1000) / 1000)),
-    };
+
+    const double bmi = 22.0;
+    const double weightInKg = 70.0;
+    const double fatInPercentage = 15.0;
+    const double fatInKg = 10.5;
+    const double leanInKg = 59.5;
+
+    return Metrics(
+      date: DateTime.now(),
+      bmi: bmi,
+      weightInKg: weightInKg,
+      fatInPercentage: fatInPercentage,
+      fatInKg: fatInKg,
+      leanInKg: leanInKg,
+    );
   }
 }

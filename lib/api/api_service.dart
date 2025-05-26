@@ -1,3 +1,5 @@
+import 'package:doffa/common/models.dart';
+
 abstract class ApiService {
-  Future<Map<String, dynamic>> fetchFromData(String date);
+  Future<Metrics> fetchFromData(String date);
 }

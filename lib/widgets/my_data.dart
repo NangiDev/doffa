@@ -15,10 +15,22 @@ class MyData extends StatelessWidget {
 
         final dataEntries = {
           "DATE": [formatDate(startData.date), formatDate(endData.date)],
-          "BMI": [startData.bmi, endData.bmi],
-          "FAT": [startData.fat, endData.fat],
-          "LEAN": [startData.lean, endData.lean],
-          "WEIGHT": [startData.kg, endData.kg],
+          "BMI": [
+            startData.bmi.toStringAsFixed(1),
+            endData.bmi.toStringAsFixed(1),
+          ],
+          "FAT": [
+            startData.fatInKg.toStringAsFixed(1),
+            endData.fatInKg.toStringAsFixed(1),
+          ],
+          "LEAN": [
+            startData.leanInKg.toStringAsFixed(1),
+            endData.leanInKg.toStringAsFixed(1),
+          ],
+          "WEIGHT": [
+            startData.weightInKg.toStringAsFixed(1),
+            endData.weightInKg.toStringAsFixed(1),
+          ],
         };
 
         return ExpandableSection(
