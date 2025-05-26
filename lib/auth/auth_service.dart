@@ -1,3 +1,4 @@
+import 'package:doffa/auth/auth_provider.dart';
 import 'package:doffa/auth/fitbit_constants.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,9 +6,9 @@ import 'package:logger/logger.dart';
 
 class AuthService {
   final _logger = Logger();
-  static const String _fitbitTokenKey = "fitbit_access_token";
+  static const String _accessTokenKey = "access_token";
 
-  Future<void> signInWithFitbit() async {
+  Future<void> signInWithFitbit(AuthProvider authProvider) async {
     try {
       final result = await FlutterWebAuth2.authenticate(
         url: FitbitConstants.getFitbitOAuthUrl(),
@@ -19,7 +20,7 @@ class AuthService {
       final accessToken = _extractAccessToken(fragment);
 
       if (accessToken != null) {
-        await _saveAccessToken(accessToken);
+        await authProvider.login(accessToken);
         _logger.i("Fitbit access token saved successfully.");
       } else {
         _logger.e("Error: Unable to retrieve access token.");
@@ -29,20 +30,14 @@ class AuthService {
     }
   }
 
-  Future<void> signOut() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_fitbitTokenKey);
+  Future<void> signOut(AuthProvider authProvider) async {
+    await authProvider.logout();
     _logger.i("User signed out and token cleared.");
   }
 
   Future<String?> getAccessToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_fitbitTokenKey);
-  }
-
-  Future<void> _saveAccessToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_fitbitTokenKey, token);
+    return prefs.getString(_accessTokenKey);
   }
 
   String? _extractAccessToken(String fragment) {
