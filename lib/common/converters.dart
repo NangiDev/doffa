@@ -1,24 +1,29 @@
 import 'dart:math';
 
+import 'package:logger/logger.dart';
+
 import 'mappers.dart';
 
 enum WithingsType {
   weight(1),
-  fatMass(5),
-  fatFreeMass(6),
-  fatRatio(8),
-  bmi(76);
+  height(4),
+  fatFreeMass(5),
+  fatRatio(6),
+  fatMass(8);
 
   final int id;
   const WithingsType(this.id);
 }
 
-WithingsObject toWithingsObject(Map<String, dynamic> data) {
-  final date = DateTime.fromMillisecondsSinceEpoch(
-    (data['date'] as num).toInt(),
-  );
+final _logger = Logger(printer: SimplePrinter(colors: false));
 
-  final measures = data['measures'] as List<Map<String, dynamic>>;
+WithingsObject toWithingsObject(Map<String, dynamic> data) {
+  final seconds = int.tryParse(data['date'].toString()) ?? 0;
+  final date = DateTime.fromMillisecondsSinceEpoch(seconds * 1000);
+
+  _logger.d('Withings date: $date');
+
+  final measures = (data['measures'] as List).cast<Map<String, dynamic>>();
 
   final valuesByType = <int, double>{};
 
@@ -39,10 +44,15 @@ WithingsObject toWithingsObject(Map<String, dynamic> data) {
     return value;
   }
 
+  final weight = getValue(WithingsType.weight.id);
+  final height = getValue(4); // height in meters
+
+  final bmi = double.parse((weight / (height * height)).toStringAsFixed(2));
+
   return WithingsObject(
     date: date,
-    bmi: getValue(WithingsType.bmi.id),
-    weightInKg: getValue(WithingsType.weight.id),
+    bmi: bmi,
+    weightInKg: weight,
     fatInKg: getValue(WithingsType.fatMass.id),
     leanInKg: getValue(WithingsType.fatFreeMass.id),
     fatInPercentage: getValue(WithingsType.fatRatio.id),
