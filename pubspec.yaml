@@ -45,6 +45,7 @@ dependencies:
   cloud_functions: ^5.3.4
   firebase_app_check: ^0.3.2+4
   mockito: ^5.4.5
+  crypto: ^3.0.6
 
 dev_dependencies:
   flutter_test:
