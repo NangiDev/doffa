@@ -22,8 +22,11 @@ class WithingsConstants {
   static const String baseUrl =
       "https://account.withings.com/oauth2_user/authorize2";
 
+  static final bool isDemoUser = Uri.base.host == "localhost";
+  static final String getDemoMode = isDemoUser ? "&mode=demo" : "";
+
   // Method to construct the complete OAuth URL
   static String getWithingsOAuthUrl() {
-    return "$baseUrl?response_type=$responseType&client_id=$clientId&redirect_uri=$redirectUri&scope=$scope&state=$state";
+    return "$baseUrl?response_type=$responseType&client_id=$clientId&redirect_uri=$redirectUri&scope=$scope&state=$state$getDemoMode";
   }
 }
