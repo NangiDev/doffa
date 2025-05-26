@@ -110,6 +110,7 @@ class Metrics implements BodyMetrics {
   }
 
   Map<String, dynamic> toJson() => {
+    'd': date.toIso8601String().split('T').first,
     'b': bmi,
     'w': weightInKg,
     'f': fatInPercentage,

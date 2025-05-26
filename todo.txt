@@ -1,4 +1,4 @@
-* Let cache contain null.
+* Let cache contain null to prevent fetching dates that does not exists
 * Be able to ignore cache
 * Implement Kofi
 * Implement Ads
@@ -9,6 +9,5 @@
 * Make Android auth go through backend
 * Create release pipeline for APK and bundle
 * Release app on Google Play
-* Caching to reduce calls?
 * Wide page design
 * Look into Hive as a no-sql database
